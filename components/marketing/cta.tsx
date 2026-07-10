@@ -17,7 +17,7 @@ export function Cta() {
               and get your first AI score in minutes.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-              <Button size="lg" render={<Link href="/dashboard" />}>
+              <Button size="lg" render={<Link href="/sign-up" />}>
                 Start practicing free
                 <ArrowRight className="size-4" />
               </Button>

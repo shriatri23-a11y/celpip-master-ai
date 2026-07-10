@@ -2,11 +2,21 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Menu, X, Flame } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { Menu, X, LogOut } from 'lucide-react'
 import { Logo } from '@/components/marketing/logo'
 import { DashboardNav } from '@/components/dashboard/dashboard-nav'
+import { authClient } from '@/lib/auth-client'
 
-export function DashboardShell({ children }: { children: React.ReactNode }) {
+type SessionUser = { name: string; email: string }
+
+export function DashboardShell({
+  children,
+  user,
+}: {
+  children: React.ReactNode
+  user: SessionUser
+}) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -19,7 +29,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
         <div className="mt-8 flex-1">
           <DashboardNav />
         </div>
-        <StreakCard />
+        <UserCard user={user} />
       </aside>
 
       {/* Mobile drawer */}
@@ -44,7 +54,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             <div className="mt-8 flex-1">
               <DashboardNav onNavigate={() => setOpen(false)} />
             </div>
-            <StreakCard />
+            <UserCard user={user} />
           </aside>
         </div>
       )}
@@ -67,20 +77,48 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
   )
 }
 
-function StreakCard() {
+function UserCard({ user }: { user: SessionUser }) {
+  const router = useRouter()
+  const [loading, setLoading] = useState(false)
+
+  const initials = user.name
+    .split(' ')
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase()
+
+  const handleSignOut = async () => {
+    setLoading(true)
+    await authClient.signOut()
+    router.push('/')
+    router.refresh()
+  }
+
   return (
-    <div className="mt-4 rounded-xl border border-border bg-card p-4">
-      <div className="flex items-center gap-2">
-        <span className="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
-          <Flame className="size-4" />
+    <div className="mt-4 rounded-xl border border-border bg-card p-3">
+      <div className="flex items-center gap-3">
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
+          {initials || 'U'}
         </span>
-        <div>
-          <p className="text-sm font-semibold text-card-foreground">
-            7-day streak
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-semibold text-card-foreground">
+            {user.name}
           </p>
-          <p className="text-xs text-muted-foreground">Keep it going!</p>
+          <p className="truncate text-xs text-muted-foreground">
+            {user.email}
+          </p>
         </div>
       </div>
+      <button
+        type="button"
+        onClick={handleSignOut}
+        disabled={loading}
+        className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:opacity-50"
+      >
+        <LogOut className="size-4" />
+        {loading ? 'Signing out…' : 'Sign out'}
+      </button>
     </div>
   )
 }

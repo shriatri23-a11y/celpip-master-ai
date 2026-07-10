@@ -26,7 +26,7 @@ export function Hero() {
           </p>
 
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Button size="lg" render={<Link href="/dashboard" />}>
+            <Button size="lg" render={<Link href="/sign-up" />}>
               Start practicing free
               <ArrowRight className="size-4" />
             </Button>
