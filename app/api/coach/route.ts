@@ -5,6 +5,7 @@ import {
   toUIMessageStream,
   type UIMessage,
 } from "ai"
+import { chatModel } from "@/lib/ai"
 
 export const maxDuration = 30
 
@@ -26,7 +27,7 @@ export async function POST(req: Request) {
   const { messages }: { messages: UIMessage[] } = await req.json()
 
   const result = streamText({
-    model: "openai/gpt-4o-mini",
+    model: chatModel,
     system: SYSTEM,
     messages: await convertToModelMessages(messages),
   })

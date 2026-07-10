@@ -1,5 +1,6 @@
 import { generateText, Output } from 'ai'
 import { scoreSchema } from '@/lib/scoring-schema'
+import { scoringModel } from '@/lib/ai'
 
 export const maxDuration = 60
 
@@ -19,7 +20,7 @@ export async function POST(req: Request) {
 
   try {
     const { output } = await generateText({
-      model: 'openai/gpt-5-mini',
+      model: scoringModel,
       output: Output.object({ schema: scoreSchema }),
       system: `You are an experienced, certified CELPIP Writing examiner. You score responses on the official CELPIP scale of 1 to 12, where 9-12 is advanced, 7-8 is good, 5-6 is developing, and below 5 is emerging.
 

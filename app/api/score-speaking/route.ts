@@ -1,6 +1,7 @@
-import { generateText, Output } from "ai"
-import { z } from "zod"
-import { scoreReportSchema } from "@/lib/scoring-schema"
+import { generateText, Output } from 'ai'
+import { z } from 'zod'
+import { scoreSchema } from '@/lib/scoring-schema'
+import { scoringModel } from '@/lib/ai'
 
 export const maxDuration = 60
 
@@ -14,32 +15,52 @@ const bodySchema = z.object({
 export async function POST(req: Request) {
   try {
     const json = await req.json()
-    const { prompt, taskTitle, transcript, durationSeconds } = bodySchema.parse(json)
+    const { prompt, taskTitle, transcript, durationSeconds } =
+      bodySchema.parse(json)
+
+    if (transcript.trim().length < 20) {
+      return Response.json(
+        { error: 'Please record a longer response before scoring.' },
+        { status: 400 },
+      )
+    }
 
     const wordCount = transcript.trim().split(/\s+/).filter(Boolean).length
 
-    const { experimental_output: report } = await generateText({
-      model: "openai/gpt-4o-mini",
-      experimental_output: Output.object({ schema: scoreReportSchema }),
-      system:
-        "You are a certified CELPIP Speaking examiner. You evaluate spoken responses that have been transcribed to text. " +
-        "Assess Content/Coherence, Vocabulary, Listenability (fluency, natural phrasing, filler words), and Task Fulfillment. " +
-        "CELPIP Speaking is scored on levels M and 1-12. Be fair but rigorous, and calibrate to real CELPIP standards. " +
-        "Because this is a transcript, do not penalize for spelling or punctuation. Infer hesitation and fillers (um, uh, like) from the text. " +
-        "Return all fields required by the schema. Keep feedback specific, actionable, and encouraging.",
-      prompt:
-        `CELPIP Speaking task: "${taskTitle}"\n\n` +
-        `Prompt shown to the test taker:\n${prompt}\n\n` +
-        `Transcribed spoken response (${wordCount} words${
-          durationSeconds ? `, ${durationSeconds}s speaking time` : ""
-        }):\n"""\n${transcript}\n"""\n\n` +
-        `Provide a full CELPIP Speaking evaluation.`,
+    const { output } = await generateText({
+      model: scoringModel,
+      output: Output.object({ schema: scoreSchema }),
+      system: `You are a certified CELPIP Speaking examiner. You evaluate spoken responses that have been transcribed to text. You score on the official CELPIP scale of 1 to 12.
+
+Evaluate using exactly these four criteria, in this order:
+1. "Content / Coherence" — is the message complete, on-topic, well-organized, and logically connected?
+2. "Vocabulary" — range, precision, and appropriateness of word choice.
+3. "Listenability" — fluency, natural phrasing, and hesitation. Infer fillers (um, uh, like) and repetition from the transcript.
+4. "Task Fulfillment" — did the speaker address all parts of the task with an appropriate tone?
+
+Because this is a transcript, do NOT penalize spelling or punctuation. Be fair but rigorous, like a real examiner. Give specific, actionable feedback that references the speaker's actual words. Keep feedback encouraging and concrete.`,
+      prompt: `CELPIP Speaking task: "${taskTitle}"
+
+PROMPT SHOWN TO TEST TAKER:
+${prompt}
+
+TRANSCRIBED SPOKEN RESPONSE (${wordCount} words${
+        durationSeconds ? `, ${durationSeconds}s speaking time` : ''
+      }):
+"""
+${transcript}
+"""
+
+Provide a full CELPIP Speaking evaluation now.`,
     })
 
-    return Response.json(report)
+    return Response.json(output)
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Unknown error"
-    console.log("[v0] score-speaking error:", message)
-    return Response.json({ error: message }, { status: 500 })
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    console.log('[v0] score-speaking error:', message)
+    return Response.json(
+      { error: 'Scoring failed. Please try again.' },
+      { status: 500 },
+    )
   }
 }
