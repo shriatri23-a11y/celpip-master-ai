@@ -9,6 +9,7 @@ import {
   MessagesSquare,
   Headphones,
   BookOpen,
+  History,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -17,6 +18,7 @@ const navItems = [
   { href: '/dashboard/writing', label: 'Writing', icon: PenLine },
   { href: '/dashboard/speaking', label: 'Speaking', icon: Mic },
   { href: '/dashboard/coach', label: 'AI Coach', icon: MessagesSquare },
+  { href: '/dashboard/history', label: 'History', icon: History },
 ]
 
 const soonItems = [

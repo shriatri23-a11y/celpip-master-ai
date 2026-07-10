@@ -15,6 +15,7 @@ import {
 import { speakingTasks } from "@/lib/celpip"
 import type { ScoreResult } from "@/lib/scoring-schema"
 import { useSpeechRecognition } from "@/hooks/use-speech-recognition"
+import { saveAttempt } from "@/app/actions/score-history"
 
 type Phase = "idle" | "prep" | "recording" | "done"
 
@@ -122,6 +123,14 @@ export default function SpeakingPage() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? "Something went wrong.")
       setResult(data as ScoreResult)
+      // Persist the attempt so it appears in the user's history.
+      void saveAttempt({
+        skill: "speaking",
+        taskType: task.title,
+        prompt: task.prompt,
+        responseText: transcript,
+        report: data as ScoreResult,
+      }).catch(() => {})
     } catch (err) {
       setError((err as Error).message)
     } finally {

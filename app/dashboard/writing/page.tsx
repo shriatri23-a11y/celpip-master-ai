@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/select'
 import { writingTasks } from '@/lib/celpip'
 import type { ScoreResult } from '@/lib/scoring-schema'
+import { saveAttempt } from '@/app/actions/score-history'
 
 export default function WritingPage() {
   const [taskId, setTaskId] = useState(writingTasks[0].id)
@@ -49,6 +50,14 @@ export default function WritingPage() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Something went wrong.')
       setResult(data as ScoreResult)
+      // Persist the attempt so it appears in the user's history.
+      void saveAttempt({
+        skill: 'writing',
+        taskType: task.type,
+        prompt: task.prompt,
+        responseText: response,
+        report: data as ScoreResult,
+      }).catch(() => {})
     } catch (err) {
       setError((err as Error).message)
     } finally {
