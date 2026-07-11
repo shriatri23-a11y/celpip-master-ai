@@ -421,6 +421,34 @@ export function WritingContent({
 
 /* ---------------- Speaking (prep + record) ---------------- */
 
+function SpeakingWaveform({ active }: { active: boolean }) {
+  const bars = 20
+  return (
+    <div className="flex items-center justify-center gap-[3px] h-8" aria-hidden="true">
+      {Array.from({ length: bars }).map((_, i) => (
+        <span
+          key={i}
+          className={cn(
+            "w-[3px] rounded-full transition-all",
+            active ? "bg-mt-timer" : "bg-mt-border h-1"
+          )}
+          style={
+            active
+              ? {
+                  animationName: "mt-speaking-wave",
+                  animationTimingFunction: "ease-in-out",
+                  animationIterationCount: "infinite",
+                  animationDuration: `${400 + ((i * 137) % 300)}ms`,
+                  animationDelay: `${(i * 70) % 500}ms`,
+                }
+              : undefined
+          }
+        />
+      ))}
+    </div>
+  )
+}
+
 export function SpeakingContent({
   step,
   phase,
@@ -435,75 +463,142 @@ export function SpeakingContent({
   onStart: () => void
 }) {
   return (
-    <div className="mx-auto max-w-4xl px-8 py-10">
-      <div className="mb-6 flex items-start gap-3">
+    <div className="mx-auto max-w-5xl px-8 py-8">
+      <style>{`
+        @keyframes mt-speaking-wave {
+          0%, 100% { height: 3px; }
+          50% { height: 22px; }
+        }
+      `}</style>
+
+      <div className="mb-5 flex items-start gap-3">
         <span className="mt-0.5">
           <InfoBadge variant="bang" />
         </span>
         <h2 className="text-xl font-semibold text-mt-blue">{step.instruction}</h2>
       </div>
 
-      <div className="rounded-md border border-mt-border bg-white p-6">
-        <p className="whitespace-pre-line text-lg leading-relaxed text-mt-body">
-          {step.prompt}
-        </p>
-        {step.requirements && step.requirements.length > 0 && (
-          <ul className="mt-4">
-            {step.requirements.map((r, i) => (
-              <li
-                key={i}
-                className="flex gap-3 border-b border-dotted border-mt-border py-3 last:border-0"
-              >
-                <span className="mt-2 size-1.5 shrink-0 rounded-full bg-mt-blue" />
-                <span className="leading-relaxed text-mt-blue">{r}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-
-      <div className="mt-8 flex flex-col items-center gap-4">
-        {phase === "idle" && (
-          <button
-            type="button"
-            onClick={onStart}
-            className="flex items-center gap-2 rounded-full bg-mt-next px-6 py-3 font-semibold text-white transition-colors hover:bg-mt-next-hover"
-          >
-            <Mic className="size-5" /> Start preparation
-          </button>
-        )}
-        {phase === "prep" && (
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-lg font-semibold text-mt-blue">Preparation time</p>
-            <p className="text-4xl font-bold tabular-nums text-mt-title">
-              {secondsLeft}s
+      <div className="grid gap-6 lg:grid-cols-[1fr_280px]">
+        {/* Prompt + optional scene image */}
+        <div className="flex flex-col gap-4">
+          {step.imageSrc && (
+            <div className="overflow-hidden rounded-md border border-mt-border bg-white">
+              <Image
+                src={step.imageSrc}
+                alt={step.imageAlt ?? "Scene to describe"}
+                width={960}
+                height={540}
+                className="h-auto w-full object-cover"
+                priority
+              />
+              <p className="px-3 py-1.5 text-xs text-mt-body italic border-t border-mt-border">
+                Look at this image carefully before recording your response.
+              </p>
+            </div>
+          )}
+          <div className="rounded-md border border-mt-border bg-white p-6">
+            <p className="whitespace-pre-line text-lg leading-relaxed text-mt-body">
+              {step.prompt}
             </p>
-            <p className="text-sm text-mt-body">Recording starts automatically.</p>
+            {step.requirements && step.requirements.length > 0 && (
+              <ul className="mt-4">
+                {step.requirements.map((r, i) => (
+                  <li
+                    key={i}
+                    className="flex gap-3 border-b border-dotted border-mt-border py-3 last:border-0"
+                  >
+                    <span className="mt-2 size-1.5 shrink-0 rounded-full bg-mt-blue" />
+                    <span className="leading-relaxed text-mt-blue">{r}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
-        )}
-        {phase === "speaking" && (
-          <div className="flex flex-col items-center gap-3">
-            <span className="flex items-center gap-2 rounded-full bg-mt-timer/10 px-4 py-2 font-semibold text-mt-timer">
-              <span className="size-3 animate-pulse rounded-full bg-mt-timer" />
-              Recording… {secondsLeft}s
-            </span>
-            <Square className="size-5 text-mt-timer" />
-          </div>
-        )}
-        {phase === "done" && (
-          <p className="font-semibold text-emerald-600">
-            Response recorded. Click NEXT to continue.
-          </p>
-        )}
+        </div>
 
-        {transcript && (
-          <div className="mt-4 w-full rounded-md border border-mt-border bg-mt-panel p-4 text-mt-body">
-            <p className="mb-1 text-sm font-semibold text-[#222]">
-              Live transcript
-            </p>
-            <p className="leading-relaxed">{transcript}</p>
+        {/* Recorder panel */}
+        <div className="flex flex-col rounded-md border border-mt-border bg-mt-panel overflow-hidden">
+          <div className="flex flex-col items-center justify-center gap-4 p-6 flex-1">
+            {phase === "idle" && (
+              <>
+                <div className="flex size-14 items-center justify-center rounded-full bg-mt-next/10">
+                  <Mic className="size-7 text-mt-next" />
+                </div>
+                <div className="text-center">
+                  <p className="font-semibold text-mt-title text-sm">Ready?</p>
+                  <p className="text-xs text-mt-body mt-1">
+                    {step.prepSeconds}s prep, then {step.speakSeconds}s to speak
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={onStart}
+                  className="flex items-center gap-2 rounded-full bg-mt-next px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-mt-next-hover"
+                >
+                  <Mic className="size-4" /> Start preparation
+                </button>
+              </>
+            )}
+
+            {phase === "prep" && (
+              <>
+                <div className="flex size-14 items-center justify-center rounded-full bg-mt-blue/10">
+                  <Mic className="size-7 text-mt-blue" />
+                </div>
+                <div className="text-center">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-mt-body">
+                    Preparation
+                  </p>
+                  <p className="text-4xl font-bold tabular-nums text-mt-title mt-1">
+                    {secondsLeft}s
+                  </p>
+                  <p className="text-xs text-mt-body mt-1">Recording starts automatically.</p>
+                </div>
+              </>
+            )}
+
+            {phase === "speaking" && (
+              <>
+                <div className="flex flex-col items-center gap-3 w-full">
+                  <span className="flex items-center gap-2 rounded-full bg-mt-timer/10 px-3 py-1.5 text-xs font-semibold text-mt-timer">
+                    <span className="relative flex size-2.5">
+                      <span className="absolute inline-flex size-full animate-ping rounded-full bg-mt-timer/60" />
+                      <span className="relative inline-flex size-2.5 rounded-full bg-mt-timer" />
+                    </span>
+                    Recording
+                  </span>
+                  <p className="text-4xl font-bold tabular-nums text-mt-timer">
+                    {secondsLeft}s
+                  </p>
+                  <SpeakingWaveform active />
+                </div>
+              </>
+            )}
+
+            {phase === "done" && (
+              <>
+                <div className="flex size-14 items-center justify-center rounded-full bg-emerald-100">
+                  <Mic className="size-7 text-emerald-600" />
+                </div>
+                <p className="text-sm font-semibold text-emerald-600 text-center">
+                  Recorded. Click NEXT to continue.
+                </p>
+              </>
+            )}
           </div>
-        )}
+
+          {/* Transcript area */}
+          {(phase === "speaking" || phase === "done") && transcript && (
+            <div className="border-t border-mt-border bg-white px-4 py-3">
+              <p className="mb-1 text-xs font-semibold text-[#444] uppercase tracking-wide">
+                Live transcript
+              </p>
+              <p className="text-sm leading-relaxed text-mt-body max-h-32 overflow-y-auto">
+                {transcript}
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

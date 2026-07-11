@@ -10,6 +10,8 @@ function speaking(
   requirements: string[],
   prepSeconds: number,
   speakSeconds: number,
+  imageSrc?: string,
+  imageAlt?: string,
 ): SpeakingStep {
   return {
     id,
@@ -19,6 +21,8 @@ function speaking(
     taskType,
     prompt,
     requirements,
+    imageSrc,
+    imageAlt,
     prepSeconds,
     speakSeconds,
   }
@@ -70,7 +74,7 @@ const steps: TestStep[] = [
     "speaking2-t3",
     `${HEADER_BASE} Task 3: Describing a Scene`,
     "Describing a Scene",
-    "Imagine you are looking at a busy airport departure area. Travellers are checking screens, a family is saying goodbye near a gate, staff are helping passengers with luggage, and a small coffee kiosk is nearby. Describe this scene in as much detail as you can to someone who cannot see it.",
+    "Look at the image carefully. Describe this scene in as much detail as you can to someone who cannot see it.",
     [
       "Describe where people and objects are located.",
       "Include details about actions and atmosphere.",
@@ -78,13 +82,15 @@ const steps: TestStep[] = [
     ],
     30,
     60,
+    "/speaking/scene-airport-departure.png",
+    "A busy airport departure area with travellers checking screens, a family saying goodbye near a gate, staff helping with luggage, and a coffee kiosk.",
   ),
 
   speaking(
     "speaking2-t4",
     `${HEADER_BASE} Task 4: Making Predictions`,
     "Making Predictions",
-    "Look again at the airport departure scene. Predict what will happen next with the family saying goodbye near the gate. Explain what you think will happen and why.",
+    "Look at the image again. Predict what will happen next with the family saying goodbye near the gate. Explain what you think will happen and why.",
     [
       "Make clear predictions about what will happen.",
       "Give reasons based on the situation.",
@@ -92,6 +98,8 @@ const steps: TestStep[] = [
     ],
     30,
     60,
+    "/speaking/scene-airport-departure.png",
+    "A busy airport departure area with travellers checking screens, a family saying goodbye near a gate, staff helping with luggage, and a coffee kiosk.",
   ),
 
   speaking(

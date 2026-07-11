@@ -10,6 +10,8 @@ function speaking(
   requirements: string[],
   prepSeconds: number,
   speakSeconds: number,
+  imageSrc?: string,
+  imageAlt?: string,
 ): SpeakingStep {
   return {
     id,
@@ -19,6 +21,8 @@ function speaking(
     taskType,
     prompt,
     requirements,
+    imageSrc,
+    imageAlt,
     prepSeconds,
     speakSeconds,
   }
@@ -70,7 +74,7 @@ const steps: TestStep[] = [
     "speaking3-t3",
     `${HEADER_BASE} Task 3: Describing a Scene`,
     "Describing a Scene",
-    "Imagine you are looking at a lively city square in the evening. String lights hang overhead, a street performer juggles near a fountain, people sit at outdoor tables eating, and children chase each other across the open space. Describe this scene in as much detail as you can to someone who cannot see it.",
+    "Look at the image carefully. Describe this scene in as much detail as you can to someone who cannot see it.",
     [
       "Describe where people and objects are located.",
       "Include details about actions and atmosphere.",
@@ -78,13 +82,15 @@ const steps: TestStep[] = [
     ],
     30,
     60,
+    "/speaking/scene-city-square-evening.png",
+    "A lively city square in the evening with string lights, a street performer juggling near a fountain, people at outdoor tables, and children playing.",
   ),
 
   speaking(
     "speaking3-t4",
     `${HEADER_BASE} Task 4: Making Predictions`,
     "Making Predictions",
-    "Look again at the evening city square scene. Predict what will happen next with the street performer near the fountain. Explain what you think will happen and why.",
+    "Look at the image again. Predict what will happen next with the street performer near the fountain. Explain what you think will happen and why.",
     [
       "Make clear predictions about what will happen.",
       "Give reasons based on the situation.",
@@ -92,6 +98,8 @@ const steps: TestStep[] = [
     ],
     30,
     60,
+    "/speaking/scene-city-square-evening.png",
+    "A lively city square in the evening with string lights, a street performer juggling near a fountain, people at outdoor tables, and children playing.",
   ),
 
   speaking(
