@@ -21,7 +21,13 @@ export const auth = betterAuth({
       ? [`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`]
       : []),
     ...(process.env.NODE_ENV === 'development'
-      ? ['http://localhost:3000', 'http://127.0.0.1:3000']
+      ? [
+          'http://localhost:3000',
+          'http://127.0.0.1:3000',
+          // The v0 preview iframe is served from a rotating *.vusercontent.net
+          // origin, so trust the whole domain in development.
+          'https://*.vusercontent.net',
+        ]
       : []),
   ],
   session: {
