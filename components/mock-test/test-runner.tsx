@@ -36,6 +36,18 @@ function collectQuestions(test: MockTest): McqQuestion[] {
   return qs
 }
 
+/** Returns the global question offset (0-based) for a reading step by its index. */
+function readingGlobalOffset(test: MockTest, stepIndex: number): number {
+  let offset = 0
+  for (let i = 0; i < stepIndex; i++) {
+    const s = test.steps[i]
+    if (s.kind === "audio-mcq") offset += 1
+    if (s.kind === "mcq") offset += s.questions.length
+    if (s.kind === "reading") offset += s.questions.length
+  }
+  return offset
+}
+
 function levelFromPercent(pct: number) {
   // A deliberately strict practice conversion. This is an estimate, not an
   // official CELPIP score conversion, and reserves CLB 11–12 for near mastery.
@@ -171,8 +183,12 @@ export function TestRunner({
   }, [step, startCountdown, goNext])
 
   // Writing: start the task timer when the writing step appears.
+  // Reading: start per-part timer when a reading step appears (answerSeconds optional).
   useEffect(() => {
     if (step.kind === "writing") {
+      startCountdown(step.answerSeconds, goNext)
+    }
+    if (step.kind === "reading" && step.answerSeconds) {
       startCountdown(step.answerSeconds, goNext)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -386,7 +402,12 @@ export function TestRunner({
         <McqContent step={step} answers={answers} onSelect={selectMulti} />
       )}
       {step.kind === "reading" && (
-        <ReadingContent step={step} answers={answers} onSelect={selectMulti} />
+        <ReadingContent
+          step={step}
+          answers={answers}
+          onSelect={selectMulti}
+          globalOffset={readingGlobalOffset(test, index)}
+        />
       )}
       {step.kind === "writing" && (
         <WritingContent

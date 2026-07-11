@@ -1245,7 +1245,7 @@ export const speakingTasks: SpeakingTask[] = [
     speakSeconds: 90,
   },
 
-  // ══════════════════════════════════════════════════════════════════
+  // ════════════════════════════════════════════════�����═════════════════
   //  TASK 8 — DESCRIBING AN UNUSUAL SITUATION  (10 prompts)
   // ══════════════════════════════════════════════════════════════════
   {
@@ -1462,7 +1462,8 @@ export const readingTasks: ReadingTask[] = [
     id: 'correspondence-workshop',
     type: 'Correspondence',
     title: 'Part 1 — Reading Correspondence',
-    instruction: 'Read the message, then choose the best answer to each question.',
+    instruction:
+      'Read the message. Questions 1–6 are about the message. Questions 7–11 complete the reply email by choosing the word or phrase that best fits each blank.',
     timeMinutes: 11,
     passage: [
       'Dear Mr. Okafor,',
@@ -1471,6 +1472,12 @@ export const readingTasks: ReadingTask[] = [
       'Please let me know by the end of the month so that we can include the course in our autumn brochure. I look forward to working with you again.',
       'Warm regards,',
       'Renata Alvsson, Programs Coordinator',
+      '',
+      'REPLY — Complete the email below.',
+      'Dear Ms. Alvsson,',
+      'Thank you for your kind message. I am very [ 7 ] to hear that the spring session was well received, and I would be happy to teach again this fall. The second-floor studio sounds ideal, particularly because the [ 8 ] will make the space more comfortable for longer sessions. I am also glad the fee will [ 9 ] unchanged. I can confirm that I will commit to the full eight-week schedule and will [ 10 ] my own hand tools as requested. Please add the course to the autumn brochure; I will send you an outline [ 11 ] the end of next week.',
+      'Best regards,',
+      'Daniel Okafor',
     ],
     questions: [
       {
@@ -1510,7 +1517,7 @@ export const readingTasks: ReadingTask[] = [
           'The fee stays the same "provided you commit to a full eight-week schedule."',
       },
       {
-        prompt: 'What does the centre expect participants to bring?',
+        prompt: 'What does the centre expect the instructor to bring?',
         options: [
           'Their own safety equipment',
           'A registration deposit',
@@ -1533,18 +1540,154 @@ export const readingTasks: ReadingTask[] = [
         explanation:
           'She asks him to reply "by the end of the month" so the course can be added to the brochure.',
       },
+      {
+        prompt: 'What is the overall tone of Renata\'s message?',
+        options: [
+          'Formal but warm and welcoming',
+          'Cold and dismissive',
+          'Urgent and alarmed',
+          'Apologetic and regretful',
+        ],
+        correctIndex: 0,
+        explanation:
+          'The message is professional yet friendly, thanking him and expressing eagerness to work together again.',
+      },
+      {
+        prompt: 'Blank [ 7 ]: I am very ___ to hear that the spring session was well received.',
+        options: ['pleased', 'sorry', 'reluctant', 'confused'],
+        correctIndex: 0,
+        explanation:
+          '"Pleased" matches the positive, grateful tone of accepting the invitation.',
+      },
+      {
+        prompt: 'Blank [ 8 ]: particularly because the ___ will make the space more comfortable.',
+        options: ['ventilation', 'parking', 'brochure', 'deposit'],
+        correctIndex: 0,
+        explanation:
+          'The original letter highlighted "improved ventilation" for the second-floor studio.',
+      },
+      {
+        prompt: 'Blank [ 9 ]: I am also glad the fee will ___ unchanged.',
+        options: ['remain', 'increase', 'expire', 'refund'],
+        correctIndex: 0,
+        explanation:
+          '"Remain unchanged" correctly restates that the fee stays the same.',
+      },
+      {
+        prompt: 'Blank [ 10 ]: I will ___ my own hand tools as requested.',
+        options: ['supply', 'sell', 'borrow', 'discard'],
+        correctIndex: 0,
+        explanation:
+          'The centre asked instructors to "supply your own hand tools," so "supply" fits.',
+      },
+      {
+        prompt: 'Blank [ 11 ]: I will send you an outline ___ the end of next week.',
+        options: ['by', 'since', 'despite', 'unless'],
+        correctIndex: 0,
+        explanation:
+          '"By the end of next week" indicates a deadline, matching the context.',
+      },
+    ],
+  },
+  {
+    id: 'diagram-volunteer-fair',
+    type: 'Diagram',
+    title: 'Part 2 — Reading to Apply a Diagram',
+    instruction:
+      'Read the notice describing the event schedule. Questions 1–5 are about the diagram. Questions 6–8 complete a short reply message.',
+    timeMinutes: 9,
+    passage: [
+      'COMMUNITY VOLUNTEER FAIR — Saturday, June 14 (Greenfield Hall)',
+      'The fair is organized into four zones. Use the map and schedule below to plan your visit.',
+      'ZONE A — Registration & Info Desk (Main Entrance): Open 9:00 a.m.–3:00 p.m. Pick up your name badge and event map here first.',
+      'ZONE B — Organization Booths (Ground Floor): Open 9:30 a.m.–2:00 p.m. Meet more than 30 local charities. Booths 1–15 focus on environment and animals; Booths 16–30 focus on health and seniors.',
+      'ZONE C — Skills Workshops (Second Floor, Rooms 201–203): Sessions run every hour from 10:00 a.m. Room 201: First Aid basics. Room 202: Fundraising. Room 203: Working with youth. Seating is limited to 25 per session.',
+      'ZONE D — Refreshments & Networking (Garden Patio): Open all day. Free coffee until noon; light lunch served 12:00–1:30 p.m.',
+      'Note: Parking is free in Lot 2 behind the hall. The elevator to the second floor is beside Zone A.',
+    ],
+    questions: [
+      {
+        prompt: 'Where should a visitor go first upon arriving?',
+        options: [
+          'Zone A — Registration & Info Desk',
+          'Zone B — Organization Booths',
+          'Zone C — Skills Workshops',
+          'Zone D — Refreshments',
+        ],
+        correctIndex: 0,
+        explanation: 'The notice says to "Pick up your name badge and event map here first" at Zone A.',
+      },
+      {
+        prompt: 'A visitor interested in helping animals should visit which booths?',
+        options: ['Booths 1–15', 'Booths 16–30', 'Rooms 201–203', 'Lot 2'],
+        correctIndex: 0,
+        explanation: 'Booths 1–15 "focus on environment and animals."',
+      },
+      {
+        prompt: 'What time does the last skills workshop start if sessions run hourly from 10:00 a.m. and the floor is part of a fair ending at 3:00 p.m.?',
+        options: [
+          'Sessions run every hour beginning at 10:00 a.m.',
+          'Sessions run only in the morning',
+          'Sessions start at 9:00 a.m.',
+          'There are no scheduled sessions',
+        ],
+        correctIndex: 0,
+        explanation: 'Zone C sessions "run every hour from 10:00 a.m."',
+      },
+      {
+        prompt: 'Where is free coffee available, and until when?',
+        options: [
+          'Zone D, until noon',
+          'Zone A, all day',
+          'Zone B, until 2:00 p.m.',
+          'Zone C, after each workshop',
+        ],
+        correctIndex: 0,
+        explanation: 'Zone D offers "Free coffee until noon."',
+      },
+      {
+        prompt: 'How can a visitor reach the second floor?',
+        options: [
+          'By the elevator beside Zone A',
+          'Through the garden patio',
+          'From Lot 2 directly',
+          'Only by the main entrance ramp',
+        ],
+        correctIndex: 0,
+        explanation: 'The note says "The elevator to the second floor is beside Zone A."',
+      },
+      {
+        prompt: 'Reply blank [ 6 ]: I plan to arrive at 9:15 to ___ at the info desk before the booths open.',
+        options: ['register', 'volunteer', 'donate', 'depart'],
+        correctIndex: 0,
+        explanation: 'Zone A is for registration, which opens at 9:00 a.m., before booths open at 9:30.',
+      },
+      {
+        prompt: 'Reply blank [ 7 ]: I want to attend the First Aid session, so I will go to Room ___.',
+        options: ['201', '202', '203', '2'],
+        correctIndex: 0,
+        explanation: 'Room 201 hosts "First Aid basics."',
+      },
+      {
+        prompt: 'Reply blank [ 8 ]: Since seating is limited, I should arrive ___ to get a seat.',
+        options: ['early', 'late', 'tomorrow', 'never'],
+        correctIndex: 0,
+        explanation: 'Seating is "limited to 25 per session," so arriving early is wise.',
+      },
     ],
   },
   {
     id: 'information-traffic',
     type: 'Information',
     title: 'Part 3 — Reading for Information',
-    instruction: 'Read the passage, then choose the best answer to each question.',
+    instruction:
+      'Read the passage, then choose the best answer to each question. Some questions ask which paragraph a statement best matches.',
     timeMinutes: 10,
     passage: [
-      'For decades, city planners assumed that widening roads would reduce traffic. Experience has repeatedly shown the opposite. When a congested highway is expanded, the extra capacity is quickly filled by drivers who previously avoided the route or travelled at different times. Researchers call this phenomenon "induced demand."',
-      'A growing number of cities have therefore shifted their focus from moving cars to moving people. Investments in frequent bus service, protected bicycle lanes, and pedestrian-friendly streets can carry far more travellers per hour than an additional traffic lane. Crucially, these measures also tend to reduce emissions and injuries.',
-      'Change is not always welcomed. Merchants sometimes fear that removing parking will drive away customers, and some commuters resist longer walks to transit stops. Studies from several cities, however, suggest that foot traffic and local spending often rise once streets become more comfortable for walking. The evidence points to a simple lesson: the goal of a transportation system should be access, not merely speed.',
+      'PARAGRAPH A: For decades, city planners assumed that widening roads would reduce traffic. Experience has repeatedly shown the opposite. When a congested highway is expanded, the extra capacity is quickly filled by drivers who previously avoided the route or travelled at different times. Researchers call this phenomenon "induced demand."',
+      'PARAGRAPH B: A growing number of cities have therefore shifted their focus from moving cars to moving people. Investments in frequent bus service, protected bicycle lanes, and pedestrian-friendly streets can carry far more travellers per hour than an additional traffic lane. Crucially, these measures also tend to reduce emissions and injuries.',
+      'PARAGRAPH C: Change is not always welcomed. Merchants sometimes fear that removing parking will drive away customers, and some commuters resist longer walks to transit stops. Studies from several cities, however, suggest that foot traffic and local spending often rise once streets become more comfortable for walking.',
+      'PARAGRAPH D: The evidence points to a simple lesson: the goal of a transportation system should be access, not merely speed. Planners increasingly measure success by how easily people can reach jobs, schools, and services — regardless of the mode of travel they choose.',
     ],
     questions: [
       {
@@ -1557,7 +1700,7 @@ export const readingTasks: ReadingTask[] = [
         ],
         correctIndex: 0,
         explanation:
-          'The passage defines it as extra capacity that "is quickly filled by drivers who previously avoided the route."',
+          'Paragraph A defines it as extra capacity that "is quickly filled by drivers who previously avoided the route."',
       },
       {
         prompt: 'What carries more travellers per hour than an extra lane?',
@@ -1569,7 +1712,7 @@ export const readingTasks: ReadingTask[] = [
         ],
         correctIndex: 1,
         explanation:
-          'It cites "frequent bus service, protected bicycle lanes, and pedestrian-friendly streets" as carrying far more travellers.',
+          'Paragraph B cites "frequent bus service, protected bicycle lanes, and pedestrian-friendly streets."',
       },
       {
         prompt: 'Why do some merchants resist removing parking?',
@@ -1581,7 +1724,7 @@ export const readingTasks: ReadingTask[] = [
         ],
         correctIndex: 2,
         explanation:
-          'The text says merchants "fear that removing parking will drive away customers."',
+          'Paragraph C says merchants "fear that removing parking will drive away customers."',
       },
       {
         prompt: 'What happens after streets become friendlier to walking?',
@@ -1593,7 +1736,7 @@ export const readingTasks: ReadingTask[] = [
         ],
         correctIndex: 3,
         explanation:
-          'Studies "suggest that foot traffic and local spending often rise once streets become more comfortable for walking."',
+          'Paragraph C notes "foot traffic and local spending often rise once streets become more comfortable for walking."',
       },
       {
         prompt: 'What is the main lesson of the passage?',
@@ -1605,7 +1748,37 @@ export const readingTasks: ReadingTask[] = [
         ],
         correctIndex: 0,
         explanation:
-          'The closing line states the goal "should be access, not merely speed."',
+          'Paragraph D states the goal "should be access, not merely speed."',
+      },
+      {
+        prompt: 'Which paragraph explains why widening roads fails to cut congestion?',
+        options: ['Paragraph A', 'Paragraph B', 'Paragraph C', 'Paragraph D'],
+        correctIndex: 0,
+        explanation: 'Paragraph A introduces the concept of induced demand.',
+      },
+      {
+        prompt: 'Which paragraph describes alternatives that move more people?',
+        options: ['Paragraph A', 'Paragraph B', 'Paragraph C', 'Paragraph D'],
+        correctIndex: 1,
+        explanation: 'Paragraph B discusses transit, bike lanes, and walkable streets.',
+      },
+      {
+        prompt: 'Which paragraph addresses resistance to change?',
+        options: ['Paragraph A', 'Paragraph B', 'Paragraph C', 'Paragraph D'],
+        correctIndex: 2,
+        explanation: 'Paragraph C covers merchant and commuter concerns.',
+      },
+      {
+        prompt: 'According to Paragraph D, how do planners increasingly measure success?',
+        options: [
+          'By how easily people can reach jobs, schools, and services',
+          'By the top speed of vehicles on highways',
+          'By the total number of parking spaces',
+          'By the width of the widest road',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Paragraph D says success is measured by "how easily people can reach jobs, schools, and services."',
       },
     ],
   },
@@ -1613,12 +1786,14 @@ export const readingTasks: ReadingTask[] = [
     id: 'viewpoints-workweek',
     type: 'Viewpoints',
     title: 'Part 4 — Reading for Viewpoints',
-    instruction: 'Read the article and the comment, then choose the best answer to each question.',
+    instruction:
+      'Read the article and the reader comment, then choose the best answer to each question.',
     timeMinutes: 13,
     passage: [
       'ARTICLE: Supporters of a four-day work week argue that compressing the same output into fewer days improves both productivity and well-being. Trials in several countries have reported steadier focus, fewer sick days, and lower staff turnover. Advocates say that giving employees a third day of rest allows them to return to work more motivated and less prone to burnout.',
       'Critics counter that the model does not fit every industry. Hospitals, restaurants, and customer-service centres must remain staffed regardless of the calendar, and simply shifting the same work into four days can intensify daily pressure. They also warn that measured productivity gains may fade once the novelty wears off.',
-      'COMMENT (by a reader): I manage a small design studio, and we tried the four-day week for six months. Honestly, the biggest surprise was that our clients barely noticed. We set clear response times, and my team\'s quality of work actually improved. That said, I agree it wouldn\'t suit a business that needs someone at the front desk every hour of every day.',
+      'Some economists take a middle position, suggesting that flexible arrangements — such as letting teams choose their own schedules — may deliver many of the benefits without forcing a single model on every workplace.',
+      'COMMENT (by a reader): I manage a small design studio, and we tried the four-day week for six months. Honestly, the biggest surprise was that our clients barely noticed. We set clear response times, and my team\'s quality of work actually improved. That said, I agree it wouldn\'t suit a business that needs someone at the front desk every hour of every day. My advice is to test it for a few months before deciding.',
     ],
     questions: [
       {
@@ -1630,8 +1805,7 @@ export const readingTasks: ReadingTask[] = [
           'Fewer public holidays',
         ],
         correctIndex: 0,
-        explanation:
-          'Supporters argue it "improves both productivity and well-being."',
+        explanation: 'Supporters argue it "improves both productivity and well-being."',
       },
       {
         prompt: 'What concern do critics raise?',
@@ -1646,6 +1820,18 @@ export const readingTasks: ReadingTask[] = [
           'Critics counter that "the model does not fit every industry," citing hospitals and restaurants.',
       },
       {
+        prompt: 'What position do some economists take?',
+        options: [
+          'A middle position favouring flexible schedules',
+          'Total opposition to any change',
+          'Support for a six-day week',
+          'That salaries should be doubled',
+        ],
+        correctIndex: 0,
+        explanation:
+          'They suggest "flexible arrangements... may deliver many of the benefits without forcing a single model."',
+      },
+      {
         prompt: 'What did the reader find most surprising about their trial?',
         options: [
           'Their clients complained frequently',
@@ -1654,8 +1840,7 @@ export const readingTasks: ReadingTask[] = [
           'Their team wanted to return to five days',
         ],
         correctIndex: 2,
-        explanation:
-          'The reader says "the biggest surprise was that our clients barely noticed."',
+        explanation: 'The reader says "the biggest surprise was that our clients barely noticed."',
       },
       {
         prompt: 'On what point does the reader agree with the critics?',
@@ -1679,7 +1864,54 @@ export const readingTasks: ReadingTask[] = [
         ],
         correctIndex: 0,
         explanation:
-          'The reader reports a positive experience but notes it will not suit every business — broadly positive with limits.',
+          'The reader reports a positive experience but notes it will not suit every business.',
+      },
+      {
+        prompt: 'What do critics warn may happen to early productivity gains?',
+        options: [
+          'They may fade once the novelty wears off',
+          'They will double every year',
+          'They will be taxed heavily',
+          'They will spread to every industry',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Critics "warn that measured productivity gains may fade once the novelty wears off."',
+      },
+      {
+        prompt: 'According to advocates, why do rested employees perform better?',
+        options: [
+          'They return more motivated and less prone to burnout',
+          'They work longer hours each day',
+          'They take on additional clients',
+          'They require less training',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Advocates say a third rest day lets staff "return to work more motivated and less prone to burnout."',
+      },
+      {
+        prompt: 'What practical advice does the reader offer?',
+        options: [
+          'Test the model for a few months before deciding',
+          'Adopt it permanently right away',
+          'Avoid it entirely',
+          'Only use it in hospitals',
+        ],
+        correctIndex: 0,
+        explanation: 'The reader advises to "test it for a few months before deciding."',
+      },
+      {
+        prompt: 'Which statement best summarizes the range of viewpoints in the passage?',
+        options: [
+          'Opinions vary, from strong support to caution about fit and durability',
+          'Everyone agrees the four-day week is ideal',
+          'Everyone rejects the four-day week',
+          'No one has formed an opinion yet',
+        ],
+        correctIndex: 0,
+        explanation:
+          'The passage presents supporters, critics, economists, and a reader — a spectrum of views.',
       },
     ],
   },
