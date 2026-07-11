@@ -29,6 +29,12 @@ const quickActions = [
     href: "/dashboard/speaking",
   },
   {
+    title: "Practice reading",
+    description: "Read a passage and answer questions for an instant score.",
+    icon: BookOpen,
+    href: "/dashboard/reading",
+  },
+  {
     title: "Ask your coach",
     description: "Build a study plan or get any CELPIP question answered.",
     icon: Target,
@@ -56,8 +62,14 @@ export default async function DashboardPage() {
       icon: Mic,
       active: true,
     },
+    {
+      label: "Reading",
+      level: stats.readingAvg,
+      count: stats.readingCount,
+      icon: BookOpen,
+      active: true,
+    },
     { label: "Listening", level: null, count: 0, icon: Headphones, active: false },
-    { label: "Reading", level: null, count: 0, icon: BookOpen, active: false },
   ]
 
   const hasData = stats.total > 0
@@ -185,6 +197,8 @@ export default async function DashboardPage() {
                 <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground">
                   {a.skill === "writing" ? (
                     <PenLine className="size-4" />
+                  ) : a.skill === "reading" ? (
+                    <BookOpen className="size-4" />
                   ) : (
                     <Mic className="size-4" />
                   )}
