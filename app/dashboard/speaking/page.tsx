@@ -21,7 +21,7 @@ import {
 } from "lucide-react"
 import { PageHeader } from "@/components/dashboard/page-header"
 import { Button } from "@/components/ui/button"
-import { speakingTasks, speakingExtraTasks } from "@/lib/celpip"
+import { speakingTasks } from "@/lib/celpip"
 import type { SpeakingTask } from "@/lib/celpip"
 import type { ScoreResult } from "@/lib/scoring-schema"
 import { useSpeechRecognition } from "@/hooks/use-speech-recognition"
@@ -34,7 +34,7 @@ import { cn } from "@/lib/utils"
 // ─── Types ─────────────────────────────────────────────────────────────────
 
 type Phase = "idle" | "prep" | "recording" | "done" | "scoring" | "result"
-type Tab = "curated" | "extra" | "ai"
+type Tab = "curated" | "ai"
 
 const TASK_TYPE_OPTIONS = [
   "Giving Advice",
@@ -516,24 +516,31 @@ function AiGeneratorPanel({
   )
 }
 
-// ─── Main page ─────────────────────────────────────────────────────────────
+// ─── Main page ───────────────────────────────���─────────────────────────────
 
 export default function SpeakingPage() {
   const [activeTab, setActiveTab] = useState<Tab>("curated")
+  const [filterType, setFilterType] = useState<string>("All")
   const [curatedIndex, setCuratedIndex] = useState(0)
-  const [extraIndex, setExtraIndex] = useState(0)
   const [selectedTask, setSelectedTask] = useState<SpeakingTask | null>(null)
   const [communityTasks, setCommunityTasks] = useState<AiTaskRecord[]>([])
   const [loadingCommunity, setLoadingCommunity] = useState(false)
 
   const { supported } = useSpeechRecognition()
 
+  const filteredTasks = useMemo(
+    () => filterType === "All" ? speakingTasks : speakingTasks.filter((t) => t.taskType === filterType),
+    [filterType]
+  )
+
+  // Clamp index when filter changes
+  const clampedIndex = Math.min(curatedIndex, Math.max(0, filteredTasks.length - 1))
+
   // Determine which task is active
   const activeTask = useMemo<SpeakingTask>(() => {
     if (activeTab === "ai" && selectedTask) return selectedTask
-    if (activeTab === "extra") return speakingExtraTasks[extraIndex]
-    return speakingTasks[curatedIndex]
-  }, [activeTab, selectedTask, curatedIndex, extraIndex])
+    return filteredTasks[clampedIndex] ?? speakingTasks[0]
+  }, [activeTab, selectedTask, filteredTasks, clampedIndex])
 
   // Load community tasks when AI tab is opened
   const loadCommunity = useCallback(async () => {
@@ -563,8 +570,7 @@ export default function SpeakingPage() {
   }
 
   const tabs: { id: Tab; label: string; count?: number }[] = [
-    { id: "curated", label: "Curated Tasks", count: speakingTasks.length },
-    { id: "extra", label: "Extra Practice", count: speakingExtraTasks.length },
+    { id: "curated", label: "Practice Bank", count: speakingTasks.length },
     { id: "ai", label: "AI Generated" },
   ]
 
@@ -578,7 +584,7 @@ export default function SpeakingPage() {
       <div className="mx-auto max-w-5xl px-4 py-8 md:px-8">
         <PageHeader
           title="Speaking practice"
-          description="All 8 CELPIP task types. Prepare, record, get instant AI examiner feedback. Generate unlimited unique tasks with AI."
+          description={`All 8 CELPIP task types — ${speakingTasks.length} curated prompts. Prepare, record, get instant AI examiner feedback, or generate unlimited new tasks with AI.`}
         />
 
         {!supported && (
@@ -614,54 +620,36 @@ export default function SpeakingPage() {
           ))}
         </div>
 
-        {/* Curated tab */}
+        {/* Practice Bank tab */}
         {activeTab === "curated" && (
           <div className="mt-6">
-            {/* Task strip */}
-            <div className="flex gap-2 overflow-x-auto pb-2">
-              {speakingTasks.map((t, i) => (
+            {/* Task-type filter pills */}
+            <div className="flex flex-wrap gap-2 pb-1">
+              {["All", ...TASK_TYPE_OPTIONS].map((type) => (
+                <button
+                  key={type}
+                  onClick={() => { setFilterType(type); setCuratedIndex(0) }}
+                  className={cn(
+                    "rounded-full border px-3 py-1 text-xs font-medium transition-all",
+                    filterType === type
+                      ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                      : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                  )}
+                >
+                  {type === "All" ? `All (${speakingTasks.length})` : type}
+                </button>
+              ))}
+            </div>
+
+            {/* Task card strip */}
+            <div className="mt-4 flex gap-2 overflow-x-auto pb-2">
+              {filteredTasks.map((t, i) => (
                 <button
                   key={t.id}
                   onClick={() => setCuratedIndex(i)}
                   className={cn(
                     "flex shrink-0 flex-col items-center gap-1 rounded-xl border px-3 py-2 text-xs font-medium transition-all",
-                    i === curatedIndex
-                      ? "border-primary bg-primary text-primary-foreground shadow-sm"
-                      : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground"
-                  )}
-                >
-                  <span className="text-[10px] font-bold uppercase tracking-wider opacity-70">Task {i + 1}</span>
-                  <span className="max-w-[80px] text-center leading-tight line-clamp-2">{t.taskType}</span>
-                </button>
-              ))}
-            </div>
-
-            <div className="mt-6 flex gap-2 justify-end">
-              <button onClick={() => setCuratedIndex((i) => Math.max(0, i - 1))} disabled={curatedIndex === 0} className="flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-muted disabled:opacity-30" aria-label="Previous task">
-                <ChevronLeft className="size-4" />
-              </button>
-              <button onClick={() => setCuratedIndex((i) => Math.min(speakingTasks.length - 1, i + 1))} disabled={curatedIndex === speakingTasks.length - 1} className="flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-muted disabled:opacity-30" aria-label="Next task">
-                <ChevronRight className="size-4" />
-              </button>
-            </div>
-
-            <div className="mt-3">
-              <Recorder task={speakingTasks[curatedIndex]} />
-            </div>
-          </div>
-        )}
-
-        {/* Extra Practice tab */}
-        {activeTab === "extra" && (
-          <div className="mt-6">
-            <div className="flex gap-2 overflow-x-auto pb-2">
-              {speakingExtraTasks.map((t, i) => (
-                <button
-                  key={t.id}
-                  onClick={() => setExtraIndex(i)}
-                  className={cn(
-                    "flex shrink-0 flex-col items-center gap-1 rounded-xl border px-3 py-2 text-xs font-medium transition-all",
-                    i === extraIndex
+                    i === clampedIndex
                       ? "border-primary bg-primary text-primary-foreground shadow-sm"
                       : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground"
                   )}
@@ -672,17 +660,23 @@ export default function SpeakingPage() {
               ))}
             </div>
 
-            <div className="mt-6 flex gap-2 justify-end">
-              <button onClick={() => setExtraIndex((i) => Math.max(0, i - 1))} disabled={extraIndex === 0} className="flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-muted disabled:opacity-30" aria-label="Previous task">
-                <ChevronLeft className="size-4" />
-              </button>
-              <button onClick={() => setExtraIndex((i) => Math.min(speakingExtraTasks.length - 1, i + 1))} disabled={extraIndex === speakingExtraTasks.length - 1} className="flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-muted disabled:opacity-30" aria-label="Next task">
-                <ChevronRight className="size-4" />
-              </button>
+            <div className="mt-4 flex items-center justify-between">
+              <p className="text-xs text-muted-foreground">
+                Task {clampedIndex + 1} of {filteredTasks.length}
+                {filterType !== "All" && <span className="ml-1 text-muted-foreground/60">· filtered by {filterType}</span>}
+              </p>
+              <div className="flex gap-2">
+                <button onClick={() => setCuratedIndex((i) => Math.max(0, i - 1))} disabled={clampedIndex === 0} className="flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-muted disabled:opacity-30" aria-label="Previous task">
+                  <ChevronLeft className="size-4" />
+                </button>
+                <button onClick={() => setCuratedIndex((i) => Math.min(filteredTasks.length - 1, i + 1))} disabled={clampedIndex === filteredTasks.length - 1} className="flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-muted disabled:opacity-30" aria-label="Next task">
+                  <ChevronRight className="size-4" />
+                </button>
+              </div>
             </div>
 
             <div className="mt-3">
-              <Recorder task={speakingExtraTasks[extraIndex]} />
+              <Recorder task={filteredTasks[clampedIndex] ?? speakingTasks[0]} />
             </div>
           </div>
         )}
