@@ -53,6 +53,7 @@ const steps: TestStep[] = [
   {
     id: "practice",
     kind: "audio",
+    audioSrc: "/audio/listening-1/practice.mp3",
     headerTitle: "Mock Test - Practice Task",
     instruction: "Practice Task: Check your headphones. You will hear a short sound.",
     script: [
@@ -86,6 +87,7 @@ const steps: TestStep[] = [
   {
     id: "p1-audio",
     kind: "audio",
+    audioSrc: "/audio/listening-1/p1-audio.mp3",
     headerTitle: HEADER,
     instruction:
       "Listen to the conversation. You will hear the conversation only once. It is about 1 to 1.5 minutes long.",
@@ -140,6 +142,7 @@ const steps: TestStep[] = [
   {
     id: "p2-audio",
     kind: "audio",
+    audioSrc: "/audio/listening-1/p2-audio.mp3",
     headerTitle: "Mock Test - Listening Part 2: Listening to a Daily Life Conversation",
     instruction:
       "Listen to the conversation. You will hear the conversation only once. It is about 1 to 1.5 minutes long.",
@@ -184,6 +187,7 @@ const steps: TestStep[] = [
   {
     id: "p3-audio",
     kind: "audio",
+    audioSrc: "/audio/listening-1/p3-audio.mp3",
     headerTitle: "Mock Test - Listening Part 3: Listening for Information",
     instruction:
       "Listen to the conversation. You will hear the conversation only once. It is about 1.5 minutes long.",
@@ -231,6 +235,7 @@ const steps: TestStep[] = [
   {
     id: "p4-audio",
     kind: "audio",
+    audioSrc: "/audio/listening-1/p4-audio.mp3",
     headerTitle: "Mock Test - Listening Part 4: Listening to a News Item",
     instruction: "Listen to the news item. You will hear it only once.",
     script: [
@@ -269,6 +274,7 @@ const steps: TestStep[] = [
   {
     id: "p5-audio",
     kind: "audio",
+    audioSrc: "/audio/listening-1/p5-audio.mp3",
     headerTitle: "Mock Test - Listening Part 5: Listening to a Discussion",
     instruction:
       "Listen to the discussion. You will hear it only once. It is about 2 minutes long.",
@@ -323,6 +329,7 @@ const steps: TestStep[] = [
   {
     id: "p6-audio",
     kind: "audio",
+    audioSrc: "/audio/listening-1/p6-audio.mp3",
     headerTitle: "Mock Test - Listening Part 6: Listening to Viewpoints",
     instruction:
       "Listen to the passage. You will hear it only once. It presents contrasting perspectives.",
