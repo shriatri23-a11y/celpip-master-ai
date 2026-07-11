@@ -18,13 +18,12 @@ const navItems = [
   { href: '/dashboard/mock-tests', label: 'Mock Tests', icon: ClipboardList },
   { href: '/dashboard/writing', label: 'Writing', icon: PenLine },
   { href: '/dashboard/speaking', label: 'Speaking', icon: Mic },
+  { href: '/dashboard/reading', label: 'Reading', icon: BookOpen },
   { href: '/dashboard/coach', label: 'AI Coach', icon: MessagesSquare },
   { href: '/dashboard/history', label: 'History', icon: History },
 ]
 
-const soonItems = [
-  { label: 'Reading', icon: BookOpen },
-]
+const soonItems: { label: string; icon: typeof BookOpen }[] = []
 
 export function DashboardNav({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname()
@@ -57,9 +56,11 @@ export function DashboardNav({ onNavigate }: { onNavigate?: () => void }) {
         )
       })}
 
-      <p className="px-3 pb-2 pt-5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-        Coming soon
-      </p>
+      {soonItems.length > 0 && (
+        <p className="px-3 pb-2 pt-5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          Coming soon
+        </p>
+      )}
       {soonItems.map((item) => (
         <span
           key={item.label}

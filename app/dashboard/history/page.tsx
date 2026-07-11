@@ -9,7 +9,7 @@ export default async function HistoryPage() {
     <div className="mx-auto max-w-4xl px-4 py-8 md:px-8">
       <PageHeader
         title="Score history"
-        description="Review every writing and speaking attempt with its full feedback."
+        description="Review every writing, speaking, and reading attempt with its full feedback."
       />
       <HistoryList attempts={attempts} />
     </div>
