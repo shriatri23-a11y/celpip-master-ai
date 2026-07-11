@@ -44,35 +44,166 @@ export const writingTasks: WritingTask[] = [
 export type SpeakingTask = {
   id: string
   title: string
+  taskType: string
   prompt: string
+  requirements: string[]
+  tips: string[]
   prepSeconds: number
   speakSeconds: number
 }
 
 export const speakingTasks: SpeakingTask[] = [
   {
-    id: 'advice',
+    id: 'giving-advice',
     title: 'Task 1 — Giving Advice',
+    taskType: 'Giving Advice',
     prompt:
-      'A friend has just moved to Canada and is nervous about their first job interview in English. Give them advice on how to prepare and feel confident.',
+      'A close friend has been offered a new job in another city, but they are worried about leaving their current support network behind. They are asking for your advice. Give your friend advice on how to make this decision and how to handle the move if they choose to go.',
+    requirements: [
+      'Acknowledge the difficulty of the decision.',
+      'Suggest at least two practical steps your friend can take.',
+      'Encourage your friend and end on a positive note.',
+    ],
+    tips: [
+      'Start by showing empathy before jumping into advice.',
+      'Use phrases like "I would suggest…", "Have you thought about…", or "One thing that might help is…"',
+      'Speak for the full 90 seconds — expand each point with an example or reason.',
+    ],
     prepSeconds: 30,
     speakSeconds: 90,
   },
   {
     id: 'personal-experience',
     title: 'Task 2 — Talking about a Personal Experience',
+    taskType: 'Personal Experience',
     prompt:
-      'Describe a memorable trip or celebration you experienced. Explain what happened and why it was meaningful to you.',
+      'Talk about a time when you had to adapt to a significant change in your life — such as starting a new job, moving to a new place, or joining a new group. Describe the situation, how you felt, and what you did to adjust.',
+    requirements: [
+      'Describe the situation clearly, including when and where it happened.',
+      'Explain how you felt at the time.',
+      'Tell what steps you took to adapt successfully.',
+    ],
+    tips: [
+      'Use past tense consistently: "I felt…", "I had to…", "It was…"',
+      'Make it specific — name a real situation rather than speaking generally.',
+      'End with a reflection: what did you learn from this experience?',
+    ],
     prepSeconds: 30,
     speakSeconds: 60,
   },
   {
-    id: 'opinion',
-    title: 'Task 5 — Expressing Opinions',
+    id: 'describing-scene',
+    title: 'Task 3 — Describing a Scene',
+    taskType: 'Describing a Scene',
     prompt:
-      'Some people think working from home is better than working in an office. Do you agree or disagree? Explain your opinion with reasons.',
+      'Imagine you are looking at a busy public library on a weekday afternoon. Students are studying at tables, a librarian is organizing shelves, a young child is listening to a story in a corner reading area, and several people are using computers near the entrance. Describe this scene in as much detail as you can to someone who cannot see it.',
+    requirements: [
+      'Describe where people and objects are located in the space.',
+      'Include details about actions, expressions, and atmosphere.',
+      'Organize your description logically — for example, from one side of the room to the other.',
+    ],
+    tips: [
+      'Use spatial language: "In the far left corner…", "Near the entrance…", "On the right side…"',
+      'Describe what people are doing, not just what they look like.',
+      'Include sensory details: the quiet atmosphere, the smell of books, the soft light.',
+    ],
+    prepSeconds: 30,
+    speakSeconds: 60,
+  },
+  {
+    id: 'making-predictions',
+    title: 'Task 4 — Making Predictions',
+    taskType: 'Making Predictions',
+    prompt:
+      'Look again at the library scene. The child in the reading corner has just finished the story and the librarian is now walking toward that area. Predict what will happen next and explain your reasoning.',
+    requirements: [
+      'Make at least two clear predictions about what will happen.',
+      'Give specific reasons based on what you observed in the scene.',
+      'Use future-tense language naturally throughout your response.',
+    ],
+    tips: [
+      'Use phrases like "I think…", "It is likely that…", "Based on what I see, I predict…"',
+      'Connect your predictions directly to details in the scene.',
+      'Keep your predictions realistic and logical — avoid wild guesses.',
+    ],
+    prepSeconds: 30,
+    speakSeconds: 60,
+  },
+  {
+    id: 'comparing-persuading',
+    title: 'Task 5 — Comparing and Persuading',
+    taskType: 'Comparing and Persuading',
+    prompt:
+      'Your city has announced it will use a budget surplus to fund one of two initiatives: Option A is to build a new covered outdoor skating rink in the downtown core, or Option B is to expand the existing public library system with three new branches in underserved neighbourhoods. Choose one option and persuade a friend who strongly prefers the other option.',
+    requirements: [
+      'Clearly state which option you prefer.',
+      'Compare your option to the other, acknowledging at least one strength of the other side.',
+      'Use persuasive language and give at least two strong reasons for your choice.',
+    ],
+    tips: [
+      'Acknowledge your friend\'s view briefly: "I understand why you prefer Option B, however…"',
+      'Use persuasive phrases: "Not only does this…", "The most compelling reason is…", "Consider the fact that…"',
+      'End with a strong closing argument that brings it all together.',
+    ],
+    prepSeconds: 60,
+    speakSeconds: 60,
+  },
+  {
+    id: 'difficult-situation',
+    title: 'Task 6 — Dealing with a Difficult Situation',
+    taskType: 'Difficult Situation',
+    prompt:
+      'You are a shift supervisor at a busy café. Two employees have both requested the same Saturday off — one has already received written approval, and the other says they were verbally told they could have the day. You cannot leave the café understaffed. Leave a voicemail message for the employee whose verbal request is not confirmed, explaining the situation and what you have decided to do.',
+    requirements: [
+      'Explain the situation clearly and professionally.',
+      'State your decision and the reason behind it.',
+      'Use an appropriate, respectful tone throughout.',
+    ],
+    tips: [
+      'Open your message by addressing the person and introducing the situation.',
+      'Be direct but empathetic: "I understand this is disappointing, however…"',
+      'Offer a next step or solution — for example, offering a future day off in exchange.',
+    ],
+    prepSeconds: 60,
+    speakSeconds: 60,
+  },
+  {
+    id: 'expressing-opinions',
+    title: 'Task 7 — Expressing Opinions',
+    taskType: 'Expressing Opinions',
+    prompt:
+      'Some people believe that social media platforms should be held legally responsible when false information is spread on their sites and causes harm to individuals or communities. Others believe that holding platforms legally responsible would restrict freedom of expression and reduce the ability to share information openly. What is your opinion? Give your view and support it with specific reasons and examples.',
+    requirements: [
+      'State your position clearly at the beginning.',
+      'Support your position with at least two specific reasons or examples.',
+      'Acknowledge the opposing view and explain why your position is stronger.',
+    ],
+    tips: [
+      'Open with a clear opinion statement: "In my view…" or "I strongly believe that…"',
+      'Use transitional phrases: "Firstly…", "Furthermore…", "On the other hand…", "Despite this…"',
+      'Wrap up with a conclusion that restates your view in different words.',
+    ],
     prepSeconds: 30,
     speakSeconds: 90,
+  },
+  {
+    id: 'unusual-situation',
+    title: 'Task 8 — Describing an Unusual Situation',
+    taskType: 'Unusual Situation',
+    prompt:
+      'You ordered a replacement laptop online to arrive before an important work deadline. When the package arrives, you find it contains a children\'s toy keyboard, a bag of mixed socks, and a note addressed to someone else entirely. Call the company\'s customer service line and describe exactly what you received, what you expected, and what you would like the company to do about it.',
+    requirements: [
+      'Describe what you received in specific detail.',
+      'Clearly explain how it differs from what you ordered.',
+      'State exactly what resolution you expect from the company.',
+    ],
+    tips: [
+      'Be specific and clear — describe colours, sizes, quantities where relevant.',
+      'Keep a polite but firm tone: you are dissatisfied but professional.',
+      'Use contrast language: "Instead of…, I received…", "What I was expecting was… however…"',
+    ],
+    prepSeconds: 30,
+    speakSeconds: 60,
   },
 ]
 
