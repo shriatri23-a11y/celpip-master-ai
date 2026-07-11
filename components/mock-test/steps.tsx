@@ -479,24 +479,41 @@ export function SpeakingContent({
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_280px]">
-        {/* Prompt */}
-        <div className="rounded-md border border-mt-border bg-white p-6">
-          <p className="whitespace-pre-line text-lg leading-relaxed text-mt-body">
-            {step.prompt}
-          </p>
-          {step.requirements && step.requirements.length > 0 && (
-            <ul className="mt-4">
-              {step.requirements.map((r, i) => (
-                <li
-                  key={i}
-                  className="flex gap-3 border-b border-dotted border-mt-border py-3 last:border-0"
-                >
-                  <span className="mt-2 size-1.5 shrink-0 rounded-full bg-mt-blue" />
-                  <span className="leading-relaxed text-mt-blue">{r}</span>
-                </li>
-              ))}
-            </ul>
+        {/* Prompt + optional scene image */}
+        <div className="flex flex-col gap-4">
+          {step.imageSrc && (
+            <div className="overflow-hidden rounded-md border border-mt-border bg-white">
+              <Image
+                src={step.imageSrc}
+                alt={step.imageAlt ?? "Scene to describe"}
+                width={960}
+                height={540}
+                className="h-auto w-full object-cover"
+                priority
+              />
+              <p className="px-3 py-1.5 text-xs text-mt-body italic border-t border-mt-border">
+                Look at this image carefully before recording your response.
+              </p>
+            </div>
           )}
+          <div className="rounded-md border border-mt-border bg-white p-6">
+            <p className="whitespace-pre-line text-lg leading-relaxed text-mt-body">
+              {step.prompt}
+            </p>
+            {step.requirements && step.requirements.length > 0 && (
+              <ul className="mt-4">
+                {step.requirements.map((r, i) => (
+                  <li
+                    key={i}
+                    className="flex gap-3 border-b border-dotted border-mt-border py-3 last:border-0"
+                  >
+                    <span className="mt-2 size-1.5 shrink-0 rounded-full bg-mt-blue" />
+                    <span className="leading-relaxed text-mt-blue">{r}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
 
         {/* Recorder panel */}

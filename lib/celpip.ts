@@ -48,6 +48,9 @@ export type SpeakingTask = {
   prompt: string
   requirements: string[]
   tips: string[]
+  /** Optional scene image shown for Task 3 (Describing a Scene) and Task 4 (Making Predictions). */
+  imageSrc?: string
+  imageAlt?: string
   prepSeconds: number
   speakSeconds: number
 }
@@ -96,7 +99,7 @@ export const speakingTasks: SpeakingTask[] = [
     title: 'Task 3 — Describing a Scene',
     taskType: 'Describing a Scene',
     prompt:
-      'Imagine you are looking at a busy public library on a weekday afternoon. Students are studying at tables, a librarian is organizing shelves, a young child is listening to a story in a corner reading area, and several people are using computers near the entrance. Describe this scene in as much detail as you can to someone who cannot see it.',
+      'Look at the image carefully. Describe this scene in as much detail as you can to someone who cannot see it.',
     requirements: [
       'Describe where people and objects are located in the space.',
       'Include details about actions, expressions, and atmosphere.',
@@ -107,6 +110,8 @@ export const speakingTasks: SpeakingTask[] = [
       'Describe what people are doing, not just what they look like.',
       'Include sensory details: the quiet atmosphere, the smell of books, the soft light.',
     ],
+    imageSrc: '/speaking/scene-public-library.png',
+    imageAlt: 'A busy public library with students studying, a librarian organizing shelves, a child in a reading corner, and people at computers.',
     prepSeconds: 30,
     speakSeconds: 60,
   },
@@ -115,7 +120,7 @@ export const speakingTasks: SpeakingTask[] = [
     title: 'Task 4 — Making Predictions',
     taskType: 'Making Predictions',
     prompt:
-      'Look again at the library scene. The child in the reading corner has just finished the story and the librarian is now walking toward that area. Predict what will happen next and explain your reasoning.',
+      'Look at the image again. The child in the reading corner has just finished the story and the librarian is now walking toward that area. Predict what will happen next and explain your reasoning.',
     requirements: [
       'Make at least two clear predictions about what will happen.',
       'Give specific reasons based on what you observed in the scene.',
@@ -126,6 +131,8 @@ export const speakingTasks: SpeakingTask[] = [
       'Connect your predictions directly to details in the scene.',
       'Keep your predictions realistic and logical — avoid wild guesses.',
     ],
+    imageSrc: '/speaking/scene-public-library.png',
+    imageAlt: 'A busy public library with students studying, a librarian organizing shelves, a child in a reading corner, and people at computers.',
     prepSeconds: 30,
     speakSeconds: 60,
   },

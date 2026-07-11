@@ -126,6 +126,9 @@ export type SpeakingStep = BaseStep & {
   taskType: string
   prompt: string
   requirements?: string[]
+  /** Optional scene image (used for Task 3 Describing a Scene and Task 4 Making Predictions). */
+  imageSrc?: string
+  imageAlt?: string
   prepSeconds: number
   speakSeconds: number
 }

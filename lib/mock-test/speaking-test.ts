@@ -10,6 +10,8 @@ function speaking(
   requirements: string[],
   prepSeconds: number,
   speakSeconds: number,
+  imageSrc?: string,
+  imageAlt?: string,
 ): SpeakingStep {
   return {
     id,
@@ -19,6 +21,8 @@ function speaking(
     taskType,
     prompt,
     requirements,
+    imageSrc,
+    imageAlt,
     prepSeconds,
     speakSeconds,
   }
@@ -70,7 +74,7 @@ const steps: TestStep[] = [
     "speaking-t3",
     `${HEADER_BASE} Task 3: Describing a Scene`,
     "Describing a Scene",
-    "Imagine you are looking at a busy farmers' market on a Saturday morning. There are vendors selling fruit and vegetables, a musician playing near the entrance, families with children, and a coffee stand with a long line. Describe this scene in as much detail as you can to someone who cannot see it.",
+    "Look at the image carefully. Describe this scene in as much detail as you can to someone who cannot see it.",
     [
       "Describe where people and objects are located.",
       "Include details about actions and atmosphere.",
@@ -78,13 +82,15 @@ const steps: TestStep[] = [
     ],
     30,
     60,
+    "/speaking/scene-farmers-market.png",
+    "A busy outdoor farmers market on a Saturday morning with vendors, a musician, families, and a coffee stand.",
   ),
 
   speaking(
     "speaking-t4",
     `${HEADER_BASE} Task 4: Making Predictions`,
     "Making Predictions",
-    "Look again at the farmers' market scene. Predict what might happen next at the coffee stand where a long line has formed. Explain what you think will happen and why.",
+    "Look at the image again. Predict what might happen next at the coffee stand where a long line has formed. Explain what you think will happen and why.",
     [
       "Make clear predictions about what will happen.",
       "Give reasons based on the situation.",
@@ -92,6 +98,8 @@ const steps: TestStep[] = [
     ],
     30,
     60,
+    "/speaking/scene-farmers-market.png",
+    "A busy outdoor farmers market on a Saturday morning with vendors, a musician, families, and a coffee stand.",
   ),
 
   speaking(

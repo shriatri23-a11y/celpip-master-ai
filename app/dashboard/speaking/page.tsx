@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useEffect, useMemo, useRef, useState } from "react"
 import {
   Loader2,
@@ -358,6 +359,22 @@ export default function SpeakingPage() {
                   </button>
                 </div>
               </div>
+
+              {task.imageSrc && (
+                <div className="mt-4 overflow-hidden rounded-xl border border-border">
+                  <Image
+                    src={task.imageSrc}
+                    alt={task.imageAlt ?? "Scene to describe"}
+                    width={960}
+                    height={540}
+                    className="h-auto w-full object-cover"
+                    priority
+                  />
+                  <p className="px-3 py-1.5 text-xs text-muted-foreground italic border-t border-border bg-muted/30">
+                    Study this image carefully during your preparation time.
+                  </p>
+                </div>
+              )}
 
               <p className="mt-4 text-sm leading-relaxed text-foreground">{task.prompt}</p>
 
