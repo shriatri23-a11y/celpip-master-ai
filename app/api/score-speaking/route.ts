@@ -38,7 +38,11 @@ Evaluate using exactly these four criteria, in this order:
 3. "Listenability" — fluency, natural phrasing, and hesitation. Infer fillers (um, uh, like) and repetition from the transcript.
 4. "Task Fulfillment" — did the speaker address all parts of the task with an appropriate tone?
 
-Because this is a transcript, do NOT penalize spelling or punctuation. Be fair but rigorous, like a real examiner. Give specific, actionable feedback that references the speaker's actual words. Keep feedback encouraging and concrete.`,
+Because this is a transcript, do NOT penalize spelling or punctuation. Be fair but rigorous, like a real examiner. Give specific, actionable feedback that references the speaker's actual words. Keep feedback encouraging and concrete.
+
+Also provide:
+- "weakPhrases": 2-6 short phrases copied VERBATIM from the transcript that are weak, awkward, repetitive, or unnatural. Each must be an exact substring of the transcript so it can be highlighted.
+- "suggestedResponse": a complete, high-scoring (CELPIP 10-12) model spoken answer to the SAME task, in a natural first-person conversational voice, that the speaker can learn from.`,
       prompt: `CELPIP Speaking task: "${taskTitle}"
 
 PROMPT SHOWN TO TEST TAKER:

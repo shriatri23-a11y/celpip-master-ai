@@ -14,6 +14,7 @@ import {
   SpeakingContent,
 } from "./steps"
 import { ResultView } from "./result-view"
+import { ReviewShell } from "./review-shell"
 import { saveMockTestResult } from "@/app/actions/mock-test"
 import {
   saveSectionProgress,
@@ -21,6 +22,8 @@ import {
   type SectionName,
 } from "@/app/actions/mock-progress"
 import { useSpeechRecognition } from "@/hooks/use-speech-recognition"
+import { buildReview, type TaskReview } from "@/lib/mock-test/review"
+import type { ScoreResult } from "@/lib/scoring-schema"
 import type { MockTest, McqQuestion } from "@/lib/mock-test/types"
 
 function collectQuestions(test: MockTest): McqQuestion[] {
@@ -82,6 +85,11 @@ export function TestRunner({
     level: number
     label: string
   } | null>(null)
+  // Per-task AI reports (writing/speaking), keyed by step id.
+  const [taskReports, setTaskReports] = useState<Record<string, ScoreResult>>(
+    {},
+  )
+  const [reviewing, setReviewing] = useState(false)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   // Speaking recording state
@@ -211,6 +219,7 @@ export function TestRunner({
       (s) => s.kind === "writing" || s.kind === "speaking",
     )
     const levels: number[] = []
+    const reports: Record<string, ScoreResult> = {}
     for (const s of taskSteps) {
       const response = answers[s.id] ?? ""
       if (response.trim().length < 20) continue
@@ -227,6 +236,7 @@ export function TestRunner({
         const data = await res.json()
         if (res.ok && typeof data.overallLevel === "number") {
           levels.push(data.overallLevel)
+          reports[s.id] = data as ScoreResult
         }
       } catch {
         // skip failed task
@@ -235,6 +245,7 @@ export function TestRunner({
     const avg = levels.length
       ? Math.round(levels.reduce((a, b) => a + b, 0) / levels.length)
       : 0
+    setTaskReports(reports)
     setAiResult({ level: avg, label: labelFromLevel(avg) })
     setScoring(false)
   }, [section, test.steps, answers])
@@ -257,6 +268,26 @@ export function TestRunner({
         label: aiResult?.label ?? "",
       }
 
+  // Grouped question review for auto-scored sections.
+  const reviewGroups = useMemo(
+    () => (isAutoScored ? buildReview(test, answers) : []),
+    [isAutoScored, test, answers],
+  )
+
+  // Task-by-task review for AI-scored sections.
+  const aiTasks = useMemo<TaskReview[]>(() => {
+    if (isAutoScored) return []
+    return test.steps
+      .filter((s) => s.kind === "writing" || s.kind === "speaking")
+      .map((s) => ({
+        id: s.id,
+        taskType: (s as { taskType: string }).taskType,
+        prompt: (s as { prompt: string }).prompt,
+        response: answers[s.id] ?? "",
+        report: taskReports[s.id] ?? null,
+      }))
+  }, [isAutoScored, test.steps, answers, taskReports])
+
   // Persist the section result once scoring is ready.
   useEffect(() => {
     if (step.kind !== "result" || saved) return
@@ -272,6 +303,7 @@ export function TestRunner({
       label,
       correct: results.correct,
       total: results.total,
+      reviewData: isAutoScored ? null : aiTasks,
     }).catch(() => {})
     void saveMockTestResult({
       testId: test.id,
@@ -295,6 +327,20 @@ export function TestRunner({
   const setWriting = (text: string) => {
     if (step.kind !== "writing") return
     setAnswers((a) => ({ ...a, [step.id]: text }))
+  }
+
+  // Full-page detailed review (question-by-question / task-by-task).
+  if (reviewing) {
+    return (
+      <ReviewShell
+        examId={examId}
+        examTitle={test.title.replace(/\s*-\s*.*$/, "")}
+        section={section}
+        level={results.level}
+        autoGroups={isAutoScored ? reviewGroups : undefined}
+        aiTasks={isAutoScored ? undefined : aiTasks}
+      />
+    )
   }
 
   const footerLeft =
@@ -362,7 +408,7 @@ export function TestRunner({
           results={results}
           scoring={scoring}
           onExit={() => router.push(`/dashboard/mock-tests/${examId}`)}
-          onReview={() => setIndex(0)}
+          onReview={() => setReviewing(true)}
         />
       )}
     </TestShell>

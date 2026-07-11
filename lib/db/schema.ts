@@ -90,5 +90,9 @@ export const mockSectionProgress = pgTable('mock_section_progress', {
   label: text('label'),
   correct: integer('correct'),
   total: integer('total'),
+  // Stored AI task reports for writing/speaking so a past attempt can be
+  // re-rendered without re-running the model.
+  reviewData: jsonb('reviewData'),
+  completedAt: timestamp('completedAt'),
   updatedAt: timestamp('updatedAt').notNull().defaultNow(),
 })

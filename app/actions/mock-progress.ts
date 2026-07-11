@@ -25,6 +25,7 @@ export type SectionProgress = {
   label: string | null
   correct: number | null
   total: number | null
+  reviewData: unknown
 }
 
 /** Returns a map of section -> progress for one exam (defaults to not_started). */
@@ -61,6 +62,7 @@ export async function getExamProgress(
       label: r.label,
       correct: r.correct,
       total: r.total,
+      reviewData: r.reviewData ?? null,
     }
   }
   return base
@@ -76,6 +78,7 @@ function emptyProgress(section: SectionName): SectionProgress {
     label: null,
     correct: null,
     total: null,
+    reviewData: null,
   }
 }
 
@@ -122,8 +125,11 @@ export async function completeSectionProgress(input: {
   label: string
   correct: number
   total: number
+  // Stored AI task reports (writing/speaking) so a past attempt can be viewed.
+  reviewData?: unknown
 }) {
   const userId = await getUserId()
+  const now = new Date()
   await db
     .insert(mockSectionProgress)
     .values({
@@ -136,7 +142,9 @@ export async function completeSectionProgress(input: {
       label: input.label,
       correct: input.correct,
       total: input.total,
-      updatedAt: new Date(),
+      reviewData: input.reviewData ?? null,
+      completedAt: now,
+      updatedAt: now,
     })
     .onConflictDoUpdate({
       target: [
@@ -151,7 +159,9 @@ export async function completeSectionProgress(input: {
         label: input.label,
         correct: input.correct,
         total: input.total,
-        updatedAt: new Date(),
+        reviewData: input.reviewData ?? null,
+        completedAt: now,
+        updatedAt: now,
       },
     })
   revalidatePath(`/dashboard/mock-tests/${input.examId}`)

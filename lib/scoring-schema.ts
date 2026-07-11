@@ -28,6 +28,16 @@ export const scoreSchema = z.object({
     .describe(
       'A short improved rewrite of one weak sentence or paragraph, showing higher-level language',
     ),
+  suggestedResponse: z
+    .string()
+    .describe(
+      'A complete, high-scoring (CELPIP 10-12) model answer to the same task, written in a natural first-person voice the test taker can learn from. 4-8 sentences.',
+    ),
+  weakPhrases: z
+    .array(z.string())
+    .describe(
+      "2-6 short exact phrases copied verbatim from the candidate's own response that are weak, awkward, or incorrect and should be highlighted for improvement. Must be substrings of the response.",
+    ),
   summary: z
     .string()
     .describe('A short encouraging summary of the overall performance'),
