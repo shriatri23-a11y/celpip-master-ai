@@ -138,7 +138,7 @@ export function AudioContent({
         <h2 className="text-xl font-semibold text-mt-blue">{step.instruction}</h2>
       </div>
 
-      <AudioPlayer lines={step.script} onEnded={onEnded} />
+      <AudioPlayer lines={step.script} src={step.audioSrc} onEnded={onEnded} />
 
       {showTranscript && step.transcript && (
         <div className="mx-auto mt-8 max-w-2xl rounded-md border border-mt-border bg-white p-5 text-mt-body">

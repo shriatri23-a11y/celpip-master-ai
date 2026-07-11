@@ -164,6 +164,7 @@ export async function completeSectionProgress(input: {
         updatedAt: now,
       },
     })
+  revalidatePath("/dashboard/mock-tests")
   revalidatePath(`/dashboard/mock-tests/${input.examId}`)
 }
 
@@ -182,5 +183,6 @@ export async function resetSectionProgress(input: {
         eq(mockSectionProgress.section, input.section),
       ),
     )
+  revalidatePath("/dashboard/mock-tests")
   revalidatePath(`/dashboard/mock-tests/${input.examId}`)
 }

@@ -59,7 +59,8 @@ export type VideoStep = BaseStep & {
 export type AudioStep = BaseStep & {
   kind: "audio"
   instruction: string
-  /** Text spoken via TTS. Supports multiple speakers. */
+  /** Bundled production audio. The script remains available for review and TTS fallback. */
+  audioSrc?: string
   script: AudioLine[]
   transcript?: string
 }

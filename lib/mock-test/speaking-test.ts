@@ -42,7 +42,7 @@ const steps: TestStep[] = [
     "speaking-t1",
     `${HEADER_BASE} Task 1: Giving Advice`,
     "Giving Advice",
-    "A friend has just moved to your city and asks you for advice on finding a good, affordable place to live. Give your friend advice about how to search for housing and what to consider before signing a lease.",
+    "A friend has accepted a probationary job in your city but cannot afford a central apartment. They are considering signing a year-long lease in a distant suburb before visiting it. Advise them how to balance cost, commute reliability, lease risk, and the uncertainty of probation.",
     [
       "Suggest practical ways to search for housing.",
       "Explain what your friend should check before signing.",
@@ -98,7 +98,7 @@ const steps: TestStep[] = [
     "speaking-t5",
     `${HEADER_BASE} Task 5: Comparing and Persuading`,
     "Comparing and Persuading",
-    "Your family is choosing between two options for a weekend trip: a quiet cabin by a lake, or a busy city with museums and restaurants. Choose one option and persuade a family member that it is the better choice.",
+    "Your condominium board can fund either a comprehensive building energy retrofit with higher short-term fees, or cosmetic lobby and landscaping improvements that may increase resale appeal immediately. Choose one option and persuade a neighbour who strongly prefers the other.",
     [
       "State which option you prefer.",
       "Compare it with the other option.",
@@ -112,7 +112,7 @@ const steps: TestStep[] = [
     "speaking-t6",
     `${HEADER_BASE} Task 6: Dealing with a Difficult Situation`,
     "Difficult Situation",
-    "You promised to help a coworker finish a project this weekend, but a close family member has just asked you to attend an important event at the same time. You must call your coworker to explain. Decide what you will do and leave a message explaining your decision.",
+    "You supervise a small team. A highly reliable employee privately disclosed a medical appointment and requested tomorrow morning off. Your manager has now ordered everyone to attend an urgent client rehearsal at that time and asked you to identify anyone who refuses. Leave your employee a message explaining what you will do without revealing confidential information or jeopardizing the client meeting.",
     [
       "Explain the situation clearly.",
       "State your decision and the reason for it.",
@@ -126,7 +126,7 @@ const steps: TestStep[] = [
     "speaking-t7",
     `${HEADER_BASE} Task 7: Expressing Opinions`,
     "Expressing Opinions",
-    "Some people believe that public libraries are no longer necessary because most information is available online. Do you agree or disagree? Give your opinion and support it with reasons.",
+    "Municipalities facing budget deficits should charge user fees for services that are currently free, such as public libraries, recreation centres, and community festivals. Do you agree or disagree? Address both fairness and service quality in your response.",
     [
       "State your opinion clearly.",
       "Support it with specific reasons and examples.",
