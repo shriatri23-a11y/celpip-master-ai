@@ -18,6 +18,7 @@ export function useTts(lines: AudioLine[]) {
   const durationRef = useRef(estimateSeconds(lines))
   const [duration, setDuration] = useState(durationRef.current)
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const safetyRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const voicesRef = useRef<SpeechSynthesisVoice[]>([])
   const supported =
     typeof window !== "undefined" && "speechSynthesis" in window
@@ -39,8 +40,34 @@ export function useTts(lines: AudioLine[]) {
       window.speechSynthesis.onvoiceschanged = null
       window.speechSynthesis.cancel()
       if (tickRef.current) clearInterval(tickRef.current)
+      if (safetyRef.current) clearTimeout(safetyRef.current)
     }
   }, [supported])
+
+  const clearSafety = useCallback(() => {
+    if (safetyRef.current) {
+      clearTimeout(safetyRef.current)
+      safetyRef.current = null
+    }
+  }, [])
+
+  const armSafety = useCallback(
+    (seconds: number) => {
+      clearSafety()
+      // Force the ended state if the browser never fires the final onend
+      // event, so the timer/answer UI is never permanently blocked.
+      safetyRef.current = setTimeout(
+        () => {
+          if (tickRef.current) clearInterval(tickRef.current)
+          tickRef.current = null
+          setElapsed(durationRef.current)
+          setStatus("ended")
+        },
+        (seconds + 2) * 1000,
+      )
+    },
+    [clearSafety],
+  )
 
   const stopTick = useCallback(() => {
     if (tickRef.current) {
@@ -77,6 +104,7 @@ export function useTts(lines: AudioLine[]) {
     setElapsed(0)
     setStatus("playing")
     startTick()
+    armSafety(durationRef.current)
 
     const voices = voicesRef.current
     const speakerVoice = new Map<string, SpeechSynthesisVoice | undefined>()
@@ -96,6 +124,7 @@ export function useTts(lines: AudioLine[]) {
       }
       if (i === lines.length - 1) {
         u.onend = () => {
+          clearSafety()
           stopTick()
           setElapsed(durationRef.current)
           setStatus("ended")
@@ -103,26 +132,29 @@ export function useTts(lines: AudioLine[]) {
       }
       window.speechSynthesis.speak(u)
     })
-  }, [lines, startTick, stopTick, supported])
+  }, [lines, startTick, stopTick, supported, armSafety, clearSafety])
 
   const pause = useCallback(() => {
     if (supported) window.speechSynthesis.pause()
     stopTick()
+    clearSafety()
     setStatus("paused")
-  }, [stopTick, supported])
+  }, [stopTick, supported, clearSafety])
 
   const resume = useCallback(() => {
     if (supported) window.speechSynthesis.resume()
     startTick()
+    armSafety(Math.max(2, durationRef.current - elapsed))
     setStatus("playing")
-  }, [startTick, supported])
+  }, [startTick, supported, armSafety, elapsed])
 
   const reset = useCallback(() => {
     if (supported) window.speechSynthesis.cancel()
     stopTick()
+    clearSafety()
     setElapsed(0)
     setStatus("idle")
-  }, [stopTick, supported])
+  }, [stopTick, supported, clearSafety])
 
   return { status, elapsed, duration, play, pause, resume, reset, supported }
 }
