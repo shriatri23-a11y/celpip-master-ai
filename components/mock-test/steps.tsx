@@ -296,58 +296,133 @@ export function ReadingContent({
   step,
   answers,
   onSelect,
+  globalOffset = 0,
 }: {
   step: ReadingStep
   answers: Record<string, string>
   onSelect: (questionId: string, optionId: string) => void
+  /** The index of the first question in this step relative to the whole test (for "Question X of Y" display). */
+  globalOffset?: number
 }) {
+  const [qIndex, setQIndex] = useState(0)
+  const totalQ = step.questions.length
+  const currentQ = step.questions[qIndex]
+  const answeredCount = step.questions.filter((q) => !!answers[q.id]).length
+
+  // Reset to first question when the step changes
+  useEffect(() => {
+    setQIndex(0)
+  }, [step.id])
+
   return (
     <div className="grid min-h-full grid-cols-1 md:grid-cols-2">
-      {/* Left: passage */}
-      <div className="border-mt-border px-8 py-10 md:border-r">
-        <div className="mb-6 flex items-start gap-3">
-          <span className="mt-0.5">
+      {/* Left: passage — scrollable */}
+      <div className="flex flex-col border-mt-border md:border-r">
+        {/* Passage header */}
+        <div className="flex items-start gap-3 border-b border-mt-border bg-white px-6 py-4">
+          <span className="mt-0.5 shrink-0">
             <InfoBadge variant="bang" />
           </span>
-          <h2 className="text-xl font-semibold text-mt-blue">
+          <p className="text-base font-semibold leading-snug text-mt-blue">
             {step.instruction}
-          </h2>
+          </p>
         </div>
-        <div className="flex flex-col gap-4">
-          {step.passage.map((p, i) => (
-            <p key={i} className="text-lg leading-relaxed text-mt-body">
-              {p}
-            </p>
-          ))}
+        {/* Scrollable passage text */}
+        <div className="mt-scroll flex-1 overflow-y-auto px-6 py-6">
+          <div className="flex flex-col gap-4">
+            {step.passage.map((p, i) => (
+              <p key={i} className="text-base leading-relaxed text-mt-body">
+                {p}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Right: questions */}
-      <div className="bg-mt-panel px-8 py-10">
-        <p className="mb-3 text-lg font-medium text-[#333]">Question</p>
-        <div className="mb-6 flex items-start gap-3">
-          <span className="mt-0.5">
-            <InfoBadge variant="bang" />
+      {/* Right: one question at a time */}
+      <div className="flex flex-col bg-mt-panel">
+        {/* Question header bar */}
+        <div className="flex items-center justify-between border-b border-mt-border bg-white px-6 py-3">
+          <span className="text-sm font-semibold text-[#333]">
+            Question {globalOffset + qIndex + 1}
           </span>
-          <h3 className="text-xl font-semibold text-mt-blue">
-            Choose the best answer to each question.
-          </h3>
+          <span className="text-xs text-muted-foreground">
+            {answeredCount} of {totalQ} answered
+          </span>
         </div>
-        <div className="flex flex-col gap-8">
-          {step.questions.map((q, i) => (
-            <div key={q.id}>
-              {q.prompt && (
-                <p className="mb-3 text-lg font-semibold text-[#222]">
-                  {i + 1}. {q.prompt}
-                </p>
-              )}
-              <McqBlock
-                question={q}
-                selectedId={answers[q.id]}
-                onSelect={(optId) => onSelect(q.id, optId)}
-              />
-            </div>
-          ))}
+
+        {/* Question dots navigation */}
+        <div className="flex flex-wrap items-center gap-1.5 border-b border-mt-border bg-white px-6 py-2.5">
+          {step.questions.map((q, i) => {
+            const isAnswered = !!answers[q.id]
+            const isCurrent = i === qIndex
+            return (
+              <button
+                key={q.id}
+                type="button"
+                onClick={() => setQIndex(i)}
+                title={`Question ${globalOffset + i + 1}`}
+                className={cn(
+                  "flex size-7 items-center justify-center rounded-full text-xs font-semibold transition-colors",
+                  isCurrent
+                    ? "bg-mt-next text-white"
+                    : isAnswered
+                      ? "bg-emerald-500 text-white"
+                      : "border border-mt-border bg-white text-mt-body hover:bg-black/[0.03]",
+                )}
+              >
+                {globalOffset + i + 1}
+              </button>
+            )
+          })}
+        </div>
+
+        {/* Question body — scrollable */}
+        <div className="mt-scroll flex-1 overflow-y-auto px-6 py-6">
+          <div className="mb-6 flex items-start gap-3">
+            <span className="mt-0.5 shrink-0">
+              <InfoBadge variant="bang" />
+            </span>
+            <h3 className="text-base font-semibold text-mt-blue">
+              Choose the best answer to the question.
+            </h3>
+          </div>
+          {currentQ.prompt && (
+            <p className="mb-4 text-base font-semibold text-[#222]">
+              {globalOffset + qIndex + 1}. {currentQ.prompt}
+            </p>
+          )}
+          <McqBlock
+            question={currentQ}
+            selectedId={answers[currentQ.id]}
+            onSelect={(optId) => onSelect(currentQ.id, optId)}
+          />
+        </div>
+
+        {/* Prev / Next navigation */}
+        <div className="flex items-center justify-between border-t border-mt-border bg-white px-6 py-3">
+          <button
+            type="button"
+            disabled={qIndex === 0}
+            onClick={() => setQIndex((i) => Math.max(0, i - 1))}
+            className={cn(
+              "rounded-sm border border-mt-border bg-white px-5 py-1.5 text-sm font-semibold text-mt-body transition-colors hover:bg-black/[0.03]",
+              qIndex === 0 && "cursor-not-allowed opacity-40",
+            )}
+          >
+            PREV
+          </button>
+          <button
+            type="button"
+            disabled={qIndex === totalQ - 1}
+            onClick={() => setQIndex((i) => Math.min(totalQ - 1, i + 1))}
+            className={cn(
+              "rounded-sm bg-mt-next px-5 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-mt-next-hover",
+              qIndex === totalQ - 1 && "cursor-not-allowed opacity-40",
+            )}
+          >
+            NEXT QUESTION
+          </button>
         </div>
       </div>
     </div>
