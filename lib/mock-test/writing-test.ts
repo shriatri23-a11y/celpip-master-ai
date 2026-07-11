@@ -35,11 +35,11 @@ const steps: TestStep[] = [
     instruction: "Read the situation and write your email.",
     taskType: "Email",
     prompt:
-      "The apartment building where you live recently replaced its old laundry machines with a new card-only payment system. Many residents, including you, have found the new system inconvenient and unreliable.\n\nWrite an email to the building manager, Ms. Delgado. In your email:",
+      "Your employer introduced a mandatory hybrid-work policy requiring every employee to reserve a desk through an app before coming to the office. The app frequently confirms more reservations than there are desks, yet employees who work remotely on a scheduled office day may be marked absent. Your team has an important client deadline next month.\n\nWrite an email to the Director of Operations, Ms. Delgado. In your email:",
     requirements: [
-      "Explain the problems you have experienced with the new system.",
-      "Describe how these problems have affected you and other residents.",
-      "Suggest one or two changes that would improve the situation.",
+      "Explain the conflicting policy requirements and provide specific evidence of the reservation problem.",
+      "Describe the consequences for productivity, attendance records, and the upcoming client deadline.",
+      "Propose a practical short-term remedy and a fair long-term policy, while anticipating one likely objection.",
     ],
     minWords: 150,
     maxWords: 200,
@@ -65,11 +65,11 @@ const steps: TestStep[] = [
     instruction: "Read the survey and write your response.",
     taskType: "Survey",
     prompt:
-      "Your city council is deciding how to use a vacant downtown lot. They have sent residents a survey with two options:\n\nOption A: Build a public park with green space and seating.\nOption B: Build a covered parking structure for shoppers and commuters.\n\nChoose the option you prefer and explain your choice. Give reasons to support your opinion.",
+      "Your province must reduce next year's transportation budget by ten percent while population growth is increasing demand. Residents are being asked to choose between two policies:\n\nOption A: Preserve current bus and rail frequency but postpone accessibility upgrades at older stations.\nOption B: Complete the accessibility upgrades now but reduce evening and weekend service across the network.\n\nChoose the option you prefer and explain your decision.",
     requirements: [
-      "State clearly which option you prefer.",
-      "Give specific reasons and examples for your choice.",
-      "Explain why the other option is less suitable.",
+      "State your position and establish the principle that should guide the decision.",
+      "Compare the effects on at least two different groups of residents using concrete examples.",
+      "Acknowledge the strongest disadvantage of your choice and explain how it could be mitigated.",
     ],
     minWords: 150,
     maxWords: 200,

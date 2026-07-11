@@ -18,9 +18,9 @@ export type MockExam = {
 export const mockExams: MockExam[] = [
   {
     id: "mock-1",
-    title: "Mock Test 1",
+    title: "Advanced Mock Exam 1",
     description:
-      "A complete CELPIP-style practice exam. Take the four sections in any order you like.",
+      "A rigorous, original CELPIP-style simulation built for CLB 9–12 practice, with inference-heavy questions, plausible distractors, and demanding production tasks.",
     sections: {
       listening: listeningTest,
       reading: readingTest,
