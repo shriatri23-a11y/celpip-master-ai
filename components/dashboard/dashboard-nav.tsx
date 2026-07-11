@@ -7,14 +7,15 @@ import {
   PenLine,
   Mic,
   MessagesSquare,
-  Headphones,
   BookOpen,
   History,
+  ClipboardList,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const navItems = [
   { href: '/dashboard', label: 'Overview', icon: LayoutDashboard },
+  { href: '/dashboard/mock-tests', label: 'Mock Tests', icon: ClipboardList },
   { href: '/dashboard/writing', label: 'Writing', icon: PenLine },
   { href: '/dashboard/speaking', label: 'Speaking', icon: Mic },
   { href: '/dashboard/coach', label: 'AI Coach', icon: MessagesSquare },
@@ -22,7 +23,6 @@ const navItems = [
 ]
 
 const soonItems = [
-  { label: 'Listening', icon: Headphones },
   { label: 'Reading', icon: BookOpen },
 ]
 
