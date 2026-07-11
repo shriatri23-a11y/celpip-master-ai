@@ -76,3 +76,19 @@ export const scoreAttempt = pgTable('score_attempt', {
   report: jsonb('report').notNull(),
   createdAt: timestamp('createdAt').notNull().defaultNow(),
 })
+
+// Per-user, per-exam progress for each of the four mock-exam sections.
+export const mockSectionProgress = pgTable('mock_section_progress', {
+  id: serial('id').primaryKey(),
+  userId: text('userId').notNull(),
+  examId: text('examId').notNull(),
+  section: text('section').notNull(), // "listening" | "reading" | "writing" | "speaking"
+  status: text('status').notNull().default('in_progress'), // "in_progress" | "completed"
+  stepIndex: integer('stepIndex').notNull().default(0),
+  answers: jsonb('answers').notNull().default({}),
+  level: integer('level'),
+  label: text('label'),
+  correct: integer('correct'),
+  total: integer('total'),
+  updatedAt: timestamp('updatedAt').notNull().defaultNow(),
+})

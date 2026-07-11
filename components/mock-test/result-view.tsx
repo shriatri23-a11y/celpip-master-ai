@@ -1,6 +1,6 @@
 "use client"
 
-import { CheckCircle2, RotateCcw, LayoutDashboard } from "lucide-react"
+import { CheckCircle2, RotateCcw, LayoutDashboard, Loader2 } from "lucide-react"
 import type { MockTest } from "@/lib/mock-test/types"
 
 type Results = {
@@ -14,15 +14,34 @@ type Results = {
 export function ResultView({
   test,
   results,
+  scoring = false,
   onExit,
   onReview,
 }: {
   test: MockTest
   results: Results
+  scoring?: boolean
   onExit: () => void
   onReview: () => void
 }) {
   const pct = Math.round(results.pct * 100)
+  const isAutoScored =
+    test.section === "listening" || test.section === "reading"
+
+  if (scoring) {
+    return (
+      <div className="mx-auto max-w-2xl px-8 py-16 text-center">
+        <Loader2 className="mx-auto mb-4 size-10 animate-spin text-mt-next" />
+        <h2 className="text-xl font-bold text-[#222]">
+          Scoring your {test.section} responses…
+        </h2>
+        <p className="mt-2 text-mt-body">
+          Our AI examiner is evaluating each task against the official CELPIP
+          criteria. This can take a few moments.
+        </p>
+      </div>
+    )
+  }
 
   return (
     <div className="mx-auto max-w-2xl px-8 py-12">
@@ -38,27 +57,35 @@ export function ResultView({
             <p className="text-4xl font-bold text-mt-next">{results.level}</p>
             <p className="text-sm text-mt-body">Est. CELPIP level</p>
           </div>
-          <div className="h-12 w-px bg-mt-border" />
-          <div>
-            <p className="text-4xl font-bold text-[#222]">
-              {results.correct}
-              <span className="text-2xl text-mt-body">/{results.total}</span>
-            </p>
-            <p className="text-sm text-mt-body">Correct answers</p>
-          </div>
-          <div className="h-12 w-px bg-mt-border" />
-          <div>
-            <p className="text-4xl font-bold text-[#222]">{pct}%</p>
-            <p className="text-sm text-mt-body">Score</p>
-          </div>
+          {isAutoScored && (
+            <>
+              <div className="h-12 w-px bg-mt-border" />
+              <div>
+                <p className="text-4xl font-bold text-[#222]">
+                  {results.correct}
+                  <span className="text-2xl text-mt-body">
+                    /{results.total}
+                  </span>
+                </p>
+                <p className="text-sm text-mt-body">Correct answers</p>
+              </div>
+              <div className="h-12 w-px bg-mt-border" />
+              <div>
+                <p className="text-4xl font-bold text-[#222]">{pct}%</p>
+                <p className="text-sm text-mt-body">Score</p>
+              </div>
+            </>
+          )}
         </div>
 
-        <div className="mb-8 h-2 w-full overflow-hidden rounded-full bg-mt-border">
-          <div
-            className="h-full rounded-full bg-mt-next"
-            style={{ width: `${pct}%` }}
-          />
-        </div>
+        {isAutoScored && (
+          <div className="mb-8 h-2 w-full overflow-hidden rounded-full bg-mt-border">
+            <div
+              className="h-full rounded-full bg-mt-next"
+              style={{ width: `${pct}%` }}
+            />
+          </div>
+        )}
 
         <p className="mb-8 text-mt-body">
           Estimated performance level:{" "}

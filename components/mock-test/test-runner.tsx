@@ -9,9 +9,18 @@ import {
   AudioContent,
   AudioMcqContent,
   McqContent,
+  ReadingContent,
+  WritingContent,
+  SpeakingContent,
 } from "./steps"
 import { ResultView } from "./result-view"
 import { saveMockTestResult } from "@/app/actions/mock-test"
+import {
+  saveSectionProgress,
+  completeSectionProgress,
+  type SectionName,
+} from "@/app/actions/mock-progress"
+import { useSpeechRecognition } from "@/hooks/use-speech-recognition"
 import type { MockTest, McqQuestion } from "@/lib/mock-test/types"
 
 function collectQuestions(test: MockTest): McqQuestion[] {
@@ -19,6 +28,7 @@ function collectQuestions(test: MockTest): McqQuestion[] {
   for (const step of test.steps) {
     if (step.kind === "audio-mcq") qs.push(step.question)
     if (step.kind === "mcq") qs.push(...step.questions)
+    if (step.kind === "reading") qs.push(...step.questions)
   }
   return qs
 }
@@ -34,17 +44,51 @@ function levelFromPercent(pct: number) {
   return { level: 3, label: "Developing" }
 }
 
-export function TestRunner({ test }: { test: MockTest }) {
+function labelFromLevel(level: number) {
+  if (level >= 9) return "Advanced"
+  if (level >= 7) return "Proficient"
+  if (level >= 5) return "Competent"
+  if (level >= 4) return "Developing"
+  return "Developing"
+}
+
+type SpeakingPhase = "idle" | "prep" | "speaking" | "done"
+
+export function TestRunner({
+  test,
+  examId,
+  section,
+  initialStepIndex = 0,
+  initialAnswers = {},
+}: {
+  test: MockTest
+  examId: string
+  section: SectionName
+  initialStepIndex?: number
+  initialAnswers?: Record<string, string>
+}) {
   const router = useRouter()
-  const [index, setIndex] = useState(0)
-  const [answers, setAnswers] = useState<Record<string, string>>({})
+  const isAutoScored = section === "listening" || section === "reading"
+
+  const [index, setIndex] = useState(
+    Math.min(initialStepIndex, test.steps.length - 1),
+  )
+  const [answers, setAnswers] = useState<Record<string, string>>(initialAnswers)
   const [showTranscript, setShowTranscript] = useState(false)
   const [countdown, setCountdown] = useState<number | null>(null)
   const [saved, setSaved] = useState(false)
+  const [scoring, setScoring] = useState(false)
+  const [aiResult, setAiResult] = useState<{
+    level: number
+    label: string
+  } | null>(null)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
+  // Speaking recording state
+  const speech = useSpeechRecognition()
+  const [speakingPhase, setSpeakingPhase] = useState<SpeakingPhase>("idle")
+
   const step = test.steps[index]
-  const isLast = index === test.steps.length - 1
 
   const clearTimer = useCallback(() => {
     if (timerRef.current) {
@@ -53,44 +97,100 @@ export function TestRunner({ test }: { test: MockTest }) {
     }
   }, [])
 
+  // Autosave progress whenever the step or answers change (in-progress only).
+  useEffect(() => {
+    if (step.kind === "result") return
+    const t = setTimeout(() => {
+      void saveSectionProgress({
+        examId,
+        section,
+        stepIndex: index,
+        answers,
+      }).catch(() => {})
+    }, 400)
+    return () => clearTimeout(t)
+  }, [index, answers, step.kind, examId, section])
+
   const goNext = useCallback(() => {
     clearTimer()
     setCountdown(null)
     setShowTranscript(false)
+    setSpeakingPhase("idle")
+    speech.reset()
     setIndex((i) => Math.min(test.steps.length - 1, i + 1))
-  }, [clearTimer, test.steps.length])
+  }, [clearTimer, test.steps.length, speech])
 
   const goBack = useCallback(() => {
     clearTimer()
     setCountdown(null)
     setShowTranscript(false)
+    setSpeakingPhase("idle")
+    speech.reset()
     setIndex((i) => Math.max(0, i - 1))
-  }, [clearTimer])
+  }, [clearTimer, speech])
 
-  // Countdown for audio-mcq answering window
   useEffect(() => () => clearTimer(), [clearTimer])
 
-  const handleAudioEnded = useCallback(() => {
-    if (step.kind === "audio-mcq" && step.answerSeconds) {
-      setCountdown(step.answerSeconds)
+  // Generic countdown helper that runs `onDone` at zero.
+  const startCountdown = useCallback(
+    (seconds: number, onDone?: () => void) => {
+      setCountdown(seconds)
       clearTimer()
       timerRef.current = setInterval(() => {
         setCountdown((c) => {
           if (c === null) return null
           if (c <= 1) {
             clearTimer()
-            // Auto-advance when the answering window closes.
-            setTimeout(() => goNext(), 0)
+            if (onDone) setTimeout(onDone, 0)
             return 0
           }
           return c - 1
         })
       }, 1000)
-    }
-  }, [step, clearTimer, goNext])
+    },
+    [clearTimer],
+  )
 
-  // Results (computed when reaching the result step)
-  const results = useMemo(() => {
+  // Audio-mcq: start answering window after audio ends.
+  const handleAudioEnded = useCallback(() => {
+    if (step.kind === "audio-mcq" && step.answerSeconds) {
+      startCountdown(step.answerSeconds, goNext)
+    }
+  }, [step, startCountdown, goNext])
+
+  // Writing: start the task timer when the writing step appears.
+  useEffect(() => {
+    if (step.kind === "writing") {
+      startCountdown(step.answerSeconds, goNext)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index])
+
+  // Speaking: prep -> speaking -> done state machine.
+  const startSpeaking = useCallback(() => {
+    if (step.kind !== "speaking") return
+    setSpeakingPhase("prep")
+    startCountdown(step.prepSeconds, () => {
+      setSpeakingPhase("speaking")
+      speech.start()
+      startCountdown(step.speakSeconds, () => {
+        speech.stop()
+        setSpeakingPhase("done")
+        setCountdown(null)
+      })
+    })
+  }, [step, startCountdown, speech])
+
+  // Persist the speaking transcript into answers when a task finishes.
+  useEffect(() => {
+    if (step.kind === "speaking" && speakingPhase === "done") {
+      setAnswers((a) => ({ ...a, [step.id]: speech.transcript }))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [speakingPhase])
+
+  // ----- Auto-scored results (listening / reading) -----
+  const autoResults = useMemo(() => {
     const questions = collectQuestions(test)
     const total = questions.length
     const correct = questions.reduce(
@@ -102,21 +202,88 @@ export function TestRunner({ test }: { test: MockTest }) {
     return { total, correct, pct, level, label }
   }, [test, answers])
 
-  // Persist once when the result screen is shown
-  useEffect(() => {
-    if (step.kind === "result" && !saved) {
-      setSaved(true)
-      void saveMockTestResult({
-        testId: test.id,
-        title: test.title,
-        section: test.section,
-        correct: results.correct,
-        total: results.total,
-        level: results.level,
-        label: results.label,
-      }).catch(() => {})
+  // ----- AI scoring for writing / speaking on the result screen -----
+  const runAiScoring = useCallback(async () => {
+    setScoring(true)
+    const endpoint =
+      section === "writing" ? "/api/score-writing" : "/api/score-speaking"
+    const taskSteps = test.steps.filter(
+      (s) => s.kind === "writing" || s.kind === "speaking",
+    )
+    const levels: number[] = []
+    for (const s of taskSteps) {
+      const response = answers[s.id] ?? ""
+      if (response.trim().length < 20) continue
+      try {
+        const body =
+          s.kind === "writing"
+            ? { prompt: s.prompt, taskType: s.taskType, response }
+            : { prompt: s.prompt, taskTitle: s.taskType, transcript: response }
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        })
+        const data = await res.json()
+        if (res.ok && typeof data.overallLevel === "number") {
+          levels.push(data.overallLevel)
+        }
+      } catch {
+        // skip failed task
+      }
     }
-  }, [step, saved, test, results])
+    const avg = levels.length
+      ? Math.round(levels.reduce((a, b) => a + b, 0) / levels.length)
+      : 0
+    setAiResult({ level: avg, label: labelFromLevel(avg) })
+    setScoring(false)
+  }, [section, test.steps, answers])
+
+  // Kick off AI scoring once when reaching the result step.
+  useEffect(() => {
+    if (step.kind === "result" && !isAutoScored && !aiResult && !scoring) {
+      void runAiScoring()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step.kind])
+
+  const results = isAutoScored
+    ? autoResults
+    : {
+        total: aiResult ? 1 : 0,
+        correct: 0,
+        pct: 0,
+        level: aiResult?.level ?? 0,
+        label: aiResult?.label ?? "",
+      }
+
+  // Persist the section result once scoring is ready.
+  useEffect(() => {
+    if (step.kind !== "result" || saved) return
+    if (!isAutoScored && !aiResult) return // wait for AI scoring
+    setSaved(true)
+    const level = results.level
+    const label = results.label
+    void completeSectionProgress({
+      examId,
+      section,
+      answers,
+      level,
+      label,
+      correct: results.correct,
+      total: results.total,
+    }).catch(() => {})
+    void saveMockTestResult({
+      testId: test.id,
+      title: test.title,
+      section: test.section,
+      correct: results.correct,
+      total: results.total,
+      level,
+      label,
+    }).catch(() => {})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step.kind, saved, aiResult, isAutoScored])
 
   const selectSingle = (optionId: string) => {
     if (step.kind !== "audio-mcq") return
@@ -124,6 +291,10 @@ export function TestRunner({ test }: { test: MockTest }) {
   }
   const selectMulti = (questionId: string, optionId: string) => {
     setAnswers((a) => ({ ...a, [questionId]: optionId }))
+  }
+  const setWriting = (text: string) => {
+    if (step.kind !== "writing") return
+    setAnswers((a) => ({ ...a, [step.id]: text }))
   }
 
   const footerLeft =
@@ -150,11 +321,7 @@ export function TestRunner({ test }: { test: MockTest }) {
       {step.kind === "instruction" && <InstructionContent step={step} />}
       {step.kind === "video" && <VideoContent step={step} />}
       {step.kind === "audio" && (
-        <AudioContent
-          key={step.id}
-          step={step}
-          showTranscript={showTranscript}
-        />
+        <AudioContent key={step.id} step={step} showTranscript={showTranscript} />
       )}
       {step.kind === "audio-mcq" && (
         <AudioMcqContent
@@ -168,11 +335,33 @@ export function TestRunner({ test }: { test: MockTest }) {
       {step.kind === "mcq" && (
         <McqContent step={step} answers={answers} onSelect={selectMulti} />
       )}
+      {step.kind === "reading" && (
+        <ReadingContent step={step} answers={answers} onSelect={selectMulti} />
+      )}
+      {step.kind === "writing" && (
+        <WritingContent
+          key={step.id}
+          step={step}
+          value={answers[step.id] ?? ""}
+          onChange={setWriting}
+        />
+      )}
+      {step.kind === "speaking" && (
+        <SpeakingContent
+          key={step.id}
+          step={step}
+          phase={speakingPhase}
+          secondsLeft={countdown}
+          transcript={speech.transcript || speech.interim}
+          onStart={startSpeaking}
+        />
+      )}
       {step.kind === "result" && (
         <ResultView
           test={test}
           results={results}
-          onExit={() => router.push("/dashboard/mock-tests")}
+          scoring={scoring}
+          onExit={() => router.push(`/dashboard/mock-tests/${examId}`)}
           onReview={() => setIndex(0)}
         />
       )}

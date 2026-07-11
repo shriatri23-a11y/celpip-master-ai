@@ -22,6 +22,9 @@ export type TestStep =
   | AudioStep
   | AudioMcqStep
   | McqStep
+  | ReadingStep
+  | WritingStep
+  | SpeakingStep
   | ResultStep
 
 type BaseStep = {
@@ -77,6 +80,53 @@ export type McqStep = BaseStep & {
   instruction: string
   passage?: string
   questions: McqQuestion[]
+}
+
+/**
+ * Reading step: a passage on the left, one or more MCQs on the right — the
+ * CELPIP Reading split layout. Scored automatically against correctOptionId.
+ */
+export type ReadingStep = BaseStep & {
+  kind: "reading"
+  instruction: string
+  /** Passage paragraphs (rendered on the left panel). */
+  passage: string[]
+  /** Optional email/correspondence blanks rendered as inline dropdowns. */
+  questions: McqQuestion[]
+  /** Whole-step timer in seconds (optional). */
+  answerSeconds?: number
+}
+
+/**
+ * Writing step: a timed prompt with a textarea. Scored by the AI writing
+ * endpoint (not by correctOptionId).
+ */
+export type WritingStep = BaseStep & {
+  kind: "writing"
+  instruction: string
+  /** The task type used for AI scoring, e.g. "Email" or "Survey". */
+  taskType: string
+  prompt: string
+  /** Bulleted requirements shown under the prompt. */
+  requirements?: string[]
+  minWords: number
+  maxWords: number
+  /** Time budget in seconds for this task. */
+  answerSeconds: number
+}
+
+/**
+ * Speaking step: a prep countdown then a recording window. Transcribed via the
+ * browser and scored by the AI speaking endpoint.
+ */
+export type SpeakingStep = BaseStep & {
+  kind: "speaking"
+  instruction: string
+  taskType: string
+  prompt: string
+  requirements?: string[]
+  prepSeconds: number
+  speakSeconds: number
 }
 
 export type ResultStep = BaseStep & {

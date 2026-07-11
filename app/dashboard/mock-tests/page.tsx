@@ -1,80 +1,121 @@
 import Link from "next/link"
-import { Headphones, Clock, ListChecks, ArrowRight, BookOpen, PenLine, Mic } from "lucide-react"
-import { mockTests } from "@/lib/mock-test/listening-test"
+import { redirect } from "next/navigation"
+import { headers } from "next/headers"
+import {
+  Headphones,
+  BookOpen,
+  PenLine,
+  Mic,
+  Clock,
+  ArrowRight,
+  CheckCircle2,
+} from "lucide-react"
+import { auth } from "@/lib/auth"
+import { mockExams } from "@/lib/mock-test/exams"
+import { getExamProgress } from "@/app/actions/mock-progress"
 
-const sectionMeta: Record<
-  string,
-  { icon: typeof Headphones; label: string }
-> = {
-  listening: { icon: Headphones, label: "Listening" },
-  reading: { icon: BookOpen, label: "Reading" },
-  writing: { icon: PenLine, label: "Writing" },
-  speaking: { icon: Mic, label: "Speaking" },
-}
+const sectionMeta = [
+  { key: "listening", icon: Headphones, label: "Listening" },
+  { key: "reading", icon: BookOpen, label: "Reading" },
+  { key: "writing", icon: PenLine, label: "Writing" },
+  { key: "speaking", icon: Mic, label: "Speaking" },
+] as const
 
-export default function MockTestsPage() {
+export default async function MockTestsPage() {
+  const session = await auth.api.getSession({ headers: await headers() })
+  if (!session?.user) redirect("/sign-in")
+
+  const progressByExam = Object.fromEntries(
+    await Promise.all(
+      mockExams.map(async (e) => [e.id, await getExamProgress(e.id)] as const),
+    ),
+  )
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 md:px-8">
       <header className="mb-8">
         <h1 className="font-display text-2xl font-bold text-foreground md:text-3xl">
-          Mock Tests
+          Mock Exams
         </h1>
         <p className="mt-1 text-muted-foreground">
-          Take full, timed CELPIP-style practice tests that match the official
-          interface. Your results are saved to your score history.
+          Take full, timed CELPIP-style practice exams that match the official
+          interface. Each exam has all four sections — take them in any order.
+          Your results are saved to your score history.
         </p>
       </header>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        {mockTests.map((test) => {
-          const meta = sectionMeta[test.section]
-          const Icon = meta.icon
+      <div className="flex flex-col gap-6">
+        {mockExams.map((exam) => {
+          const progress = progressByExam[exam.id]
+          const completed = Object.values(progress).filter(
+            (p) => p.status === "completed",
+          ).length
           return (
             <div
-              key={test.id}
-              className="flex flex-col rounded-xl border border-border bg-card p-6 shadow-sm"
+              key={exam.id}
+              className="rounded-2xl border border-border bg-card p-6 shadow-sm"
             >
-              <div className="mb-4 flex items-center gap-3">
-                <span className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <Icon className="size-5" />
-                </span>
-                <span className="rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground">
-                  {meta.label}
-                </span>
-              </div>
-              <h2 className="text-lg font-semibold text-card-foreground text-balance">
-                {test.title}
-              </h2>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
-                {test.description}
-              </p>
-              <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
-                <span className="inline-flex items-center gap-1.5">
-                  <Clock className="size-4" />
-                  {test.durationLabel}
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <ListChecks className="size-4" />
-                  {test.questionCount} questions
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-xl font-bold text-card-foreground">
+                    {exam.title}
+                  </h2>
+                  <p className="mt-1 max-w-xl text-sm leading-relaxed text-muted-foreground">
+                    {exam.description}
+                  </p>
+                </div>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground">
+                  <Clock className="size-3.5" />4 sections
                 </span>
               </div>
-              <Link
-                href={`/mock-test/${test.id}`}
-                className="mt-5 inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-              >
-                Start test
-                <ArrowRight className="size-4" />
-              </Link>
+
+              <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                {sectionMeta.map((s) => {
+                  const Icon = s.icon
+                  const status = progress[s.key].status
+                  return (
+                    <div
+                      key={s.key}
+                      className="flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-2.5"
+                    >
+                      <span className="flex size-8 items-center justify-center rounded-md bg-primary/10 text-primary">
+                        <Icon className="size-4" />
+                      </span>
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-medium text-foreground">
+                          {s.label}
+                        </p>
+                        <p className="flex items-center gap-1 text-xs text-muted-foreground">
+                          {status === "completed" && (
+                            <CheckCircle2 className="size-3 text-emerald-600" />
+                          )}
+                          {status === "completed"
+                            ? "Completed"
+                            : status === "in_progress"
+                              ? "In progress"
+                              : "Not started"}
+                        </p>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+
+              <div className="mt-5 flex items-center justify-between">
+                <p className="text-sm text-muted-foreground">
+                  {completed} of 4 completed
+                </p>
+                <Link
+                  href={`/dashboard/mock-tests/${exam.id}`}
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+                >
+                  {completed > 0 ? "Continue exam" : "Start exam"}
+                  <ArrowRight className="size-4" />
+                </Link>
+              </div>
             </div>
           )
         })}
-      </div>
-
-      <div className="mt-8 rounded-xl border border-dashed border-border bg-muted/40 p-6 text-center">
-        <p className="text-sm text-muted-foreground">
-          Reading, Writing, and Speaking full mock tests are coming next in this
-          same official-style interface.
-        </p>
       </div>
     </div>
   )

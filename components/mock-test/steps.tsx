@@ -6,6 +6,7 @@ import { InfoBadge } from "./test-shell"
 import { AudioPlayer } from "./audio-player"
 import { useTts } from "@/hooks/use-tts"
 import { useEffect, useRef, useState } from "react"
+import { Mic, Square } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type {
   InstructionStep,
@@ -14,6 +15,9 @@ import type {
   AudioMcqStep,
   McqStep,
   McqQuestion,
+  ReadingStep,
+  WritingStep,
+  SpeakingStep,
 } from "@/lib/mock-test/types"
 
 /* ---------------- Instruction ---------------- */
@@ -148,7 +152,7 @@ export function AudioContent({
 
 /* ---------------- MCQ list (shared) ---------------- */
 
-function McqBlock({
+export function McqBlock({
   question,
   selectedId,
   onSelect,
@@ -281,6 +285,225 @@ export function McqContent({
             />
           </div>
         ))}
+      </div>
+    </div>
+  )
+}
+
+/* ---------------- Reading (passage + questions split) ---------------- */
+
+export function ReadingContent({
+  step,
+  answers,
+  onSelect,
+}: {
+  step: ReadingStep
+  answers: Record<string, string>
+  onSelect: (questionId: string, optionId: string) => void
+}) {
+  return (
+    <div className="grid min-h-full grid-cols-1 md:grid-cols-2">
+      {/* Left: passage */}
+      <div className="border-mt-border px-8 py-10 md:border-r">
+        <div className="mb-6 flex items-start gap-3">
+          <span className="mt-0.5">
+            <InfoBadge variant="bang" />
+          </span>
+          <h2 className="text-xl font-semibold text-mt-blue">
+            {step.instruction}
+          </h2>
+        </div>
+        <div className="flex flex-col gap-4">
+          {step.passage.map((p, i) => (
+            <p key={i} className="text-lg leading-relaxed text-mt-body">
+              {p}
+            </p>
+          ))}
+        </div>
+      </div>
+
+      {/* Right: questions */}
+      <div className="bg-mt-panel px-8 py-10">
+        <p className="mb-3 text-lg font-medium text-[#333]">Question</p>
+        <div className="mb-6 flex items-start gap-3">
+          <span className="mt-0.5">
+            <InfoBadge variant="bang" />
+          </span>
+          <h3 className="text-xl font-semibold text-mt-blue">
+            Choose the best answer to each question.
+          </h3>
+        </div>
+        <div className="flex flex-col gap-8">
+          {step.questions.map((q, i) => (
+            <div key={q.id}>
+              {q.prompt && (
+                <p className="mb-3 text-lg font-semibold text-[#222]">
+                  {i + 1}. {q.prompt}
+                </p>
+              )}
+              <McqBlock
+                question={q}
+                selectedId={answers[q.id]}
+                onSelect={(optId) => onSelect(q.id, optId)}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ---------------- Writing (timed textarea) ---------------- */
+
+export function WritingContent({
+  step,
+  value,
+  onChange,
+}: {
+  step: WritingStep
+  value: string
+  onChange: (text: string) => void
+}) {
+  const words = value.trim() ? value.trim().split(/\s+/).length : 0
+  return (
+    <div className="mx-auto grid min-h-full max-w-6xl grid-cols-1 gap-8 px-8 py-10 lg:grid-cols-2">
+      <div>
+        <div className="mb-6 flex items-start gap-3">
+          <span className="mt-0.5">
+            <InfoBadge variant="bang" />
+          </span>
+          <h2 className="text-xl font-semibold text-mt-blue">
+            {step.instruction}
+          </h2>
+        </div>
+        <div className="rounded-md border border-mt-border bg-white p-6">
+          <p className="mb-4 whitespace-pre-line text-lg leading-relaxed text-mt-body">
+            {step.prompt}
+          </p>
+          {step.requirements && step.requirements.length > 0 && (
+            <ul className="mt-2">
+              {step.requirements.map((r, i) => (
+                <li
+                  key={i}
+                  className="flex gap-3 border-b border-dotted border-mt-border py-3 last:border-0"
+                >
+                  <span className="mt-2 size-1.5 shrink-0 rounded-full bg-mt-blue" />
+                  <span className="leading-relaxed text-mt-blue">{r}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+
+      <div className="flex flex-col">
+        <div className="mb-2 flex items-center justify-between text-sm text-mt-body">
+          <span>Write your response below</span>
+          <span
+            className={cn(
+              words < step.minWords ? "text-mt-timer" : "text-emerald-600",
+            )}
+          >
+            {words} words (target {step.minWords}–{step.maxWords})
+          </span>
+        </div>
+        <textarea
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="min-h-[420px] flex-1 resize-none rounded-md border border-mt-border bg-white p-4 text-lg leading-relaxed text-[#222] outline-none focus:border-mt-blue"
+          placeholder="Start typing your response…"
+        />
+      </div>
+    </div>
+  )
+}
+
+/* ---------------- Speaking (prep + record) ---------------- */
+
+export function SpeakingContent({
+  step,
+  phase,
+  secondsLeft,
+  transcript,
+  onStart,
+}: {
+  step: SpeakingStep
+  phase: "idle" | "prep" | "speaking" | "done"
+  secondsLeft: number | null
+  transcript: string
+  onStart: () => void
+}) {
+  return (
+    <div className="mx-auto max-w-4xl px-8 py-10">
+      <div className="mb-6 flex items-start gap-3">
+        <span className="mt-0.5">
+          <InfoBadge variant="bang" />
+        </span>
+        <h2 className="text-xl font-semibold text-mt-blue">{step.instruction}</h2>
+      </div>
+
+      <div className="rounded-md border border-mt-border bg-white p-6">
+        <p className="whitespace-pre-line text-lg leading-relaxed text-mt-body">
+          {step.prompt}
+        </p>
+        {step.requirements && step.requirements.length > 0 && (
+          <ul className="mt-4">
+            {step.requirements.map((r, i) => (
+              <li
+                key={i}
+                className="flex gap-3 border-b border-dotted border-mt-border py-3 last:border-0"
+              >
+                <span className="mt-2 size-1.5 shrink-0 rounded-full bg-mt-blue" />
+                <span className="leading-relaxed text-mt-blue">{r}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <div className="mt-8 flex flex-col items-center gap-4">
+        {phase === "idle" && (
+          <button
+            type="button"
+            onClick={onStart}
+            className="flex items-center gap-2 rounded-full bg-mt-next px-6 py-3 font-semibold text-white transition-colors hover:bg-mt-next-hover"
+          >
+            <Mic className="size-5" /> Start preparation
+          </button>
+        )}
+        {phase === "prep" && (
+          <div className="flex flex-col items-center gap-2">
+            <p className="text-lg font-semibold text-mt-blue">Preparation time</p>
+            <p className="text-4xl font-bold tabular-nums text-mt-title">
+              {secondsLeft}s
+            </p>
+            <p className="text-sm text-mt-body">Recording starts automatically.</p>
+          </div>
+        )}
+        {phase === "speaking" && (
+          <div className="flex flex-col items-center gap-3">
+            <span className="flex items-center gap-2 rounded-full bg-mt-timer/10 px-4 py-2 font-semibold text-mt-timer">
+              <span className="size-3 animate-pulse rounded-full bg-mt-timer" />
+              Recording… {secondsLeft}s
+            </span>
+            <Square className="size-5 text-mt-timer" />
+          </div>
+        )}
+        {phase === "done" && (
+          <p className="font-semibold text-emerald-600">
+            Response recorded. Click NEXT to continue.
+          </p>
+        )}
+
+        {transcript && (
+          <div className="mt-4 w-full rounded-md border border-mt-border bg-mt-panel p-4 text-mt-body">
+            <p className="mb-1 text-sm font-semibold text-[#222]">
+              Live transcript
+            </p>
+            <p className="leading-relaxed">{transcript}</p>
+          </div>
+        )}
       </div>
     </div>
   )
