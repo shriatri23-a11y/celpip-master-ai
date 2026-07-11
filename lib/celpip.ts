@@ -214,6 +214,238 @@ export const speakingTasks: SpeakingTask[] = [
   },
 ]
 
+/** Ten additional practice tasks — two more per task type (T1–T5) + one each for T6–T8. */
+export const speakingExtraTasks: SpeakingTask[] = [
+  // ── Task 1 · Giving Advice (×2) ─────────────────────────────────────────
+  {
+    id: 'advice-2',
+    title: 'Task 1 — Giving Advice',
+    taskType: 'Giving Advice',
+    prompt:
+      'Your younger sibling is about to start university and is very anxious about making friends and fitting in. They have asked for your advice. What would you tell them to help them feel more confident and build connections during their first semester?',
+    requirements: [
+      'Acknowledge their anxiety and show empathy.',
+      'Give at least two specific, actionable suggestions.',
+      'End with an encouraging comment.',
+    ],
+    tips: [
+      'Draw on your own experience or things you wish someone had told you.',
+      'Avoid vague advice like "just be yourself" — be specific: join a club, introduce yourself in class, etc.',
+      'Use a warm, supportive tone throughout.',
+    ],
+    prepSeconds: 30,
+    speakSeconds: 90,
+  },
+  {
+    id: 'advice-3',
+    title: 'Task 1 — Giving Advice',
+    taskType: 'Giving Advice',
+    prompt:
+      'A coworker confides in you that they are exhausted and feeling burned out from working too many overtime hours. They do not want to upset their manager but also cannot continue at this pace. Give your coworker advice on how to handle this situation professionally.',
+    requirements: [
+      'Validate your coworker\'s feelings before giving advice.',
+      'Suggest at least two practical strategies they can try.',
+      'Remind them of the importance of their own well-being.',
+    ],
+    tips: [
+      'Acknowledge the difficulty of speaking to a manager — offer concrete phrases they can use.',
+      'Suggest small changes first (blocking lunch breaks, not checking email after hours) before escalating.',
+      'Keep your tone calm and reassuring, not alarmist.',
+    ],
+    prepSeconds: 30,
+    speakSeconds: 90,
+  },
+
+  // ── Task 2 · Personal Experience (×2) ───────────────────────────────────
+  {
+    id: 'personal-experience-2',
+    title: 'Task 2 — Talking about a Personal Experience',
+    taskType: 'Personal Experience',
+    prompt:
+      'Describe a time when you worked as part of a team on an important project or goal. Talk about what the challenge was, how you contributed, and what the outcome was.',
+    requirements: [
+      'Describe the team and the goal you were working toward.',
+      'Explain specifically what you did to contribute.',
+      'Share what you learned about teamwork from the experience.',
+    ],
+    tips: [
+      'Be specific about your own role — don\'t just talk about "we" the whole time.',
+      'Include a challenge or conflict the team faced, and how it was resolved.',
+      'Reflect at the end: how did this experience shape how you work with others?',
+    ],
+    prepSeconds: 30,
+    speakSeconds: 60,
+  },
+  {
+    id: 'personal-experience-3',
+    title: 'Task 2 — Talking about a Personal Experience',
+    taskType: 'Personal Experience',
+    prompt:
+      'Talk about a time when you had to make a difficult decision that affected others around you. Describe the situation, the options you considered, what you chose, and how things turned out.',
+    requirements: [
+      'Describe the situation and the decision you faced.',
+      'Explain the options you considered and why the decision was difficult.',
+      'Share what happened after your decision and what you learned.',
+    ],
+    tips: [
+      'Focus on one specific decision rather than a general pattern of behaviour.',
+      'Show your reasoning — explain what factors you weighed.',
+      'Be honest; admitting the decision was hard or imperfect makes your response more authentic.',
+    ],
+    prepSeconds: 30,
+    speakSeconds: 60,
+  },
+
+  // ── Task 3 · Describing a Scene (×1) ────────────────────────────────────
+  {
+    id: 'describing-scene-2',
+    title: 'Task 3 — Describing a Scene',
+    taskType: 'Describing a Scene',
+    prompt:
+      'Look at the image carefully. Describe this scene in as much detail as you can to someone who cannot see it.',
+    requirements: [
+      'Describe where people and objects are located in the space.',
+      'Include details about actions, clothing, and expressions where visible.',
+      'Organize your description clearly from one area to another.',
+    ],
+    tips: [
+      'Start with a general overview ("This scene shows a busy…") then zoom in on specific details.',
+      'Use a mix of spatial prepositions: in front of, behind, to the left of, in the background.',
+      'Describe the mood or atmosphere — is it noisy, relaxed, urgent, cheerful?',
+    ],
+    imageSrc: '/speaking/scene-farmers-market.png',
+    imageAlt: 'A busy outdoor farmers market on a Saturday morning with vendors, a musician, families, and a coffee stand.',
+    prepSeconds: 30,
+    speakSeconds: 60,
+  },
+
+  // ── Task 4 · Making Predictions (×1) ────────────────────────────────────
+  {
+    id: 'making-predictions-2',
+    title: 'Task 4 — Making Predictions',
+    taskType: 'Making Predictions',
+    prompt:
+      'Look at the image again. The musician near the entrance has just stopped playing and is now packing up their guitar case. Predict what will likely happen next and explain your reasoning.',
+    requirements: [
+      'Make at least two specific predictions about what will happen.',
+      'Support each prediction with evidence from what you see in the image.',
+      'Use natural future-tense language.',
+    ],
+    tips: [
+      'Think about cause and effect — what does packing up normally lead to?',
+      'Consider the reactions of people nearby: will they stop, move on, tip the musician?',
+      'Use hedging language: "It seems likely that…", "I would expect that…", "Based on this, I think…"',
+    ],
+    imageSrc: '/speaking/scene-farmers-market.png',
+    imageAlt: 'A busy outdoor farmers market on a Saturday morning with vendors, a musician, families, and a coffee stand.',
+    prepSeconds: 30,
+    speakSeconds: 60,
+  },
+
+  // ── Task 5 · Comparing and Persuading (×2) ──────────────────────────────
+  {
+    id: 'comparing-persuading-2',
+    title: 'Task 5 — Comparing and Persuading',
+    taskType: 'Comparing and Persuading',
+    prompt:
+      'Your workplace is deciding how employees should work going forward. Option A is a hybrid model where staff alternate between working from home and the office. Option B is a full return to the office five days a week. Your manager strongly prefers Option B. Choose an option and persuade your manager.',
+    requirements: [
+      'Clearly state which option you are advocating for.',
+      'Acknowledge at least one valid point your manager\'s preferred option offers.',
+      'Give at least two compelling reasons for your preferred option.',
+    ],
+    tips: [
+      'Speak respectfully but confidently — you are making a professional argument.',
+      'Use data or common knowledge: productivity studies, commute times, work-life balance research.',
+      'End with a compromise or collaborative suggestion to make your argument more persuasive.',
+    ],
+    prepSeconds: 60,
+    speakSeconds: 60,
+  },
+  {
+    id: 'comparing-persuading-3',
+    title: 'Task 5 — Comparing and Persuading',
+    taskType: 'Comparing and Persuading',
+    prompt:
+      'You and a friend are planning a week-long vacation. You prefer Option A: a guided cultural tour of a historic European city. Your friend prefers Option B: a beach resort stay in the Caribbean. You need to agree on one destination. Persuade your friend to choose your option.',
+    requirements: [
+      'State your preference clearly from the start.',
+      'Acknowledge one thing that is appealing about the beach resort.',
+      'Give at least two strong arguments for the cultural tour.',
+    ],
+    tips: [
+      'Make it personal — why does this trip appeal to you specifically?',
+      'Use vivid language to paint a picture of the experience you are advocating for.',
+      'Address your friend\'s likely objections before they raise them.',
+    ],
+    prepSeconds: 60,
+    speakSeconds: 60,
+  },
+
+  // ── Task 6 · Difficult Situation (×1) ───────────────────────────────────
+  {
+    id: 'difficult-situation-2',
+    title: 'Task 6 — Dealing with a Difficult Situation',
+    taskType: 'Difficult Situation',
+    prompt:
+      'You are a tenant in an apartment building. For the past two weeks, your upstairs neighbour has been doing loud renovation work starting at 6:00 a.m., well before the building\'s permitted hours of 8:00 a.m. to 8:00 p.m. You have to work night shifts and this is seriously affecting your sleep. Leave a voicemail message for your building manager explaining the problem and requesting action.',
+    requirements: [
+      'Describe the problem clearly, including specific times and duration.',
+      'Explain how the situation is affecting you.',
+      'State what action you expect the building manager to take.',
+    ],
+    tips: [
+      'Be factual and specific: days, times, duration.',
+      'Keep your tone firm but civil — you want results, not conflict.',
+      'End with your contact information and a request for a follow-up.',
+    ],
+    prepSeconds: 60,
+    speakSeconds: 60,
+  },
+
+  // ── Task 7 · Expressing Opinions (×1) ───────────────────────────────────
+  {
+    id: 'expressing-opinions-2',
+    title: 'Task 7 — Expressing Opinions',
+    taskType: 'Expressing Opinions',
+    prompt:
+      'Some people believe that university education should be free for all citizens, funded entirely by the government, because it leads to a more educated and productive society. Others argue that students should bear at least part of the cost because it ensures they value their education and reduces the financial burden on taxpayers. What is your opinion? Give specific reasons and examples.',
+    requirements: [
+      'State a clear position at the beginning.',
+      'Support it with at least two reasons or examples.',
+      'Acknowledge and counter the opposing view.',
+    ],
+    tips: [
+      'Avoid sitting on the fence — pick one side and defend it.',
+      'Think about real-world examples: countries that have free university (Germany, Norway) vs. tuition-based systems.',
+      'Use logical connectors: "As a result…", "This means that…", "By contrast…"',
+    ],
+    prepSeconds: 30,
+    speakSeconds: 90,
+  },
+
+  // ── Task 8 · Unusual Situation (×1) ─────────────────────────────────────
+  {
+    id: 'unusual-situation-2',
+    title: 'Task 8 — Describing an Unusual Situation',
+    taskType: 'Unusual Situation',
+    prompt:
+      'You arrive at the airport for an international flight only to discover that your passport has expired. You are standing at the check-in counter with 45 minutes before your flight closes. Call a family member to explain what has happened, what your options are, and what you need them to do to help you.',
+    requirements: [
+      'Explain the situation quickly and clearly.',
+      'Describe at least one option or plan you are considering.',
+      'Ask for specific, concrete help from the family member.',
+    ],
+    tips: [
+      'Convey appropriate urgency — you are under time pressure.',
+      'Think through practical options: emergency passport services, rebooking fees, travel insurance.',
+      'Keep the call focused and organized despite the stress of the situation.',
+    ],
+    prepSeconds: 30,
+    speakSeconds: 60,
+  },
+]
+
 export type ReadingQuestion = {
   prompt: string
   options: string[]
