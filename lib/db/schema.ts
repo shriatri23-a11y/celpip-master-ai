@@ -77,6 +77,25 @@ export const scoreAttempt = pgTable('score_attempt', {
   createdAt: timestamp('createdAt').notNull().defaultNow(),
 })
 
+// AI-generated speaking tasks, shared across all users once published.
+export const aiSpeakingTask = pgTable('ai_speaking_task', {
+  id: serial('id').primaryKey(),
+  createdByUserId: text('created_by_user_id').notNull(),
+  taskType: text('task_type').notNull(),       // e.g. "Giving Advice"
+  taskNumber: integer('task_number').notNull(), // 1–8
+  title: text('title').notNull(),
+  prompt: text('prompt').notNull(),
+  requirements: jsonb('requirements').notNull().$type<string[]>(),
+  tips: jsonb('tips').notNull().$type<string[]>(),
+  imageSrc: text('image_src'),
+  imageAlt: text('image_alt'),
+  prepSeconds: integer('prep_seconds').notNull(),
+  speakSeconds: integer('speak_seconds').notNull(),
+  // Community visibility — true once the task is ready to appear for all users
+  published: boolean('published').notNull().default(true),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+})
+
 // Per-user, per-exam progress for each of the four mock-exam sections.
 export const mockSectionProgress = pgTable('mock_section_progress', {
   id: serial('id').primaryKey(),
