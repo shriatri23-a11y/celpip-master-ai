@@ -1,8 +1,9 @@
 "use client"
 
 import { useState, useTransition } from "react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Headphones, Mic, BookOpen, PenLine } from "lucide-react"
+import { Headphones, Mic, BookOpen, PenLine, FileSearch } from "lucide-react"
 import { resetSectionProgress } from "@/app/actions/mock-progress"
 import type {
   SectionName,
@@ -114,17 +115,26 @@ export function ExamStatus({
 
             <div className="mt-6 flex justify-end gap-3">
               {p.status === "completed" && (
-                <button
-                  type="button"
-                  disabled={isBusy}
-                  onClick={() => retake(section)}
-                  className={cn(
-                    "rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90",
-                    isBusy && "opacity-60",
-                  )}
-                >
-                  {isBusy ? "Starting…" : "Retake"}
-                </button>
+                <>
+                  <Link
+                    href={`/dashboard/mock-tests/${examId}/review/${section}`}
+                    className="inline-flex items-center gap-2 rounded-full border border-primary px-5 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/5"
+                  >
+                    <FileSearch className="size-4" aria-hidden="true" />
+                    Review
+                  </Link>
+                  <button
+                    type="button"
+                    disabled={isBusy}
+                    onClick={() => retake(section)}
+                    className={cn(
+                      "rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90",
+                      isBusy && "opacity-60",
+                    )}
+                  >
+                    {isBusy ? "Starting…" : "Retake"}
+                  </button>
+                </>
               )}
 
               {p.status === "in_progress" && (

@@ -37,13 +37,17 @@ function collectQuestions(test: MockTest): McqQuestion[] {
 }
 
 function levelFromPercent(pct: number) {
-  if (pct >= 0.92) return { level: 10, label: "Advanced" }
-  if (pct >= 0.83) return { level: 9, label: "Advanced" }
-  if (pct >= 0.74) return { level: 8, label: "Proficient" }
-  if (pct >= 0.65) return { level: 7, label: "Proficient" }
-  if (pct >= 0.55) return { level: 6, label: "Competent" }
-  if (pct >= 0.45) return { level: 5, label: "Competent" }
-  if (pct >= 0.35) return { level: 4, label: "Developing" }
+  // A deliberately strict practice conversion. This is an estimate, not an
+  // official CELPIP score conversion, and reserves CLB 11–12 for near mastery.
+  if (pct >= 0.98) return { level: 12, label: "Advanced" }
+  if (pct >= 0.95) return { level: 11, label: "Advanced" }
+  if (pct >= 0.9) return { level: 10, label: "Advanced" }
+  if (pct >= 0.84) return { level: 9, label: "Advanced" }
+  if (pct >= 0.77) return { level: 8, label: "Proficient" }
+  if (pct >= 0.69) return { level: 7, label: "Proficient" }
+  if (pct >= 0.6) return { level: 6, label: "Competent" }
+  if (pct >= 0.5) return { level: 5, label: "Competent" }
+  if (pct >= 0.4) return { level: 4, label: "Developing" }
   return { level: 3, label: "Developing" }
 }
 

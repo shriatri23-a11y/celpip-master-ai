@@ -38,9 +38,10 @@ export default async function MockTestsPage() {
           Mock Exams
         </h1>
         <p className="mt-1 text-muted-foreground">
-          Take full, timed CELPIP-style practice exams that match the official
-          interface. Each exam has all four sections — take them in any order.
-          Your results are saved to your score history.
+          Take original, timed exam simulations designed for advanced CELPIP
+          preparation. Expect nuanced evidence, close distractors, competing
+          viewpoints, and demanding speaking and writing tasks. Completed
+          sections include a saved, question-by-question review.
         </p>
       </header>
 
@@ -95,6 +96,14 @@ export default async function MockTestsPage() {
                               ? "In progress"
                               : "Not started"}
                         </p>
+                        {status === "completed" && (
+                          <Link
+                            href={`/dashboard/mock-tests/${exam.id}/review/${s.key}`}
+                            className="mt-1 inline-flex text-xs font-semibold text-primary hover:underline"
+                          >
+                            Review results
+                          </Link>
+                        )}
                       </div>
                     </div>
                   )
