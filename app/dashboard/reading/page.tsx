@@ -7,7 +7,6 @@ import {
   CheckCircle2,
   XCircle,
   Sparkles,
-  ChevronDown,
 } from 'lucide-react'
 import { PageHeader } from '@/components/dashboard/page-header'
 import { Button } from '@/components/ui/button'
@@ -126,6 +125,9 @@ export default function ReadingPage() {
               </span>
             </div>
             <p className="mt-1 text-xs text-muted-foreground">{task.instruction}</p>
+            {task.diagram && (
+              <ReadingDiagramView diagram={task.diagram} className="mt-4" />
+            )}
             <div className="mt-4 flex flex-col gap-3 text-sm leading-relaxed text-foreground/80">
               {task.passage.map((para, i) => (
                 <p key={i}>{para}</p>
