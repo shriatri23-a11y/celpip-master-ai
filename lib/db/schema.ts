@@ -96,6 +96,25 @@ export const aiSpeakingTask = pgTable('ai_speaking_task', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
 })
 
+// AI-generated reading practice tests, shared across all users once published.
+export const aiReadingTest = pgTable('ai_reading_test', {
+  id: serial('id').primaryKey(),
+  createdByUserId: text('created_by_user_id').notNull(),
+  createdByName: text('created_by_name'),
+  part: integer('part').notNull(), // 1–4 (CELPIP reading parts)
+  partLabel: text('part_label').notNull(),
+  title: text('title').notNull(),
+  topic: text('topic'),
+  difficulty: text('difficulty').notNull().default('medium'), // "easy" | "medium" | "hard"
+  // Full self-contained reading test payload (passage, questions, answers, explanations)
+  data: jsonb('data').notNull(),
+  questionCount: integer('question_count').notNull().default(0),
+  // Community visibility — true once the test is ready to appear for all users
+  published: boolean('published').notNull().default(true),
+  attempts: integer('attempts').notNull().default(0),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+})
+
 // Per-user, per-exam progress for each of the four mock-exam sections.
 export const mockSectionProgress = pgTable('mock_section_progress', {
   id: serial('id').primaryKey(),
