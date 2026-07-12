@@ -38,10 +38,14 @@ export type ReadingPracticeTest = {
   /** Optional comparison diagram (CELPIP Part 2). */
   diagram?: ReadingDiagram
   questions: ReadingPracticeQuestion[]
-  /** Where the test came from. */
-  source: 'static' | 'ai'
+  /** Where the test came from. Static files omit this; the registry defaults it to 'static'. */
+  source?: 'static' | 'ai'
   /** Display name of the student who generated an AI test. */
   authorName?: string
+  /** DB id for AI tests (used to record attempts). */
+  dbId?: number
+  /** Number of times an AI community test has been attempted. */
+  attempts?: number
 }
 
 export const PART_META: Record<
