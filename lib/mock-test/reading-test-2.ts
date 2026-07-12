@@ -1,7 +1,9 @@
 import type { MockTest, TestStep, ReadingStep } from "./types"
+import type { ReadingDiagram } from "@/lib/reading-diagram"
 
 const HEADER_BASE = "Mock Test 2 - Reading"
 
+// Helper to build a reading split step (optional diagram + passage + questions).
 function reading(
   id: string,
   header: string,
@@ -10,9 +12,10 @@ function reading(
   answerSeconds: number,
   questions: {
     prompt: string
-    options: [string, string, string, string]
+    options: string[]
     correctIndex: number
   }[],
+  diagram?: ReadingDiagram,
 ): ReadingStep {
   return {
     id,
@@ -21,6 +24,7 @@ function reading(
     instruction,
     passage,
     answerSeconds,
+    ...(diagram ? { diagram } : {}),
     questions: questions.map((q, qi) => ({
       id: `${id}-q${qi}`,
       prompt: q.prompt,
@@ -210,116 +214,100 @@ const steps: TestStep[] = [
   reading(
     "reading2-p2",
     `${HEADER_BASE} Part 2: Reading to Apply a Diagram`,
-    "Read the apartment building recycling and waste guide below, then choose the best answer to each question.",
+    "Read the diagram comparing three venues for a company retreat, and the email that refers to it. Then use the drop-down menu to choose the best option for each question.",
     [
-      "HARBORVIEW TOWERS — RESIDENT WASTE SORTING GUIDE",
+      "Subject: Booking our team retreat venue",
+      "To: Diego Alvarez <dalvarez@northwind.ca>",
+      "From: Rachel Petrov <rpetrov@northwind.ca>",
       "",
-      "BLUE BIN — Paper & Cardboard Recycling",
-      "Accepted: newspapers, flyers, cardboard boxes (flattened), paper bags, office paper, egg cartons, cereal boxes (empty).",
-      "Not accepted: paper towels, tissues, paper cups, waxed cardboard, shredded paper (bag separately and leave at front desk for special pickup).",
-      "",
-      "GREEN BIN — Organics",
-      "Accepted: food scraps (cooked and raw), coffee grounds and filters, tea bags, fruit and vegetable peels, soiled paper plates and napkins.",
-      "Not accepted: liquids, cooking oil, pet waste, diapers, or any non-food items.",
-      "",
-      "GREY BIN — Landfill / General Waste",
-      "Use for anything that cannot go in the blue or green bins. This includes broken glass, ceramics, foam packaging, plastic bags, and small electronics (see below).",
-      "",
-      "SPECIAL ITEMS",
-      "• Small electronics (phones, chargers, earbuds): place in the labelled collection box in the mail room. Picked up on the first Monday of each month.",
-      "• Batteries: drop-off box is located in the lobby near the elevator. Accepted at any time.",
-      "• Large furniture and appliances: contact the building manager at least 48 hours in advance to arrange bulk pickup.",
-      "• Hazardous materials (paint, solvents, cleaning chemicals): do NOT place in any bin. Contact the building manager for proper disposal instructions.",
-      "",
-      "GENERAL RULES",
-      "• All bins are located in the waste room on each floor, accessible 24 hours a day.",
-      "• Do not leave bags outside your apartment door. Place waste directly in the appropriate bin.",
-      "• Bins are emptied on Tuesday and Friday mornings. Avoid overfilling bins the night before.",
-      "• Residents who repeatedly sort incorrectly may be subject to a notice from management.",
+      "Hi Diego,",
+      "I've compared the three venues we shortlisted for the two-day team retreat and put them in the diagram on the left.",
+      "Cedar Lodge is the least expensive and has the most outdoor space, but it can only hold 20 people and has no on-site catering, so we'd have to arrange meals ourselves. Harbour Hall is right downtown and includes full catering and Wi-Fi, but it's the priciest and parking is limited. Maple Conference Centre sits in the middle on price, holds the largest group, and includes projectors and breakout rooms, though it's a 40-minute drive out of the city.",
+      "We're expecting about 35 people, and the budget matters, so let me know your thoughts.",
+      "Thanks,",
+      "Rachel",
     ],
-    540,
+    540, // 9 minutes
     [
       {
-        prompt: "Where should a resident put shredded paper?",
-        options: [
-          "In the blue bin on their floor",
-          "In the grey bin",
-          "Bagged separately and left at the front desk for special pickup",
-          "In the organics green bin",
-        ],
+        prompt: "The least expensive venue is",
+        options: ["Cedar Lodge", "Harbour Hall", "Maple Conference Centre", "the venues cost the same"],
+        correctIndex: 0,
+      },
+      {
+        prompt: "The venue that can hold the largest group is",
+        options: ["Cedar Lodge", "Harbour Hall", "Maple Conference Centre", "Cedar Lodge and Harbour Hall"],
         correctIndex: 2,
       },
       {
-        prompt: "A resident has leftover cooking oil. Which bin should they use?",
+        prompt: "A group that needs full on-site catering should choose",
+        options: ["Cedar Lodge", "Harbour Hall", "Maple Conference Centre", "none of the venues"],
+        correctIndex: 1,
+      },
+      {
+        prompt: "The venue located downtown is",
+        options: ["Cedar Lodge", "Harbour Hall", "Maple Conference Centre", "Harbour Hall and Maple"],
+        correctIndex: 1,
+      },
+      {
+        prompt: "The daily rate for Maple Conference Centre is",
+        options: ["$600", "$850", "$1,100", "$400"],
+        correctIndex: 1,
+      },
+      {
+        prompt: "The venue with the most outdoor space is",
+        options: ["Cedar Lodge", "Harbour Hall", "Maple Conference Centre", "all are equal"],
+        correctIndex: 0,
+      },
+      {
+        prompt: "Because the group has about 35 people, Cedar Lodge is",
         options: [
-          "Green bin",
-          "Grey bin",
-          "Blue bin",
-          "There is no bin — contact the building manager",
+          "the best choice for the budget",
+          "too small to hold everyone",
+          "the only option with catering",
+          "the closest to downtown",
         ],
         correctIndex: 1,
       },
       {
-        prompt: "Where should a resident drop off an old mobile phone?",
-        options: [
-          "Grey bin on their floor",
-          "Battery drop-off box in the lobby",
-          "Labelled collection box in the mail room",
-          "Outside their apartment door",
-        ],
+        prompt: "If the team wants to stay within budget while fitting everyone and having meeting facilities, they should choose",
+        options: ["Cedar Lodge", "Harbour Hall", "Maple Conference Centre", "Cedar Lodge or Harbour Hall"],
         correctIndex: 2,
-      },
-      {
-        prompt: "When are batteries accepted for drop-off?",
-        options: [
-          "Only on the first Monday of each month",
-          "Only on Tuesday and Friday mornings",
-          "At any time",
-          "Only during building office hours",
-        ],
-        correctIndex: 2,
-      },
-      {
-        prompt: "What must a resident do if they need to dispose of a large sofa?",
-        options: [
-          "Place it in the waste room and notify management afterward",
-          "Contact the building manager at least 48 hours in advance",
-          "Call the city directly to arrange a pickup",
-          "Leave it in the lobby with a note",
-        ],
-        correctIndex: 1,
-      },
-      {
-        prompt: "Which of the following items belongs in the blue bin?",
-        options: [
-          "Paper coffee cups",
-          "Waxed cardboard",
-          "Soiled paper napkins",
-          "Flattened cereal boxes",
-        ],
-        correctIndex: 3,
-      },
-      {
-        prompt: "What should a resident do with a container of old paint?",
-        options: [
-          "Pour it down the drain and recycle the can in the blue bin",
-          "Put it in the grey bin",
-          "Contact the building manager for proper disposal instructions",
-          "Leave it in the waste room with a label",
-        ],
-        correctIndex: 2,
-      },
-      {
-        prompt: "According to the general rules, what may happen to residents who repeatedly sort incorrectly?",
-        options: [
-          "They may be fined by the city",
-          "They may receive a notice from management",
-          "Their bin access may be restricted",
-          "Their waste may be returned to their unit",
-        ],
-        correctIndex: 1,
       },
     ],
+    {
+      title: "Company Retreat Venue Options",
+      caption: "Two-day booking — compare features, price, and capacity.",
+      rows: [
+        {
+          label: "Cedar Lodge",
+          icon: "home",
+          cells: [
+            { label: "Features", lines: ["Largest outdoor space", "No on-site catering", "Rustic cabins"] },
+            { label: "Price", lines: ["$400 / day"] },
+            { label: "Capacity", lines: ["Up to 20 people"] },
+          ],
+        },
+        {
+          label: "Harbour Hall",
+          icon: "building",
+          cells: [
+            { label: "Features", lines: ["Downtown location", "Full catering + Wi-Fi", "Limited parking"] },
+            { label: "Price", lines: ["$1,100 / day"] },
+            { label: "Capacity", lines: ["Up to 40 people"] },
+          ],
+        },
+        {
+          label: "Maple Conference Centre",
+          icon: "map",
+          cells: [
+            { label: "Features", lines: ["Projectors + breakout rooms", "40-minute drive out", "Free parking"] },
+            { label: "Price", lines: ["$850 / day"] },
+            { label: "Capacity", lines: ["Up to 60 people"] },
+          ],
+        },
+      ],
+    },
   ),
 
   // ---- Part 3: Reading for Information (9 questions / 10 min) ----

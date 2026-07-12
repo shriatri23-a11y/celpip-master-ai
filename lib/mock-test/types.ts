@@ -1,3 +1,5 @@
+import type { ReadingDiagram } from "@/lib/reading-diagram"
+
 export type McqOption = {
   id: string
   text: string
@@ -92,7 +94,12 @@ export type ReadingStep = BaseStep & {
   instruction: string
   /** Passage paragraphs (rendered on the left panel). */
   passage: string[]
-  /** Optional email/correspondence blanks rendered as inline dropdowns. */
+  /**
+   * Optional visual diagram (CELPIP Part 2 "Reading to Apply a Diagram").
+   * When present it is rendered above the passage on the left panel.
+   */
+  diagram?: ReadingDiagram
+  /** Questions rendered on the right panel as CELPIP-style dropdowns. */
   questions: McqQuestion[]
   /** Whole-step timer in seconds (optional). */
   answerSeconds?: number

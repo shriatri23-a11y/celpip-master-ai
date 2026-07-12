@@ -1,8 +1,9 @@
 import type { MockTest, TestStep, ReadingStep } from "./types"
+import type { ReadingDiagram } from "@/lib/reading-diagram"
 
 const HEADER_BASE = "Mock Test - Reading"
 
-// Helper to build a reading split step (passage + MCQs).
+// Helper to build a reading split step (optional diagram + passage + questions).
 function reading(
   id: string,
   header: string,
@@ -11,9 +12,10 @@ function reading(
   answerSeconds: number,
   questions: {
     prompt: string
-    options: [string, string, string, string]
+    options: string[]
     correctIndex: number
   }[],
+  diagram?: ReadingDiagram,
 ): ReadingStep {
   return {
     id,
@@ -22,6 +24,7 @@ function reading(
     instruction,
     passage,
     answerSeconds,
+    ...(diagram ? { diagram } : {}),
     questions: questions.map((q, qi) => ({
       id: `${id}-q${qi}`,
       prompt: q.prompt,
@@ -209,113 +212,100 @@ const steps: TestStep[] = [
   reading(
     "reading-p2",
     `${HEADER_BASE} Part 2: Reading to Apply a Diagram`,
-    "Read the community centre program guide below, then choose the best answer to each question.",
+    "Read the diagram comparing travel options to a conference in Seattle, and the email that refers to it. Then use the drop-down menu to choose the best option for each question.",
     [
-      "WESTSIDE COMMUNITY CENTRE — FALL PROGRAM GUIDE",
+      "Subject: Getting to the Seattle conference",
+      "To: Janice Wong <jwong@ubc.ca>",
+      "From: Peter Kull <pkull@ubc.ca>",
       "",
-      "AQUATICS",
-      "• Adult Lap Swim — Mon / Wed / Fri, 6:00–8:00 a.m. and 7:00–9:00 p.m. Open to ages 16 and up. Lane reservations required.",
-      "• Family Swim — Sat / Sun, 1:00–4:00 p.m. Open to all ages. Children under 8 must be accompanied by an adult.",
-      "• Senior Aquafit — Tue / Thu, 9:00–10:00 a.m. Open to ages 55 and up. Doctor's note required for first session.",
-      "",
-      "FITNESS",
-      "• Fitness Room — Daily, 5:30 a.m.–10:00 p.m. Must be 14 or older. Under-16s need a completed waiver signed by a parent.",
-      "• Yoga (Beginner) — Mon / Wed, 6:30–7:30 p.m. Drop-in rate: $12. Session pass (10 classes): $90.",
-      "• Yoga (Intermediate) — Tue / Thu, 6:30–7:30 p.m. Drop-in rate: $12. Requires completion of Beginner Yoga or instructor approval.",
-      "",
-      "ARTS & CULTURE",
-      "• Ceramics Studio — Tue / Thu / Sat, 10:00 a.m.–12:00 p.m. Open to ages 12 and up. Materials fee: $8 per session.",
-      "• Drawing for Adults — Wed, 7:00–9:00 p.m. Open to ages 18 and up. Bring your own supplies.",
-      "• Children's Art Club — Sat, 9:00–10:30 a.m. Open to ages 6–12. Registration required; limited to 15 participants.",
-      "",
-      "POLICIES",
-      "• All participants must show a valid membership card or pay the daily drop-in fee at the front desk.",
-      "• Program schedules are subject to change. Check the website or call the centre for updates.",
-      "• Registration for limited-space programs closes two weeks before the session start date.",
+      "Hi Janice,",
+      "The presentation file is ready! I've also looked into how we should travel to the conference next week. I've put the three options into the diagram on the left so we can compare them.",
+      "The bus is by far the cheapest, but it only runs in the morning and has no washrooms on board, which is tough for a three-and-a-half-hour trip. The train costs more, but the coastal views are lovely and there's free Wi-Fi, so we could keep working. The plane is the priciest, but it would get us there in barely over an hour and give us the most flexibility.",
+      "Let me know which one you prefer. After all, we've both worked hard on this project!",
+      "Best,",
+      "Peter",
     ],
     540, // 9 minutes
     [
       {
-        prompt: "A 60-year-old who wants a water exercise class should attend:",
-        options: [
-          "Adult Lap Swim on Monday morning",
-          "Family Swim on Saturday afternoon",
-          "Senior Aquafit on Tuesday or Thursday",
-          "Any aquatics program because there is no age limit",
-        ],
-        correctIndex: 2,
-      },
-      {
-        prompt: "What must a 14-year-old do before using the fitness room?",
-        options: [
-          "Attend a mandatory orientation session",
-          "Have a parent sign a waiver",
-          "Provide a doctor's note",
-          "Nothing — the fitness room is open to all ages 14 and up",
-        ],
+        prompt: "The cheapest return ticket is offered by the",
+        options: ["train", "bus", "plane", "options cost the same"],
         correctIndex: 1,
       },
       {
-        prompt: "A person who has never done yoga before should register for:",
-        options: [
-          "Intermediate Yoga on Tuesday evenings",
-          "Beginner Yoga on Monday or Wednesday evenings",
-          "Either yoga class — both are open to beginners",
-          "Beginner Yoga only after getting instructor approval",
-        ],
-        correctIndex: 1,
-      },
-      {
-        prompt: "Which program requires participants to bring their own materials?",
-        options: [
-          "Ceramics Studio",
-          "Children's Art Club",
-          "Drawing for Adults",
-          "Senior Aquafit",
-        ],
+        prompt: "The fastest way to reach Seattle is by",
+        options: ["train", "bus", "plane", "any option (all are equal)"],
         correctIndex: 2,
       },
       {
-        prompt: "A parent wants to enrol their 10-year-old in the Children's Art Club. What must they do?",
-        options: [
-          "Pay the daily drop-in fee on Saturday morning",
-          "Register in advance — spots are limited to 15",
-          "Sign a waiver at the front desk on the first day",
-          "Confirm that the child can swim",
-        ],
-        correctIndex: 1,
-      },
-      {
-        prompt: "Which aquatics program is available seven days a week?",
-        options: [
-          "Adult Lap Swim",
-          "Family Swim",
-          "Senior Aquafit",
-          "None — no aquatics program runs every day",
-        ],
-        correctIndex: 3,
-      },
-      {
-        prompt: "According to the policies, what should participants do if they are unsure whether a program schedule has changed?",
-        options: [
-          "Arrive at the centre and check the bulletin board",
-          "Call the instructor directly",
-          "Check the website or call the centre",
-          "Assume schedules are always the same",
-        ],
-        correctIndex: 2,
-      },
-      {
-        prompt: "A person wants to take Intermediate Yoga but has never done yoga before. What must they do first?",
-        options: [
-          "Complete Beginner Yoga or get instructor approval",
-          "Pay the session pass fee of $90",
-          "Show a valid membership card",
-          "Nothing — no prerequisites are listed",
-        ],
+        prompt: "A traveller who wants free Wi-Fi and scenic coastal views should take the",
+        options: ["train", "bus", "plane", "none of the options"],
         correctIndex: 0,
       },
+      {
+        prompt: "The option that offers only morning departures is the",
+        options: ["train", "bus", "plane", "train and plane"],
+        correctIndex: 1,
+      },
+      {
+        prompt: "The return train ticket costs",
+        options: ["$100", "$260", "$340", "$180"],
+        correctIndex: 1,
+      },
+      {
+        prompt: "The plane journey takes about",
+        options: ["1 hour 10 minutes", "3 hours 30 minutes", "4 hours 25 minutes", "2 hours"],
+        correctIndex: 0,
+      },
+      {
+        prompt: "Compared with the train, the bus is",
+        options: [
+          "more expensive but faster",
+          "cheaper but has no washrooms",
+          "the same price with more comfort",
+          "slower and more expensive",
+        ],
+        correctIndex: 1,
+      },
+      {
+        prompt: "If Peter and Janice must arrive in under two hours, they should choose the",
+        options: ["train", "bus", "plane", "bus or train"],
+        correctIndex: 2,
+      },
     ],
+    {
+      title: "Travel Options to the Seattle Conference",
+      caption: "Return trip from Vancouver — compare features, price, and duration.",
+      rows: [
+        {
+          label: "Train",
+          icon: "train",
+          cells: [
+            { label: "Features", lines: ["First-class option", "Scenic coastal route", "Free Wi-Fi on board"] },
+            { label: "Price", lines: ["$260 return"] },
+            { label: "Duration", lines: ["4 hr 25 min"] },
+          ],
+        },
+        {
+          label: "Bus",
+          icon: "bus",
+          cells: [
+            { label: "Features", lines: ["No checked baggage", "No washrooms, no stops", "Morning trips only"] },
+            { label: "Price", lines: ["$100 return"] },
+            { label: "Duration", lines: ["3 hr 30 min"] },
+          ],
+        },
+        {
+          label: "Plane",
+          icon: "plane",
+          cells: [
+            { label: "Features", lines: ["Carry-on only (fee for bags)", "Frequent daily departures", "Snacks for purchase"] },
+            { label: "Price", lines: ["$340 return"] },
+            { label: "Duration", lines: ["1 hr 10 min"] },
+          ],
+        },
+      ],
+    },
   ),
 
   // ---- Part 3: Reading for Information (9 questions / 10 min) ----
