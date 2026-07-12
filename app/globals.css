@@ -19,6 +19,7 @@
   --color-mt-back: var(--mt-back);
   --color-mt-back-hover: var(--mt-back-hover);
   --color-mt-blue: var(--mt-blue);
+  --color-mt-red: var(--mt-red);
   --color-mt-body: var(--mt-body);
   --color-mt-border: var(--mt-border);
   --color-mt-progress: var(--mt-progress);
@@ -93,6 +94,7 @@
   --mt-back: #9c1c33;
   --mt-back-hover: #83162a;
   --mt-blue: #2166a8;
+  --mt-red: #c0392b;
   --mt-body: #4a4f57;
   --mt-border: #d5d8dd;
   --mt-progress: #22a7f0;

@@ -279,6 +279,7 @@ const steps: TestStep[] = [
       rows: [
         {
           label: "Train",
+          image: "/reading-diagrams/travel-train.png",
           icon: "train",
           cells: [
             { label: "Features", lines: ["First-class option", "Scenic coastal route", "Free Wi-Fi on board"] },
@@ -288,6 +289,7 @@ const steps: TestStep[] = [
         },
         {
           label: "Bus",
+          image: "/reading-diagrams/travel-bus.png",
           icon: "bus",
           cells: [
             { label: "Features", lines: ["No checked baggage", "No washrooms, no stops", "Morning trips only"] },
@@ -297,6 +299,7 @@ const steps: TestStep[] = [
         },
         {
           label: "Plane",
+          image: "/reading-diagrams/travel-plane.png",
           icon: "plane",
           cells: [
             { label: "Features", lines: ["Carry-on only (fee for bags)", "Frequent daily departures", "Snacks for purchase"] },

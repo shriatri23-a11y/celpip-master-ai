@@ -27,10 +27,15 @@ export type ReadingDiagramCell = {
 }
 
 export type ReadingDiagramRow = {
-  /** Row label shown under the icon, e.g. "Train". */
+  /** Row label shown under the picture, e.g. "Train". */
   label: string
-  /** Icon key rendered from lucide-react. */
-  icon: ReadingDiagramIcon
+  /**
+   * Path to a picture shown for this row (matches the official CELPIP layout,
+   * which uses pictures rather than icons). Falls back to `icon` if omitted.
+   */
+  image?: string
+  /** Icon key rendered from lucide-react (fallback when no image is provided). */
+  icon?: ReadingDiagramIcon
   /** Feature cells for this row (rendered as columns). */
   cells: ReadingDiagramCell[]
 }

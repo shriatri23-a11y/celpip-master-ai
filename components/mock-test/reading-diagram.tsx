@@ -57,15 +57,26 @@ export function ReadingDiagramView({
       </div>
       <div className="divide-y divide-mt-border">
         {diagram.rows.map((row, ri) => {
-          const Icon = ICONS[row.icon] ?? Map
+          const Icon = row.icon ? (ICONS[row.icon] ?? Map) : Map
           return (
-            <div key={ri} className="grid grid-cols-[92px_1fr] items-stretch">
-              {/* Icon + label */}
-              <div className="flex flex-col items-center justify-center gap-1.5 border-r border-mt-border bg-mt-panel/50 p-3">
-                <span className="flex size-11 items-center justify-center rounded-full bg-mt-blue/10">
-                  <Icon className="size-6 text-mt-blue" aria-hidden="true" />
-                </span>
-                <span className="text-center text-xs font-semibold text-mt-body">
+            <div key={ri} className="grid grid-cols-[110px_1fr] items-stretch">
+              {/* Picture + label */}
+              <div className="flex flex-col items-center justify-center gap-1.5 border-r border-mt-border bg-mt-panel/50 p-2.5">
+                {row.image ? (
+                  <span className="flex size-20 items-center justify-center overflow-hidden rounded-md border border-mt-border bg-white">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={row.image || "/placeholder.svg"}
+                      alt={row.label}
+                      className="size-full object-contain"
+                    />
+                  </span>
+                ) : (
+                  <span className="flex size-11 items-center justify-center rounded-full bg-mt-blue/10">
+                    <Icon className="size-6 text-mt-blue" aria-hidden="true" />
+                  </span>
+                )}
+                <span className="text-center text-xs font-semibold text-mt-red">
                   {row.label}
                 </span>
               </div>
