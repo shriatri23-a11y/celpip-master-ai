@@ -11,6 +11,18 @@ import { listeningTest3 } from "./listening-test-3"
 import { readingTest3 } from "./reading-test-3"
 import { writingTest3 } from "./writing-test-3"
 import { speakingTest3 } from "./speaking-test-3"
+import { listeningTest4 } from "./listening-test-4"
+import { readingTest4 } from "./reading-test-4"
+import { writingTest4 } from "./writing-test-4"
+import { speakingTest4 } from "./speaking-test-4"
+import { listeningTest5 } from "./listening-test-5"
+import { readingTest5 } from "./reading-test-5"
+import { writingTest5 } from "./writing-test-5"
+import { speakingTest5 } from "./speaking-test-5"
+import { listeningTest6 } from "./listening-test-6"
+import { readingTest6 } from "./reading-test-6"
+import { writingTest6 } from "./writing-test-6"
+import { speakingTest6 } from "./speaking-test-6"
 
 export type SectionKey = "listening" | "reading" | "writing" | "speaking"
 
@@ -58,6 +70,42 @@ export const mockExams: MockExam[] = [
       reading: readingTest3,
       writing: writingTest3,
       speaking: speakingTest3,
+    },
+  },
+  {
+    id: "mock-4",
+    title: "Elite Mock Exam 4 (Very Hard)",
+    description:
+      "A high-difficulty CELPIP simulation pitched at CLB 11–12. Longer, denser listening audio, sophisticated academic reading passages, and multi-layered writing and speaking prompts designed so that a strong test-taker is genuinely challenged.",
+    sections: {
+      listening: listeningTest4,
+      reading: readingTest4,
+      writing: writingTest4,
+      speaking: speakingTest4,
+    },
+  },
+  {
+    id: "mock-5",
+    title: "Elite Mock Exam 5 (Very Hard)",
+    description:
+      "An advanced CELPIP simulation with fast, information-rich listening, abstract argumentative reading, and demanding production tasks. Built to stress-test comprehension, inference, and precision under time pressure.",
+    sections: {
+      listening: listeningTest5,
+      reading: readingTest5,
+      writing: writingTest5,
+      speaking: speakingTest5,
+    },
+  },
+  {
+    id: "mock-6",
+    title: "Elite Mock Exam 6 (Very Hard)",
+    description:
+      "The most rigorous exam in the set. Nuanced spoken dialogue with detail traps, complex expository reading with close distractors, and layered writing and speaking prompts requiring structured, high-register responses.",
+    sections: {
+      listening: listeningTest6,
+      reading: readingTest6,
+      writing: writingTest6,
+      speaking: speakingTest6,
     },
   },
 ]
