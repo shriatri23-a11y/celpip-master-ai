@@ -1,4 +1,5 @@
 import type { ReadingDiagram } from "@/lib/reading-diagram"
+import type { BlueprintCategory } from "./listening-blueprint"
 
 export type McqOption = {
   id: string
@@ -65,6 +66,12 @@ export type AudioStep = BaseStep & {
   audioSrc?: string
   script: AudioLine[]
   transcript?: string
+  /**
+   * Content-blueprint classification (report section 5.2). Present on scored
+   * listening sections so each clip maps to a task category, skill purpose,
+   * and typical duration.
+   */
+  blueprint?: BlueprintCategory
 }
 
 /** Split layout: audio on the left, a single MCQ on the right. */
