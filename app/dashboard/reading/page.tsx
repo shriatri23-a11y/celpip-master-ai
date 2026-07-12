@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from 'react'
 import {
-  BookOpen,
   Clock,
   RotateCcw,
   CheckCircle2,
@@ -19,6 +18,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { readingTasks, readingLevelFromScore, levelDescriptor } from '@/lib/celpip'
+import { ReadingDiagramView } from '@/components/mock-test/reading-diagram'
 import { saveReadingAttempt } from '@/app/actions/score-history'
 import { cn } from '@/lib/utils'
 
@@ -125,6 +125,9 @@ export default function ReadingPage() {
               </span>
             </div>
             <p className="mt-1 text-xs text-muted-foreground">{task.instruction}</p>
+            {task.diagram && (
+              <ReadingDiagramView diagram={task.diagram} className="mt-4" />
+            )}
             <div className="mt-4 flex flex-col gap-3 text-sm leading-relaxed text-foreground/80">
               {task.passage.map((para, i) => (
                 <p key={i}>{para}</p>

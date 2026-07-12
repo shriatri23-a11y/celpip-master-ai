@@ -1,4 +1,18 @@
 import type { MockTest, TestStep } from "./types"
+import type { ReadingDiagram } from "@/lib/reading-diagram"
+
+/** Turn a Part 2 comparison diagram into plain text for the review AI context. */
+function serializeDiagram(diagram: ReadingDiagram): string {
+  const lines: string[] = [diagram.title]
+  if (diagram.caption) lines.push(diagram.caption)
+  for (const row of diagram.rows) {
+    const cells = row.cells
+      .map((c) => `${c.label ? `${c.label}: ` : ""}${c.lines.join(", ")}`)
+      .join(" | ")
+    lines.push(`${row.label} — ${cells}`)
+  }
+  return lines.join("\n")
+}
 
 export type ReviewQuestion = {
   id: string
@@ -89,7 +103,11 @@ export function buildReview(
 
   for (const step of test.steps) {
     if (step.kind === "reading") {
-      addQuestions(step, step.passage.join("\n\n"))
+      const diagramText = step.diagram ? serializeDiagram(step.diagram) : ""
+      const context = [diagramText, step.passage.join("\n\n")]
+        .filter(Boolean)
+        .join("\n\n")
+      addQuestions(step, context)
     } else if (step.kind === "mcq") {
       addQuestions(step, step.passage)
     } else if (step.kind === "audio-mcq") {

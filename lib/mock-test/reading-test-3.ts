@@ -1,7 +1,9 @@
 import type { MockTest, TestStep, ReadingStep } from "./types"
+import type { ReadingDiagram } from "@/lib/reading-diagram"
 
 const HEADER_BASE = "Mock Test 3 - Reading"
 
+// Helper to build a reading split step (optional diagram + passage + questions).
 function reading(
   id: string,
   header: string,
@@ -10,9 +12,10 @@ function reading(
   answerSeconds: number,
   questions: {
     prompt: string
-    options: [string, string, string, string]
+    options: string[]
     correctIndex: number
   }[],
+  diagram?: ReadingDiagram,
 ): ReadingStep {
   return {
     id,
@@ -21,6 +24,7 @@ function reading(
     instruction,
     passage,
     answerSeconds,
+    ...(diagram ? { diagram } : {}),
     questions: questions.map((q, qi) => ({
       id: `${id}-q${qi}`,
       prompt: q.prompt,
@@ -211,114 +215,100 @@ const steps: TestStep[] = [
   reading(
     "reading3-p2",
     `${HEADER_BASE} Part 2: Reading to Apply a Diagram`,
-    "Read the museum floor guide below, then choose the best answer to each question.",
+    "Read the diagram comparing three ways to commute to work, and the email that refers to it. Then use the drop-down menu to choose the best option for each question.",
     [
-      "HARBOURVIEW MUSEUM — VISITOR GUIDE",
+      "Subject: Deciding how to get to the new office",
+      "To: Sam Okafor <sokafor@brightlab.ca>",
+      "From: Nadia Roy <nroy@brightlab.ca>",
       "",
-      "GROUND FLOOR",
-      "• Welcome Desk & Ticketing — Open daily 9:00 a.m.–5:30 p.m. All visitors must purchase or present a valid ticket before proceeding.",
-      "• Gift Shop — Open during museum hours. No ticket required to browse.",
-      "• Discovery Room (ages 3–12) — Hands-on interactive exhibits. Complimentary with museum admission. Adult supervision required at all times.",
-      "• Accessibility Services — Wheelchairs, audio guides, and large-print brochures available at no charge from the Welcome Desk.",
-      "",
-      "SECOND FLOOR",
-      "• Permanent Collection: Canadian Art 1850–Present — Free with admission. Arranged chronologically.",
-      "• Reading Lounge — Quiet seating area. No food or drink permitted. Open to all visitors.",
-      "• Guided Tours of Permanent Collection — Begin at the second-floor information point at 11:00 a.m. and 2:00 p.m. daily. Included with admission. Maximum 15 participants per tour; reserve at Welcome Desk.",
-      "",
-      "THIRD FLOOR",
-      "• Temporary Exhibitions — Subject to change; check website for current exhibitions. Separate admission fee applies unless otherwise noted.",
-      "• Rooftop Café — Open 10:00 a.m.–4:30 p.m. No museum ticket required. Accessible by elevator or stairs.",
-      "",
-      "POLICIES",
-      "• Large bags and backpacks must be left in the coin-operated lockers near the Welcome Desk ($1 deposit, refunded on return).",
-      "• Strollers are permitted on all floors.",
-      "• Photography is permitted in all areas except temporary exhibitions.",
-      "• The museum is closed on Mondays and public holidays.",
+      "Hi Sam,",
+      "Now that we're moving to the downtown office, I've compared three ways to commute and put them in the diagram on the left.",
+      "Cycling is free and the fastest in rush hour, but there's no shelter from rain and you arrive needing to change. The bus is cheap and lets you read or work on the way, but it's the slowest because of frequent stops. Driving is the most comfortable and quickest outside rush hour, but it's by far the most expensive once you add parking, and traffic makes it unpredictable in the morning.",
+      "I care most about keeping costs low and arriving on time, so I'm leaning one way — what do you think?",
+      "Cheers,",
+      "Nadia",
     ],
-    540,
+    540, // 9 minutes
     [
       {
-        prompt: "A visitor with a young child wants to find hands-on activities. They should go to the:",
+        prompt: "The option with no daily cost is",
+        options: ["Cycling", "The bus", "Driving", "all cost the same"],
+        correctIndex: 0,
+      },
+      {
+        prompt: "The fastest way to commute during rush hour is",
+        options: ["Cycling", "The bus", "Driving", "the bus and driving"],
+        correctIndex: 0,
+      },
+      {
+        prompt: "Someone who wants to read or work during the commute should take",
+        options: ["Cycling", "The bus", "Driving", "none of the options"],
+        correctIndex: 1,
+      },
+      {
+        prompt: "The slowest option because of frequent stops is",
+        options: ["Cycling", "The bus", "Driving", "cycling and the bus"],
+        correctIndex: 1,
+      },
+      {
+        prompt: "The daily cost of driving is about",
+        options: ["$0", "$5", "$22", "$12"],
+        correctIndex: 2,
+      },
+      {
+        prompt: "The commute time by bus is about",
+        options: ["15 minutes", "25 minutes", "45 minutes", "1 hour"],
+        correctIndex: 2,
+      },
+      {
+        prompt: "Compared with cycling, driving is",
         options: [
-          "Reading Lounge on the second floor",
-          "Discovery Room on the ground floor",
-          "Temporary Exhibitions on the third floor",
-          "Rooftop Café",
+          "cheaper but slower",
+          "the most comfortable but the most expensive",
+          "free but unsheltered",
+          "the fastest in rush hour",
         ],
         correctIndex: 1,
       },
       {
-        prompt: "Where can a visitor borrow a wheelchair?",
-        options: [
-          "At the Gift Shop",
-          "From a security guard on any floor",
-          "At Accessibility Services near the Welcome Desk",
-          "From the second-floor information point",
-        ],
-        correctIndex: 2,
-      },
-      {
-        prompt: "What must visitors do before entering the rest of the museum?",
-        options: [
-          "Register their group size at the Discovery Room",
-          "Purchase or present a valid ticket at the Welcome Desk",
-          "Leave all bags in the coin-operated lockers",
-          "Check the website for current exhibition details",
-        ],
-        correctIndex: 1,
-      },
-      {
-        prompt: "A visitor wants to take a guided tour of the permanent collection. What should they do?",
-        options: [
-          "Book online at least one day in advance",
-          "Simply arrive at the second-floor information point at 11:00 a.m. or 2:00 p.m.",
-          "Reserve a spot at the Welcome Desk — maximum 15 participants",
-          "Pay a separate admission fee at the second-floor desk",
-        ],
-        correctIndex: 2,
-      },
-      {
-        prompt: "A visitor without a museum ticket wants to have lunch at the Rooftop Café. They:",
-        options: [
-          "Must purchase a museum ticket to access the third floor",
-          "Can visit the Café without a ticket, accessible by elevator or stairs",
-          "Must reserve a table at the Welcome Desk first",
-          "Can only access the Café after 12:00 p.m.",
-        ],
-        correctIndex: 1,
-      },
-      {
-        prompt: "Where should a visitor leave a large backpack during their visit?",
-        options: [
-          "In the Discovery Room cloakroom",
-          "At the Gift Shop counter",
-          "In the coin-operated lockers near the Welcome Desk",
-          "There is no bag storage — bags must remain with the visitor",
-        ],
-        correctIndex: 2,
-      },
-      {
-        prompt: "In which area of the museum is photography NOT permitted?",
-        options: [
-          "The Permanent Collection on the second floor",
-          "The Reading Lounge",
-          "The Temporary Exhibitions on the third floor",
-          "The Discovery Room",
-        ],
-        correctIndex: 2,
-      },
-      {
-        prompt: "On which days is the museum closed?",
-        options: [
-          "Weekends and public holidays",
-          "Tuesdays and public holidays",
-          "Mondays and public holidays",
-          "Only on public holidays",
-        ],
-        correctIndex: 2,
+        prompt: "Because Nadia wants low cost and reliable arrival times, she should most likely choose",
+        options: ["Cycling", "The bus", "Driving", "Driving or the bus"],
+        correctIndex: 0,
       },
     ],
+    {
+      title: "Ways to Commute to the Downtown Office",
+      caption: "Daily one-way commute — compare features, cost, and time.",
+      rows: [
+        {
+          label: "Cycling",
+          icon: "bike",
+          cells: [
+            { label: "Features", lines: ["Fastest in rush hour", "No shelter from rain", "Arrive needing to change"] },
+            { label: "Cost", lines: ["$0 / day"] },
+            { label: "Time", lines: ["20 min"] },
+          ],
+        },
+        {
+          label: "Bus",
+          icon: "bus",
+          cells: [
+            { label: "Features", lines: ["Can read or work", "Frequent stops", "Slowest option"] },
+            { label: "Cost", lines: ["$5 / day"] },
+            { label: "Time", lines: ["45 min"] },
+          ],
+        },
+        {
+          label: "Driving",
+          icon: "car",
+          cells: [
+            { label: "Features", lines: ["Most comfortable", "Unpredictable in traffic", "Includes parking fee"] },
+            { label: "Cost", lines: ["$22 / day"] },
+            { label: "Time", lines: ["30 min (off-peak)"] },
+          ],
+        },
+      ],
+    },
   ),
 
   // ---- Part 3: Reading for Information (9 questions / 10 min) ----

@@ -1,8 +1,9 @@
 "use client"
 
 import Image from "next/image"
-import { Play } from "lucide-react"
+import { Play, ChevronDown } from "lucide-react"
 import { InfoBadge } from "./test-shell"
+import { ReadingDiagramView } from "./reading-diagram"
 import { AudioPlayer } from "./audio-player"
 import { useTts } from "@/hooks/use-tts"
 import { useEffect, useRef, useState } from "react"
@@ -301,24 +302,16 @@ export function ReadingContent({
   step: ReadingStep
   answers: Record<string, string>
   onSelect: (questionId: string, optionId: string) => void
-  /** The index of the first question in this step relative to the whole test (for "Question X of Y" display). */
+  /** The index of the first question in this step relative to the whole test (for question numbering). */
   globalOffset?: number
 }) {
-  const [qIndex, setQIndex] = useState(0)
   const totalQ = step.questions.length
-  const currentQ = step.questions[qIndex]
   const answeredCount = step.questions.filter((q) => !!answers[q.id]).length
-
-  // Reset to first question when the step changes
-  useEffect(() => {
-    setQIndex(0)
-  }, [step.id])
 
   return (
     <div className="grid min-h-full grid-cols-1 md:grid-cols-2">
-      {/* Left: passage — scrollable */}
+      {/* Left: diagram (optional) + passage — scrollable */}
       <div className="flex flex-col border-mt-border md:border-r">
-        {/* Passage header */}
         <div className="flex items-start gap-3 border-b border-mt-border bg-white px-6 py-4">
           <span className="mt-0.5 shrink-0">
             <InfoBadge variant="bang" />
@@ -327,8 +320,10 @@ export function ReadingContent({
             {step.instruction}
           </p>
         </div>
-        {/* Scrollable passage text */}
         <div className="mt-scroll flex-1 overflow-y-auto px-6 py-6">
+          {step.diagram && (
+            <ReadingDiagramView diagram={step.diagram} className="mb-6" />
+          )}
           <div className="flex flex-col gap-4">
             {step.passage.map((p, i) => (
               <p key={i} className="text-base leading-relaxed text-mt-body">
@@ -339,91 +334,77 @@ export function ReadingContent({
         </div>
       </div>
 
-      {/* Right: one question at a time */}
+      {/* Right: all questions as CELPIP-style dropdowns */}
       <div className="flex flex-col bg-mt-panel">
-        {/* Question header bar */}
         <div className="flex items-center justify-between border-b border-mt-border bg-white px-6 py-3">
-          <span className="text-sm font-semibold text-[#333]">
-            Question {globalOffset + qIndex + 1}
+          <span className="flex items-center gap-2 text-sm font-semibold text-mt-blue">
+            <InfoBadge variant="bang" />
+            Using the drop-down menu, choose the best option for each question.
           </span>
-          <span className="text-xs text-muted-foreground">
+          <span className="hidden shrink-0 text-xs text-muted-foreground sm:inline">
             {answeredCount} of {totalQ} answered
           </span>
         </div>
 
-        {/* Question dots navigation */}
-        <div className="flex flex-wrap items-center gap-1.5 border-b border-mt-border bg-white px-6 py-2.5">
-          {step.questions.map((q, i) => {
-            const isAnswered = !!answers[q.id]
-            const isCurrent = i === qIndex
-            return (
-              <button
-                key={q.id}
-                type="button"
-                onClick={() => setQIndex(i)}
-                title={`Question ${globalOffset + i + 1}`}
-                className={cn(
-                  "flex size-7 items-center justify-center rounded-full text-xs font-semibold transition-colors",
-                  isCurrent
-                    ? "bg-mt-next text-white"
-                    : isAnswered
-                      ? "bg-emerald-500 text-white"
-                      : "border border-mt-border bg-white text-mt-body hover:bg-black/[0.03]",
-                )}
-              >
-                {globalOffset + i + 1}
-              </button>
-            )
-          })}
-        </div>
-
-        {/* Question body — scrollable */}
         <div className="mt-scroll flex-1 overflow-y-auto px-6 py-6">
-          <div className="mb-6 flex items-start gap-3">
-            <span className="mt-0.5 shrink-0">
-              <InfoBadge variant="bang" />
-            </span>
-            <h3 className="text-base font-semibold text-mt-blue">
-              Choose the best answer to the question.
-            </h3>
+          <div className="flex flex-col gap-5">
+            {step.questions.map((q, i) => (
+              <ReadingQuestionRow
+                key={q.id}
+                number={globalOffset + i + 1}
+                question={q}
+                selectedId={answers[q.id]}
+                onSelect={(optId) => onSelect(q.id, optId)}
+              />
+            ))}
           </div>
-          {currentQ.prompt && (
-            <p className="mb-4 text-base font-semibold text-[#222]">
-              {globalOffset + qIndex + 1}. {currentQ.prompt}
-            </p>
-          )}
-          <McqBlock
-            question={currentQ}
-            selectedId={answers[currentQ.id]}
-            onSelect={(optId) => onSelect(currentQ.id, optId)}
-          />
         </div>
+      </div>
+    </div>
+  )
+}
 
-        {/* Prev / Next navigation */}
-        <div className="flex items-center justify-between border-t border-mt-border bg-white px-6 py-3">
-          <button
-            type="button"
-            disabled={qIndex === 0}
-            onClick={() => setQIndex((i) => Math.max(0, i - 1))}
-            className={cn(
-              "rounded-sm border border-mt-border bg-white px-5 py-1.5 text-sm font-semibold text-mt-body transition-colors hover:bg-black/[0.03]",
-              qIndex === 0 && "cursor-not-allowed opacity-40",
-            )}
-          >
-            PREV
-          </button>
-          <button
-            type="button"
-            disabled={qIndex === totalQ - 1}
-            onClick={() => setQIndex((i) => Math.min(totalQ - 1, i + 1))}
-            className={cn(
-              "rounded-sm bg-mt-next px-5 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-mt-next-hover",
-              qIndex === totalQ - 1 && "cursor-not-allowed opacity-40",
-            )}
-          >
-            NEXT QUESTION
-          </button>
-        </div>
+/** A single CELPIP reading question: a numbered statement with a dropdown menu. */
+function ReadingQuestionRow({
+  number,
+  question,
+  selectedId,
+  onSelect,
+}: {
+  number: number
+  question: McqQuestion
+  selectedId?: string
+  onSelect: (optionId: string) => void
+}) {
+  return (
+    <div className="rounded-lg border border-mt-border bg-white p-4">
+      <p className="mb-2.5 text-base leading-snug text-[#222]">
+        <span className="font-semibold text-mt-blue">{number}.</span>{" "}
+        {question.prompt}
+      </p>
+      <div className="relative">
+        <select
+          value={selectedId ?? ""}
+          onChange={(e) => onSelect(e.target.value)}
+          aria-label={`Question ${number}`}
+          className={cn(
+            "w-full appearance-none rounded-sm border border-mt-border bg-white py-2 pl-3 pr-9 text-sm text-mt-body outline-none transition-colors focus:border-mt-blue focus:ring-1 focus:ring-mt-blue",
+            !selectedId && "text-muted-foreground",
+          )}
+        >
+          <option value="" disabled>
+            Select an answer…
+          </option>
+          {question.options.map((opt) => (
+            <option key={opt.id} value={opt.id} className="text-mt-body">
+              {opt.text}
+            </option>
+          ))}
+        </select>
+        <ChevronDown
+          className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-mt-blue"
+          aria-hidden="true"
+        />
       </div>
     </div>
   )
