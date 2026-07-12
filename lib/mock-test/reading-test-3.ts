@@ -282,6 +282,7 @@ const steps: TestStep[] = [
       rows: [
         {
           label: "Cycling",
+          image: "/reading-diagrams/commute-bike.png",
           icon: "bike",
           cells: [
             { label: "Features", lines: ["Fastest in rush hour", "No shelter from rain", "Arrive needing to change"] },
@@ -291,6 +292,7 @@ const steps: TestStep[] = [
         },
         {
           label: "Bus",
+          image: "/reading-diagrams/commute-bus.png",
           icon: "bus",
           cells: [
             { label: "Features", lines: ["Can read or work", "Frequent stops", "Slowest option"] },
@@ -300,6 +302,7 @@ const steps: TestStep[] = [
         },
         {
           label: "Driving",
+          image: "/reading-diagrams/commute-car.png",
           icon: "car",
           cells: [
             { label: "Features", lines: ["Most comfortable", "Unpredictable in traffic", "Includes parking fee"] },

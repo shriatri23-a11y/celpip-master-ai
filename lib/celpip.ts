@@ -1247,7 +1247,7 @@ export const speakingTasks: SpeakingTask[] = [
     speakSeconds: 90,
   },
 
-  // ═══════════════════════════���════════════════════�������═════════════════
+  // ═══════════════════════════�����════════════════════�������═════════════════
   //  TASK 8 — DESCRIBING AN UNUSUAL SITUATION  (10 prompts)
   // ══════════════════════════════════════════════════════════════════
   {
@@ -1606,6 +1606,7 @@ export const readingTasks: ReadingTask[] = [
       rows: [
         {
           label: 'City Explorer',
+          image: '/reading-diagrams/tour-city.png',
           icon: 'building',
           cells: [
             { label: 'Includes', lines: ['Hotel + breakfast', 'Museum passes', 'No transport included'] },
@@ -1615,6 +1616,7 @@ export const readingTasks: ReadingTask[] = [
         },
         {
           label: 'Mountain Escape',
+          image: '/reading-diagrams/tour-mountain.png',
           icon: 'map',
           cells: [
             { label: 'Includes', lines: ['Cabin + all meals', 'Guided hikes', 'Shuttle from station'] },
@@ -1624,6 +1626,7 @@ export const readingTasks: ReadingTask[] = [
         },
         {
           label: 'Coastal Cruise',
+          image: '/reading-diagrams/tour-cruise.png',
           icon: 'ship',
           cells: [
             { label: 'Includes', lines: ['Cabin on board', 'All meals + entertainment', 'Port stops daily'] },

@@ -281,6 +281,7 @@ const steps: TestStep[] = [
       rows: [
         {
           label: "Cedar Lodge",
+          image: "/reading-diagrams/venue-lodge.png",
           icon: "home",
           cells: [
             { label: "Features", lines: ["Largest outdoor space", "No on-site catering", "Rustic cabins"] },
@@ -290,6 +291,7 @@ const steps: TestStep[] = [
         },
         {
           label: "Harbour Hall",
+          image: "/reading-diagrams/venue-hall.png",
           icon: "building",
           cells: [
             { label: "Features", lines: ["Downtown location", "Full catering + Wi-Fi", "Limited parking"] },
@@ -299,6 +301,7 @@ const steps: TestStep[] = [
         },
         {
           label: "Maple Conference Centre",
+          image: "/reading-diagrams/venue-conference.png",
           icon: "map",
           cells: [
             { label: "Features", lines: ["Projectors + breakout rooms", "40-minute drive out", "Free parking"] },
