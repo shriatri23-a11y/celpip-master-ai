@@ -9,8 +9,13 @@ type TtsStatus = "idle" | "playing" | "paused" | "ended"
 // the browser does not fire reliable boundary events.
 function estimateSeconds(lines: AudioLine[]) {
   const words = lines.reduce((n, l) => n + l.text.trim().split(/\s+/).length, 0)
-  return Math.max(3, Math.round(words / 2.6)) // ~2.6 words/sec
+  // ~2.9 words/sec matches the brisker, natural native pace used below (rate 1.12).
+  return Math.max(3, Math.round(words / 2.9))
 }
+
+// Natural North-American test pace. CELPIP recordings are delivered at a normal
+// conversational speed, not the slow default some browsers use.
+const SPEECH_RATE = 1.12
 
 export function useTts(lines: AudioLine[]) {
   const [status, setStatus] = useState<TtsStatus>("idle")
@@ -112,8 +117,7 @@ export function useTts(lines: AudioLine[]) {
 
     lines.forEach((line, i) => {
       const u = new SpeechSynthesisUtterance(line.text)
-      u.rate = 0.98
-      u.pitch = 1
+      u.rate = SPEECH_RATE
       if (voices.length) {
         const key = line.speaker ?? "narrator"
         if (!speakerVoice.has(key)) {
@@ -121,6 +125,12 @@ export function useTts(lines: AudioLine[]) {
           voiceIdx++
         }
         u.voice = speakerVoice.get(key) ?? voices[0]
+        // Give each speaker a slightly distinct pitch so multi-person
+        // conversations are easier to follow.
+        const speakerOrder = Array.from(speakerVoice.keys()).indexOf(key)
+        u.pitch = 1 + (speakerOrder % 2 === 0 ? 0.06 : -0.06)
+      } else {
+        u.pitch = 1
       }
       if (i === lines.length - 1) {
         u.onend = () => {
