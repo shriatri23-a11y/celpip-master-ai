@@ -43,3 +43,34 @@ export function staticCountByPart(): Record<ReadingPart, number> {
     4: staticTestsForPart(4).length,
   }
 }
+
+/** Lightweight, client-serializable summary used by the hub list cards. */
+export type ReadingTestSummary = {
+  id: string
+  part: ReadingPart
+  partLabel: string
+  title: string
+  topic?: string
+  difficulty: ReadingPracticeTest['difficulty']
+  timeMinutes: number
+  questionCount: number
+  source: 'static' | 'ai'
+  authorName?: string
+  attempts?: number
+}
+
+export function toSummary(t: ReadingPracticeTest): ReadingTestSummary {
+  return {
+    id: t.id,
+    part: t.part,
+    partLabel: t.partLabel,
+    title: t.title,
+    topic: t.topic,
+    difficulty: t.difficulty,
+    timeMinutes: t.timeMinutes,
+    questionCount: t.questions.length,
+    source: t.source ?? 'static',
+    authorName: t.authorName,
+    attempts: t.attempts,
+  }
+}
