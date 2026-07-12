@@ -1,4 +1,5 @@
 import type { MockTest, TestStep, AudioLine } from "./types"
+import { LISTENING_BLUEPRINT } from "./listening-blueprint"
 
 const HEADER_BASE = "Mock Test 2 - Listening"
 
@@ -74,7 +75,8 @@ const steps: TestStep[] = [
     kind: "audio",
     headerTitle: `${HEADER_BASE} Part 1: Listening to Problem Solving`,
     instruction:
-      "Listen to the conversation. You will hear it only once. It is about 1 to 1.5 minutes long.",
+      "Listen to the conversation. You will hear it only once. It is about 45 to 90 seconds long.",
+    blueprint: LISTENING_BLUEPRINT.customerService,
     script: [
       { speaker: "Clerk", text: "Hello, Maple Electronics service desk. How can I help?" },
       { speaker: "Customer", text: "Hi, I bought a laptop here three weeks ago and the screen keeps flickering." },
@@ -119,7 +121,8 @@ const steps: TestStep[] = [
     kind: "audio",
     headerTitle: `${HEADER_BASE} Part 2: Listening to a Daily Life Conversation`,
     instruction:
-      "Listen to the conversation. You will hear it only once. It is about 1 to 1.5 minutes long.",
+      "Listen to the conversation. You will hear it only once. It is about 30 to 60 seconds long.",
+    blueprint: LISTENING_BLUEPRINT.dailyConversation,
     script: [
       { speaker: "Ben", text: "Are you coming to the community potluck on Sunday?" },
       { speaker: "Aisha", text: "I'd love to. What should I bring? I'm not a great cook." },
@@ -163,7 +166,8 @@ const steps: TestStep[] = [
     id: "p3-audio",
     kind: "audio",
     headerTitle: `${HEADER_BASE} Part 3: Listening for Information`,
-    instruction: "Listen to the talk. You will hear it only once.",
+    instruction: "Listen to the talk. You will hear it only once. It is about 45 to 60 seconds long.",
+    blueprint: LISTENING_BLUEPRINT.travelAnnouncement,
     script: [
       { speaker: "Guide", text: "Welcome to the Riverside Nature Reserve. Before we start our walk, a few reminders. The main loop trail is four kilometres and takes about ninety minutes at an easy pace. Please stay on marked paths, since some areas are home to nesting birds this season. We provide binoculars at the visitor centre for a small refundable deposit. Photography is welcome, but please do not use flash near the wetlands. Our guided walks leave every hour until four p.m., and the last entry to the reserve is at four thirty." },
     ],
@@ -201,7 +205,8 @@ const steps: TestStep[] = [
     id: "p4-audio",
     kind: "audio",
     headerTitle: `${HEADER_BASE} Part 4: Listening to a News Item`,
-    instruction: "Listen to the news item. You will hear it only once.",
+    instruction: "Listen to the news item. You will hear it only once. It is about 60 to 120 seconds long.",
+    blueprint: LISTENING_BLUEPRINT.newsReport,
     script: [
       { speaker: "Reporter", text: "The city announced today that its downtown library will undergo a major renovation beginning this fall. The six-month project will add a children's learning centre, expand the study areas, and install energy-efficient lighting throughout the building. During construction, library services will move to a temporary location in the community centre on Elm Street. Officials say all borrowed books can still be returned at any branch, and late fees will be suspended until the main branch reopens in the spring." },
     ],

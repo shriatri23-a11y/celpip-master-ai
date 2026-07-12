@@ -132,12 +132,26 @@ export function AudioContent({
 }) {
   return (
     <div className="mx-auto max-w-4xl px-8 py-10">
-      <div className="mb-10 flex items-start gap-3">
+      <div className="mb-6 flex items-start gap-3">
         <span className="mt-0.5">
           <InfoBadge variant="bang" />
         </span>
         <h2 className="text-xl font-semibold text-mt-blue">{step.instruction}</h2>
       </div>
+
+      {step.blueprint && (
+        <div className="mb-8 flex flex-wrap items-center gap-2">
+          <span className="rounded-full bg-mt-blue px-3 py-1 text-xs font-semibold text-white">
+            {step.blueprint.category}
+          </span>
+          <span className="rounded-full border border-mt-border bg-white px-3 py-1 text-xs font-medium text-mt-body">
+            {step.blueprint.purpose}
+          </span>
+          <span className="rounded-full border border-mt-border bg-white px-3 py-1 text-xs font-medium text-mt-body">
+            Typical length: {step.blueprint.duration}
+          </span>
+        </div>
+      )}
 
       <AudioPlayer lines={step.script} src={step.audioSrc} onEnded={onEnded} />
 

@@ -1,4 +1,5 @@
 import type { MockTest, TestStep, AudioLine } from "./types"
+import { LISTENING_BLUEPRINT } from "./listening-blueprint"
 
 const HEADER = "Mock Test - Listening Part 1: Listening to Problem Solving"
 
@@ -90,7 +91,8 @@ const steps: TestStep[] = [
     audioSrc: "/audio/listening-1/p1-audio.mp3",
     headerTitle: HEADER,
     instruction:
-      "Listen to the conversation. You will hear the conversation only once. It is about 1 to 1.5 minutes long.",
+      "Listen to the conversation. You will hear the conversation only once. It is about 45 to 90 seconds long.",
+    blueprint: LISTENING_BLUEPRINT.customerService,
     script: [
       { speaker: "Agent", text: "Central Station customer services. Before we begin, are you reporting property that is missing, or an item you can see but cannot retrieve?" },
       { speaker: "David", text: "The second one, I hope. I stepped off the ten-fifteen from Oakville and noticed my brown leather backpack through the window as the train pulled toward the service yard." },
@@ -145,7 +147,8 @@ const steps: TestStep[] = [
     audioSrc: "/audio/listening-1/p2-audio.mp3",
     headerTitle: "Mock Test - Listening Part 2: Listening to a Daily Life Conversation",
     instruction:
-      "Listen to the conversation. You will hear the conversation only once. It is about 1 to 1.5 minutes long.",
+      "Listen to the conversation. You will hear the conversation only once. It is about 30 to 60 seconds long.",
+    blueprint: LISTENING_BLUEPRINT.dailyConversation,
     script: [
       { speaker: "Maya", text: "Hey Sam, are we still on for the hiking trip on Saturday?" },
       { speaker: "Sam", text: "Definitely. But the forecast says it might rain in the morning, so maybe we start after lunch?" },
@@ -190,7 +193,8 @@ const steps: TestStep[] = [
     audioSrc: "/audio/listening-1/p3-audio.mp3",
     headerTitle: "Mock Test - Listening Part 3: Listening for Information",
     instruction:
-      "Listen to the conversation. You will hear the conversation only once. It is about 1.5 minutes long.",
+      "Listen to the conversation. You will hear the conversation only once. It is about 45 to 90 seconds long.",
+    blueprint: LISTENING_BLUEPRINT.customerService,
     script: [
       { speaker: "Patron", text: "Hi, I'd like to sign up for a library membership. What do I need?" },
       { speaker: "Librarian", text: "Just a piece of photo ID and proof of address, like a utility bill. Membership is free for residents." },
@@ -237,7 +241,8 @@ const steps: TestStep[] = [
     kind: "audio",
     audioSrc: "/audio/listening-1/p4-audio.mp3",
     headerTitle: "Mock Test - Listening Part 4: Listening to a News Item",
-    instruction: "Listen to the news item. You will hear it only once.",
+    instruction: "Listen to the news item. You will hear it only once. It is about 60 to 120 seconds long.",
+    blueprint: LISTENING_BLUEPRINT.newsReport,
     script: [
       { speaker: "Reporter", text: "Starting next month, the city will launch a new curbside composting program for all households. Residents will receive a green bin for food scraps and yard waste, collected every week. The city hopes to reduce landfill waste by forty percent within two years. Bins will be delivered free of charge, and an information booklet will explain what can be composted. Officials say the program will also create about fifty new jobs at the local processing facility." },
     ],
@@ -277,7 +282,8 @@ const steps: TestStep[] = [
     audioSrc: "/audio/listening-1/p5-audio.mp3",
     headerTitle: "Mock Test - Listening Part 5: Listening to a Discussion",
     instruction:
-      "Listen to the discussion. You will hear it only once. It is about 2 minutes long.",
+      "Listen to the discussion. You will hear it only once. It is about 60 to 120 seconds long.",
+    blueprint: LISTENING_BLUEPRINT.workplaceMeeting,
     script: [
       { speaker: "Lena", text: "So the proposal is to move our team to a four-day work week. I think it could really boost morale." },
       { speaker: "Raj", text: "I like the idea, but I worry about client coverage on Fridays. Someone still needs to answer calls." },
@@ -332,7 +338,8 @@ const steps: TestStep[] = [
     audioSrc: "/audio/listening-1/p6-audio.mp3",
     headerTitle: "Mock Test - Listening Part 6: Listening to Viewpoints",
     instruction:
-      "Listen to the passage. You will hear it only once. It presents contrasting perspectives.",
+      "Listen to the passage. You will hear it only once. It presents contrasting perspectives and is about 2 to 4 minutes long.",
+    blueprint: LISTENING_BLUEPRINT.publicTalk,
     script: [
       { speaker: "Speaker", text: "There's ongoing debate about online learning in universities. Supporters argue it increases access: students in remote areas or with jobs can attend lectures anytime, and recorded classes let them review difficult material. Critics, however, point out that online formats can weaken engagement. Without face-to-face contact, some students feel isolated and are more likely to fall behind. There's also concern about unequal internet access, which can disadvantage lower-income students. A middle view suggests a blended model, combining in-person seminars for discussion with online lectures for flexibility, may capture the benefits of both while reducing the drawbacks." },
     ],

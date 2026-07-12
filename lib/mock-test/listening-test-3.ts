@@ -1,4 +1,5 @@
 import type { MockTest, TestStep } from "./types"
+import { LISTENING_BLUEPRINT } from "./listening-blueprint"
 
 const HEADER_BASE = "Mock Test 3 - Listening"
 
@@ -74,7 +75,8 @@ const steps: TestStep[] = [
     kind: "audio",
     headerTitle: `${HEADER_BASE} Part 1: Listening to Problem Solving`,
     instruction:
-      "Listen to the conversation. You will hear it only once. It is about 1 to 1.5 minutes long.",
+      "Listen to the conversation. You will hear it only once. It is about 45 to 90 seconds long.",
+    blueprint: LISTENING_BLUEPRINT.customerService,
     script: [
       { speaker: "Tenant", text: "Hi, I'm calling because the heating in my apartment stopped working last night." },
       { speaker: "Manager", text: "I'm sorry about that. Is it completely off, or just weak?" },
@@ -119,7 +121,8 @@ const steps: TestStep[] = [
     kind: "audio",
     headerTitle: `${HEADER_BASE} Part 2: Listening to a Daily Life Conversation`,
     instruction:
-      "Listen to the conversation. You will hear it only once. It is about 1 to 1.5 minutes long.",
+      "Listen to the conversation. You will hear it only once. It is about 30 to 60 seconds long.",
+    blueprint: LISTENING_BLUEPRINT.dailyConversation,
     script: [
       { speaker: "Leo", text: "Have you decided what to do for your sister's graduation gift?" },
       { speaker: "Mona", text: "Not yet. I was thinking about a nice watch, but they're so expensive." },
@@ -163,7 +166,8 @@ const steps: TestStep[] = [
     id: "p3-audio",
     kind: "audio",
     headerTitle: `${HEADER_BASE} Part 3: Listening for Information`,
-    instruction: "Listen to the talk. You will hear it only once.",
+    instruction: "Listen to the talk. You will hear it only once. It is about 60 to 90 seconds long.",
+    blueprint: LISTENING_BLUEPRINT.publicTalk,
     script: [
       { speaker: "Trainer", text: "Welcome to your first day as volunteers at the food bank. Here's how a typical shift works. First, you'll sign in at the front and put on a name tag and gloves. Most of you will be sorting donations by type and checking expiry dates — anything past its date goes in the red bins. Please do not lift boxes heavier than about ten kilograms on your own; ask a partner for help. Shifts run for three hours with a short break halfway through. At the end, we'd appreciate it if you helped sweep the sorting area before you leave." },
     ],
@@ -201,7 +205,8 @@ const steps: TestStep[] = [
     id: "p4-audio",
     kind: "audio",
     headerTitle: `${HEADER_BASE} Part 4: Listening to a News Item`,
-    instruction: "Listen to the news item. You will hear it only once.",
+    instruction: "Listen to the news item. You will hear it only once. It is about 60 to 120 seconds long.",
+    blueprint: LISTENING_BLUEPRINT.newsReport,
     script: [
       { speaker: "Reporter", text: "A local bakery is making headlines after pledging to donate all of its unsold bread to nearby shelters each night. The owner says the idea began when she noticed how much good food was being thrown away. Since starting the program three months ago, the bakery has donated more than two thousand loaves. Other businesses on the street have taken notice, and two cafes have now joined the effort. The city is considering an award to recognize the bakery's contribution to reducing food waste." },
     ],
