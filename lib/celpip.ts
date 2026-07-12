@@ -1,3 +1,5 @@
+import type { ReadingDiagram } from '@/lib/reading-diagram'
+
 export type WritingTask = {
   id: string
   type: 'Email' | 'Survey'
@@ -1245,7 +1247,7 @@ export const speakingTasks: SpeakingTask[] = [
     speakSeconds: 90,
   },
 
-  // ════════════════════════════════════════════════�����═════════════════
+  // ═══════════════════════════���════════════════════�������═════════════════
   //  TASK 8 — DESCRIBING AN UNUSUAL SITUATION  (10 prompts)
   // ══════════════════════════════════════════════════════════════════
   {
@@ -1454,6 +1456,8 @@ export type ReadingTask = {
   instruction: string
   passage: string[]
   timeMinutes: number
+  /** Optional visual comparison diagram (CELPIP Part 2). */
+  diagram?: ReadingDiagram
   questions: ReadingQuestion[]
 }
 
@@ -1590,89 +1594,109 @@ export const readingTasks: ReadingTask[] = [
     ],
   },
   {
-    id: 'diagram-volunteer-fair',
+    id: 'diagram-tour-packages',
     type: 'Diagram',
     title: 'Part 2 — Reading to Apply a Diagram',
     instruction:
-      'Read the notice describing the event schedule. Questions 1–5 are about the diagram. Questions 6–8 complete a short reply message.',
+      'Study the diagram comparing three weekend tour packages, then read the email that refers to it. Choose the best option for each question.',
     timeMinutes: 9,
+    diagram: {
+      title: 'Weekend Tour Packages — Rockand Travel',
+      caption: 'Two-night getaway — compare what is included, price, and length.',
+      rows: [
+        {
+          label: 'City Explorer',
+          icon: 'building',
+          cells: [
+            { label: 'Includes', lines: ['Hotel + breakfast', 'Museum passes', 'No transport included'] },
+            { label: 'Price', lines: ['$220 / person'] },
+            { label: 'Length', lines: ['2 days'] },
+          ],
+        },
+        {
+          label: 'Mountain Escape',
+          icon: 'map',
+          cells: [
+            { label: 'Includes', lines: ['Cabin + all meals', 'Guided hikes', 'Shuttle from station'] },
+            { label: 'Price', lines: ['$390 / person'] },
+            { label: 'Length', lines: ['3 days'] },
+          ],
+        },
+        {
+          label: 'Coastal Cruise',
+          icon: 'ship',
+          cells: [
+            { label: 'Includes', lines: ['Cabin on board', 'All meals + entertainment', 'Port stops daily'] },
+            { label: 'Price', lines: ['$520 / person'] },
+            { label: 'Length', lines: ['3 days'] },
+          ],
+        },
+      ],
+    },
     passage: [
-      'COMMUNITY VOLUNTEER FAIR — Saturday, June 14 (Greenfield Hall)',
-      'The fair is organized into four zones. Use the map and schedule below to plan your visit.',
-      'ZONE A — Registration & Info Desk (Main Entrance): Open 9:00 a.m.–3:00 p.m. Pick up your name badge and event map here first.',
-      'ZONE B — Organization Booths (Ground Floor): Open 9:30 a.m.–2:00 p.m. Meet more than 30 local charities. Booths 1–15 focus on environment and animals; Booths 16–30 focus on health and seniors.',
-      'ZONE C — Skills Workshops (Second Floor, Rooms 201–203): Sessions run every hour from 10:00 a.m. Room 201: First Aid basics. Room 202: Fundraising. Room 203: Working with youth. Seating is limited to 25 per session.',
-      'ZONE D — Refreshments & Networking (Garden Patio): Open all day. Free coffee until noon; light lunch served 12:00–1:30 p.m.',
-      'Note: Parking is free in Lot 2 behind the hall. The elevator to the second floor is beside Zone A.',
+      'Subject: Which tour should we book?',
+      'To: Priya Sharma <psharma@mail.com>',
+      'From: Leo Martins <lmartins@mail.com>',
+      '',
+      'Hi Priya,',
+      'I finally compared the three weekend packages and put them in the diagram above. The City Explorer is the cheapest and shortest, but we would have to sort out our own transport and most meals. The Mountain Escape includes every meal and even a shuttle, and it costs less than the cruise. The Coastal Cruise is the most expensive, though everything — meals, a cabin, and entertainment — is included.',
+      'We only have three days off, and I would rather not spend a lot, so let me know what you think.',
+      'Talk soon,',
+      'Leo',
     ],
     questions: [
       {
-        prompt: 'Where should a visitor go first upon arriving?',
+        prompt: 'The cheapest package is',
+        options: ['City Explorer', 'Mountain Escape', 'Coastal Cruise', 'they cost the same'],
+        correctIndex: 0,
+        explanation: 'The City Explorer is listed at $220 per person, the lowest price.',
+      },
+      {
+        prompt: 'The package that includes all meals AND is not the most expensive is',
+        options: ['City Explorer', 'Mountain Escape', 'Coastal Cruise', 'none of them'],
+        correctIndex: 1,
+        explanation: 'Mountain Escape ($390) includes all meals and costs less than the Coastal Cruise ($520).',
+      },
+      {
+        prompt: 'A traveller who wants entertainment included on board should choose',
+        options: ['City Explorer', 'Mountain Escape', 'Coastal Cruise', 'City Explorer or Mountain Escape'],
+        correctIndex: 2,
+        explanation: 'Only the Coastal Cruise lists "all meals + entertainment" on board.',
+      },
+      {
+        prompt: 'The package that does NOT include transport is',
+        options: ['City Explorer', 'Mountain Escape', 'Coastal Cruise', 'all include transport'],
+        correctIndex: 0,
+        explanation: 'The City Explorer says "No transport included."',
+      },
+      {
+        prompt: 'The Coastal Cruise costs',
+        options: ['$220 / person', '$390 / person', '$520 / person', '$450 / person'],
+        correctIndex: 2,
+        explanation: 'The diagram lists the Coastal Cruise at $520 per person.',
+      },
+      {
+        prompt: 'The only 2-day package is the',
+        options: ['City Explorer', 'Mountain Escape', 'Coastal Cruise', 'Mountain Escape and Cruise'],
+        correctIndex: 0,
+        explanation: 'The City Explorer is 2 days; the other two are 3 days.',
+      },
+      {
+        prompt: 'Because Leo wants to keep the cost low but still use all three days, the best fit is the',
+        options: ['City Explorer', 'Mountain Escape', 'Coastal Cruise', 'Coastal Cruise or City Explorer'],
+        correctIndex: 1,
+        explanation: 'Mountain Escape is 3 days and cheaper than the cruise, matching his priorities.',
+      },
+      {
+        prompt: 'Compared with the Mountain Escape, the City Explorer is',
         options: [
-          'Zone A — Registration & Info Desk',
-          'Zone B — Organization Booths',
-          'Zone C — Skills Workshops',
-          'Zone D — Refreshments',
+          'cheaper but shorter, with fewer inclusions',
+          'more expensive but longer',
+          'the same price with more meals',
+          'longer and includes a shuttle',
         ],
         correctIndex: 0,
-        explanation: 'The notice says to "Pick up your name badge and event map here first" at Zone A.',
-      },
-      {
-        prompt: 'A visitor interested in helping animals should visit which booths?',
-        options: ['Booths 1–15', 'Booths 16–30', 'Rooms 201–203', 'Lot 2'],
-        correctIndex: 0,
-        explanation: 'Booths 1–15 "focus on environment and animals."',
-      },
-      {
-        prompt: 'What time does the last skills workshop start if sessions run hourly from 10:00 a.m. and the floor is part of a fair ending at 3:00 p.m.?',
-        options: [
-          'Sessions run every hour beginning at 10:00 a.m.',
-          'Sessions run only in the morning',
-          'Sessions start at 9:00 a.m.',
-          'There are no scheduled sessions',
-        ],
-        correctIndex: 0,
-        explanation: 'Zone C sessions "run every hour from 10:00 a.m."',
-      },
-      {
-        prompt: 'Where is free coffee available, and until when?',
-        options: [
-          'Zone D, until noon',
-          'Zone A, all day',
-          'Zone B, until 2:00 p.m.',
-          'Zone C, after each workshop',
-        ],
-        correctIndex: 0,
-        explanation: 'Zone D offers "Free coffee until noon."',
-      },
-      {
-        prompt: 'How can a visitor reach the second floor?',
-        options: [
-          'By the elevator beside Zone A',
-          'Through the garden patio',
-          'From Lot 2 directly',
-          'Only by the main entrance ramp',
-        ],
-        correctIndex: 0,
-        explanation: 'The note says "The elevator to the second floor is beside Zone A."',
-      },
-      {
-        prompt: 'Reply blank [ 6 ]: I plan to arrive at 9:15 to ___ at the info desk before the booths open.',
-        options: ['register', 'volunteer', 'donate', 'depart'],
-        correctIndex: 0,
-        explanation: 'Zone A is for registration, which opens at 9:00 a.m., before booths open at 9:30.',
-      },
-      {
-        prompt: 'Reply blank [ 7 ]: I want to attend the First Aid session, so I will go to Room ___.',
-        options: ['201', '202', '203', '2'],
-        correctIndex: 0,
-        explanation: 'Room 201 hosts "First Aid basics."',
-      },
-      {
-        prompt: 'Reply blank [ 8 ]: Since seating is limited, I should arrive ___ to get a seat.',
-        options: ['early', 'late', 'tomorrow', 'never'],
-        correctIndex: 0,
-        explanation: 'Seating is "limited to 25 per session," so arriving early is wise.',
+        explanation: 'City Explorer is $220 for 2 days and excludes transport/most meals, unlike the Mountain Escape.',
       },
     ],
   },
