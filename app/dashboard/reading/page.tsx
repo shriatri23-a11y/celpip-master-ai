@@ -2,12 +2,12 @@
 
 import { useMemo, useState } from 'react'
 import {
-  BookOpen,
   Clock,
   RotateCcw,
   CheckCircle2,
   XCircle,
   Sparkles,
+  ChevronDown,
 } from 'lucide-react'
 import { PageHeader } from '@/components/dashboard/page-header'
 import { Button } from '@/components/ui/button'
@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { readingTasks, readingLevelFromScore, levelDescriptor } from '@/lib/celpip'
+import { ReadingDiagramView } from '@/components/mock-test/reading-diagram'
 import { saveReadingAttempt } from '@/app/actions/score-history'
 import { cn } from '@/lib/utils'
 
