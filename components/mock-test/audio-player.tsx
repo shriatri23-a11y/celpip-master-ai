@@ -33,13 +33,22 @@ export function AudioPlayer({
   const [elapsed, setElapsed] = useState(0)
   const [duration, setDuration] = useState(0)
 
+  const autoStartedRef = useRef(false)
+
   useEffect(() => {
-    if (!src || !autoPlay) return
+    if (!autoPlay || autoStartedRef.current) return
     const timer = window.setTimeout(() => {
-      audioRef.current?.play().catch(() => setFileState("paused"))
+      autoStartedRef.current = true
+      if (src) {
+        audioRef.current?.play().catch(() => setFileState("paused"))
+      } else {
+        // Text-to-speech sections have no <audio> element, so start the
+        // speech synthesis playback directly.
+        tts.play()
+      }
     }, 400)
     return () => window.clearTimeout(timer)
-  }, [src, autoPlay])
+  }, [src, autoPlay, tts])
 
   useEffect(() => {
     const ended = src ? fileState === "ended" : tts.status === "ended"
