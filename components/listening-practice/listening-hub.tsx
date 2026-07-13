@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Headphones, Clock, ListChecks, Layers, ArrowRight } from "lucide-react"
+import { Headphones, Clock, ListChecks, Layers, ArrowRight, ExternalLink } from "lucide-react"
 import { PageHeader } from "@/components/dashboard/page-header"
 import type { ListeningTestSummary } from "@/lib/listening-practice"
 
@@ -24,6 +24,18 @@ export function ListeningHub({ tests }: { tests: ListeningTestSummary[] }) {
               Each test covers all six listening parts — Problem Solving, Daily Life Conversation,
               Information, News Item, Discussion, and Viewpoints. Audio plays once via realistic
               text-to-speech, so take notes as you go.
+            </p>
+            <a
+              href="https://instructionalproducts.paragontesting.ca/InstructionalProducts/FreeOnlineSampleTest/FOST"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex items-center gap-2 rounded-lg border border-primary bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              Practice with the official CELPIP sample test
+              <ExternalLink className="size-4" />
+            </a>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Opens Paragon Testing&apos;s free online sample test in a new tab.
             </p>
           </div>
         </div>
