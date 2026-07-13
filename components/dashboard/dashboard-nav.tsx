@@ -11,6 +11,7 @@ import {
   Headphones,
   History,
   ClipboardList,
+  ExternalLink,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -57,6 +58,17 @@ export function DashboardNav({ onNavigate }: { onNavigate?: () => void }) {
           </Link>
         )
       })}
+
+      <a
+        href="https://instructionalproducts.paragontesting.ca/InstructionalProducts/FreeOnlineSampleTest/FOST"
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={onNavigate}
+        className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+      >
+        <ExternalLink className="size-4" />
+        Official Sample Test
+      </a>
 
       {soonItems.length > 0 && (
         <p className="px-3 pb-2 pt-5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
