@@ -20,7 +20,7 @@ import { gateway, streamText, type LanguageModel } from 'ai'
  *
  * Configure via environment variables (all optional except the first key):
  *   GOOGLE_GENERATIVE_AI_API_KEY            (primary free Gemini key)
- *   GOOGLE_GENERATIVE_AI_API_KEY_2..._4     (extra free Gemini keys, rotated)
+ *   GOOGLE_GENERATIVE_AI_API_KEY_2..._10    (extra free Gemini keys, rotated)
  *   OPENROUTER_API_KEY                      (enables the OpenRouter layer)
  *   OPENROUTER_MODELS                       (comma-separated overrides)
  *   AI_GATEWAY_API_KEY                      (enables the gateway layer)
@@ -47,12 +47,13 @@ function envList(value: string | undefined): string[] {
 }
 
 function googleKeys(): string[] {
-  return [
-    process.env.GOOGLE_GENERATIVE_AI_API_KEY,
-    process.env.GOOGLE_GENERATIVE_AI_API_KEY_2,
-    process.env.GOOGLE_GENERATIVE_AI_API_KEY_3,
-    process.env.GOOGLE_GENERATIVE_AI_API_KEY_4,
-  ].filter((k): k is string => typeof k === 'string' && k.trim().length > 0)
+  const keys: (string | undefined)[] = [process.env.GOOGLE_GENERATIVE_AI_API_KEY]
+  // Support GOOGLE_GENERATIVE_AI_API_KEY_2 through _10. Each key has its own
+  // separate free daily quota, so adding more keys multiplies capacity.
+  for (let i = 2; i <= 10; i++) {
+    keys.push(process.env[`GOOGLE_GENERATIVE_AI_API_KEY_${i}`])
+  }
+  return keys.filter((k): k is string => typeof k === 'string' && k.trim().length > 0)
 }
 
 /**
