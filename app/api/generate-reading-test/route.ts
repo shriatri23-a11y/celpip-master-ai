@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { generateObject } from 'ai'
 import { z } from 'zod'
 import { headers } from 'next/headers'
-import { chatModel } from '@/lib/ai'
+import { withModelFallback } from '@/lib/ai'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { aiReadingTest } from '@/lib/db/schema'
@@ -72,8 +72,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Invalid reading part.' }, { status: 400 })
     }
 
-    const { object } = await generateObject({
-      model: chatModel,
+    const { object } = await withModelFallback((model) => generateObject({
+      model,
       schema: testSchema,
       prompt: `You are an expert CELPIP test writer. Create ONE authentic CELPIP Reading practice test for "Part ${part}: ${meta.label}".
 
@@ -87,7 +87,7 @@ Rules:
 - Make distractors plausible but clearly wrong on close reading.
 - Every explanation must reference specific evidence from the passage.
 - Do not mention that this is AI-generated.`,
-    })
+    }))
 
     const questions = object.questions.map((q) => ({
       prompt: q.prompt,

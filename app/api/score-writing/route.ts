@@ -1,6 +1,6 @@
 import { generateText, Output } from 'ai'
 import { scoreSchema } from '@/lib/scoring-schema'
-import { scoringModel } from '@/lib/ai'
+import { withModelFallback } from '@/lib/ai'
 
 export const maxDuration = 60
 
@@ -19,8 +19,8 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { output } = await generateText({
-      model: scoringModel,
+    const { output } = await withModelFallback((model) => generateText({
+      model,
       output: Output.object({ schema: scoreSchema }),
       system: `You are an experienced, certified CELPIP Writing examiner applying the official CELPIP Writing Performance Standards. You score responses on the official CELPIP scale of 1 to 12, where 9-12 is advanced (well-organized, complex grammar under control, precise vocabulary, only occasional errors that do not impede meaning), 7-8 is good, 5-6 is developing, and below 5 is emerging.
 
@@ -44,7 +44,7 @@ CANDIDATE RESPONSE:
 ${response}
 
 Score this response now.`,
-    })
+    }))
 
     return Response.json(output)
   } catch (err) {
