@@ -19,26 +19,36 @@ export function Logo({
         d="M20 11.3c0 3.9-3.8 7-8.5 7-1 0-2-.12-2.9-.35L4 19.5l1.2-3.35C4.1 14.8 3 13.2 3 11.3c0-3.9 3.8-7 8.5-7s8.5 3.1 8.5 7Z"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
+        strokeWidth="1.8"
         strokeLinejoin="round"
       />
-      {/* Rising trend arrow — progress / improvement */}
-      <path
-        d="M7 13.4 10.2 10.2 12.6 12.4 16.4 8.4"
-        fill="none"
+      {/* Ascending bars — score progress */}
+      <line
+        x1="8.6"
+        y1="14"
+        x2="8.6"
+        y2="11.6"
         className="stroke-emerald-400"
-        strokeWidth="2"
+        strokeWidth="1.9"
         strokeLinecap="round"
-        strokeLinejoin="round"
       />
-      <path
-        d="M13.4 8.4 16.4 8.4 16.4 11.4"
-        fill="none"
+      <line
+        x1="11.5"
+        y1="14"
+        x2="11.5"
+        y2="9.8"
         className="stroke-emerald-400"
-        strokeWidth="2"
+        strokeWidth="1.9"
         strokeLinecap="round"
-        strokeLinejoin="round"
+      />
+      <line
+        x1="14.4"
+        y1="14"
+        x2="14.4"
+        y2="7.8"
+        className="stroke-emerald-400"
+        strokeWidth="1.9"
+        strokeLinecap="round"
       />
     </svg>
   )
@@ -62,7 +72,8 @@ export function Logo({
         {icon}
       </span>
       <span className="font-display text-lg font-bold tracking-tight text-foreground">
-        CELPIP Master<span className="text-primary"> AI</span>
+        CELPIP <span className="text-primary">Master</span>
+        <span className="text-emerald-500"> AI</span>
       </span>
     </span>
   )
