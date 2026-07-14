@@ -31,7 +31,7 @@ export const scoreSchema = z.object({
   suggestedResponse: z
     .string()
     .describe(
-      'A complete, full-length CELPIP Band 11-12 (highest level) model answer written EXCLUSIVELY for this specific task and tailored to this student, in a natural first-person voice they can read and learn from. For writing, produce a full response of the required length (e.g. ~150-200 words) with proper greeting/opening, developed body paragraphs, and a closing where appropriate. For speaking, produce a full spoken-style response that fills the speaking time with a clear opening, developed points with specific examples, and a natural conclusion. Use precise, varied vocabulary and advanced sentence structures characteristic of Band 11-12.',
+      'A complete, full-length CELPIP Band 11-12 (highest level) model answer written EXCLUSIVELY for this specific task and tailored to this student. For WRITING, format it exactly like an official CELPIP sample response: distinct paragraphs SEPARATED BY BLANK LINES (double newlines). Emails need a salutation line, an opening, developed body paragraph(s), a closing, and a sign-off + name; survey/opinion tasks need an intro stating the position, 2-3 developed body paragraphs, and a conclusion. Roughly 150-200 words. For SPEAKING, produce a full spoken-style response that fills the speaking time with a clear opening, developed points with specific examples, and a natural conclusion. Use precise, varied vocabulary and advanced sentence structures characteristic of Band 11-12.',
     ),
   weakPhrases: z
     .array(z.string())

@@ -34,7 +34,13 @@ Be fair but rigorous, like a real examiner. Base the overall level on the four D
 
 Also provide:
 - "weakPhrases": 2-6 short phrases copied VERBATIM from the candidate's response that are weak, awkward, or grammatically incorrect. Each must be an exact substring of their text so it can be highlighted.
-- "suggestedResponse": a complete, full-length CELPIP Band 11-12 (the highest level) model answer written EXCLUSIVELY for THIS task and tailored to this candidate's situation, in a natural first-person voice they can read and improve from. Write the full response at the required length (~150-200 words) with an appropriate greeting/opening, well-developed body paragraphs with specific supporting details, and a proper closing. Use precise, varied, context-specific vocabulary and advanced sentence structures. Do NOT copy the candidate's wording — model what a top-band answer looks like.`,
+- "suggestedResponse": a complete, full-length CELPIP Band 11-12 (the highest level) model answer written EXCLUSIVELY for THIS task and tailored to this candidate's situation, formatted EXACTLY like an official CELPIP sample response. It MUST be written in DISTINCT, SEPARATED PARAGRAPHS — separate every paragraph with a BLANK LINE (a double newline "\\n\\n"). Do NOT return one continuous block of text.
+
+  Follow the official CELPIP structure for the task type:
+  • If it is an EMAIL (Task 1): start with an appropriate salutation on its own line (e.g. "Dear Mr. Smith," or "Hi Sarah,"), then an opening paragraph that states the purpose, then 1-2 body paragraphs that fully develop the required points with specific details, then a short closing paragraph, and finally a sign-off on its own line (e.g. "Sincerely," / "Best regards,") followed by a name on the next line. Each of these is separated by a blank line.
+  • If it is a SURVEY / opinion response (Task 2): start with an introductory paragraph that clearly states the chosen option/position, then 2-3 body paragraphs that each develop one reason with specific supporting examples, and end with a concluding paragraph that restates the position. Separate every paragraph with a blank line.
+
+  Aim for ~150-200 words. Use precise, varied, context-specific vocabulary and advanced sentence structures. Do NOT copy the candidate's wording — model what a top-band answer looks like.`,
       prompt: `TASK TYPE: ${taskType}
 
 TASK PROMPT:
