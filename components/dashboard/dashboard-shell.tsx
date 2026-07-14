@@ -23,7 +23,7 @@ export function DashboardShell({
     <div className="flex min-h-screen bg-background">
       {/* Desktop sidebar */}
       <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-border bg-sidebar p-4 md:flex">
-        <Link href="/" className="px-2 py-1">
+        <Link href="/dashboard" className="px-2 py-1">
           <Logo />
         </Link>
         <div className="mt-8 flex-1">
@@ -69,7 +69,9 @@ export function DashboardShell({
           >
             <Menu className="size-5" />
           </button>
-          <Logo />
+          <Link href="/dashboard">
+            <Logo />
+          </Link>
         </header>
         <main className="flex-1">{children}</main>
       </div>

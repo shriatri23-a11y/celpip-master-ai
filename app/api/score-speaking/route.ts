@@ -42,7 +42,7 @@ Because this is a transcript, do NOT penalize spelling or punctuation. Be fair b
 
 Also provide:
 - "weakPhrases": 2-6 short phrases copied VERBATIM from the transcript that are weak, awkward, repetitive, or unnatural. Each must be an exact substring of the transcript so it can be highlighted.
-- "suggestedResponse": a complete, high-scoring (CELPIP 10-12) model spoken answer to the SAME task, in a natural first-person conversational voice, that the speaker can learn from.`,
+- "suggestedResponse": a complete, full-length CELPIP Band 11-12 (the highest level) model spoken answer written EXCLUSIVELY for THIS task and tailored to this speaker's situation, in a natural first-person conversational voice they can read and improve from. Write a full response that would fill the speaking time, with a clear opening, well-developed points backed by specific examples, and a natural conclusion. Use precise, varied vocabulary and smooth connectors characteristic of a top-band speaker. Do NOT copy the speaker's wording — model what a top-band answer sounds like.`,
       prompt: `CELPIP Speaking task: "${taskTitle}"
 
 PROMPT SHOWN TO TEST TAKER:

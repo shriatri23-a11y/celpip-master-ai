@@ -231,7 +231,7 @@ export function SpeakingScoreReport({
           >
             <p className="flex items-center gap-2 font-display text-sm font-semibold text-card-foreground">
               <Mic2 className="size-4 text-primary" />
-              Model answer (CLB 10–12)
+              Band 11–12 model answer
             </p>
             {showModel ? (
               <ChevronUp className="size-4 text-muted-foreground" />

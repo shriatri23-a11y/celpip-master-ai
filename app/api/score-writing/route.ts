@@ -34,7 +34,7 @@ Be fair but rigorous, like a real examiner. Base the overall level on the four D
 
 Also provide:
 - "weakPhrases": 2-6 short phrases copied VERBATIM from the candidate's response that are weak, awkward, or grammatically incorrect. Each must be an exact substring of their text so it can be highlighted.
-- "suggestedResponse": a complete, high-scoring (CELPIP 10-12) model answer to the SAME task, in a natural first-person voice, that the candidate can learn from.`,
+- "suggestedResponse": a complete, full-length CELPIP Band 11-12 (the highest level) model answer written EXCLUSIVELY for THIS task and tailored to this candidate's situation, in a natural first-person voice they can read and improve from. Write the full response at the required length (~150-200 words) with an appropriate greeting/opening, well-developed body paragraphs with specific supporting details, and a proper closing. Use precise, varied, context-specific vocabulary and advanced sentence structures. Do NOT copy the candidate's wording — model what a top-band answer looks like.`,
       prompt: `TASK TYPE: ${taskType}
 
 TASK PROMPT:
