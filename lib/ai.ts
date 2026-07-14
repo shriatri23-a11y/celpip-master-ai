@@ -47,13 +47,27 @@ function envList(value: string | undefined): string[] {
 }
 
 function googleKeys(): string[] {
-  const keys: (string | undefined)[] = [process.env.GOOGLE_GENERATIVE_AI_API_KEY]
-  // Support GOOGLE_GENERATIVE_AI_API_KEY_2 through _10. Each key has its own
-  // separate free daily quota, so adding more keys multiplies capacity.
-  for (let i = 2; i <= 10; i++) {
-    keys.push(process.env[`GOOGLE_GENERATIVE_AI_API_KEY_${i}`])
+  const keys: string[] = []
+
+  // Preferred: paste ALL keys into ONE variable, separated by commas or newlines.
+  //   GOOGLE_GENERATIVE_AI_API_KEYS = key1,key2,key3,...
+  const bulk = process.env.GOOGLE_GENERATIVE_AI_API_KEYS ?? ''
+  for (const k of bulk.split(/[\n,]/)) {
+    const trimmed = k.trim()
+    if (trimmed) keys.push(trimmed)
   }
-  return keys.filter((k): k is string => typeof k === 'string' && k.trim().length > 0)
+
+  // Also support individual numbered vars (GOOGLE_GENERATIVE_AI_API_KEY, _2 ... _10).
+  const single = process.env.GOOGLE_GENERATIVE_AI_API_KEY
+  if (single && single.trim()) keys.push(single.trim())
+  for (let i = 2; i <= 10; i++) {
+    const v = process.env[`GOOGLE_GENERATIVE_AI_API_KEY_${i}`]
+    if (v && v.trim()) keys.push(v.trim())
+  }
+
+  // De-duplicate. Each unique key has its own free daily quota, so more keys
+  // = more total free capacity before falling back to OpenRouter / AI Gateway.
+  return Array.from(new Set(keys))
 }
 
 /**
