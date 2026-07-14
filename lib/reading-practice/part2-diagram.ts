@@ -970,6 +970,76 @@ export const part2Tests: ReadingPracticeTest[] = [
         explanation:
           'The Online course meets "Sat 10 a.m."',
       },
+      {
+        prompt: 'What time does the Morning course begin?',
+        options: ['9 a.m.', '7 p.m.', '10 a.m.', 'Noon'],
+        correctIndex: 0,
+        explanation: 'The Morning course runs "Mon/Wed 9 a.m."',
+      },
+      {
+        prompt: 'Which course is at the intermediate level?',
+        options: ['Evening', 'Morning', 'Online', 'None'],
+        correctIndex: 0,
+        explanation: 'The Evening course is listed as "Intermediate."',
+      },
+      {
+        prompt: 'Which two courses are for beginners?',
+        options: [
+          'Morning and Online.',
+          'Morning and Evening.',
+          'Evening and Online.',
+          'All three courses.',
+        ],
+        correctIndex: 0,
+        explanation: 'Both the Morning and Online courses are "Beginner" level.',
+      },
+      {
+        prompt: 'Which course uses a live video format?',
+        options: ['Online', 'Morning', 'Evening', 'None'],
+        correctIndex: 0,
+        explanation: 'The Online course’s format is "Live video."',
+      },
+      {
+        prompt: 'On which days does the Evening course meet?',
+        options: ['Tue/Thu', 'Mon/Wed', 'Saturday', 'Mon/Fri'],
+        correctIndex: 0,
+        explanation: 'The Evening course runs "Tue/Thu 7 p.m."',
+      },
+      {
+        prompt: 'Which courses are held in person?',
+        options: [
+          'Morning and Evening.',
+          'Morning and Online.',
+          'Evening and Online.',
+          'All three.',
+        ],
+        correctIndex: 0,
+        explanation: 'Both the Morning and Evening courses list "In person" format.',
+      },
+      {
+        prompt: 'What time does the Evening course start?',
+        options: ['7 p.m.', '9 a.m.', '10 a.m.', '5 p.m.'],
+        correctIndex: 0,
+        explanation: 'The Evening course meets at "7 p.m."',
+      },
+      {
+        prompt: 'Which course meets on weekends?',
+        options: ['Online', 'Morning', 'Evening', 'None'],
+        correctIndex: 0,
+        explanation: 'Only the Online course meets on Saturday.',
+      },
+      {
+        prompt: 'Why does Robin prefer to study from home?',
+        options: [
+          'Robin has no car and the campus is far away.',
+          'Robin dislikes group classes.',
+          'Robin can only study at night.',
+          'Robin already speaks some French.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Robin writes, "I do not have a car and the campus is far away."',
+      },
     ],
   },
   {
@@ -1072,6 +1142,71 @@ export const part2Tests: ReadingPracticeTest[] = [
         explanation:
           'Express is $18 and Economy is $8; the difference is $10.',
       },
+      {
+        prompt: 'How fast is the Economy service?',
+        options: ['5–7 days', '2 days', 'Within the city', 'Overnight'],
+        correctIndex: 0,
+        explanation: 'Economy takes "5–7 days."',
+      },
+      {
+        prompt: 'What is the cheapest service?',
+        options: ['Economy', 'Express', 'Same-Day', 'They cost the same'],
+        correctIndex: 0,
+        explanation: 'Economy is $8, the lowest price listed.',
+      },
+      {
+        prompt: 'How much does the Same-Day service cost?',
+        options: ['$35', '$18', '$8', '$25'],
+        correctIndex: 0,
+        explanation: 'The Same-Day service is $35.',
+      },
+      {
+        prompt: 'Which service uses live GPS tracking?',
+        options: ['Same-Day', 'Express', 'Economy', 'None'],
+        correctIndex: 0,
+        explanation: 'Same-Day includes "Live GPS" tracking.',
+      },
+      {
+        prompt: 'How fast does the Express service deliver?',
+        options: ['2 days', '5–7 days', 'Within the hour', 'Same day'],
+        correctIndex: 0,
+        explanation: 'Express delivers in "2 days."',
+      },
+      {
+        prompt: 'Which service offers only basic tracking?',
+        options: ['Economy', 'Express', 'Same-Day', 'All of them'],
+        correctIndex: 0,
+        explanation: 'Economy’s tracking is listed as "Basic."',
+      },
+      {
+        prompt: 'Which is the most expensive service?',
+        options: ['Same-Day', 'Express', 'Economy', 'They are equal'],
+        correctIndex: 0,
+        explanation: 'Same-Day at $35 is the highest price.',
+      },
+      {
+        prompt: 'What kind of document is Taylor sending?',
+        options: [
+          'A signed legal contract.',
+          'A birthday gift.',
+          'A set of photographs.',
+          'A product sample.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Taylor is sending "an important signed contract," described as "a legal document."',
+      },
+      {
+        prompt: 'Where is Taylor’s client located?',
+        options: [
+          'In another province.',
+          'In the same city.',
+          'In another country.',
+          'In the same building.',
+        ],
+        correctIndex: 0,
+        explanation: 'The client is "in another province."',
+      },
     ],
   },
   {
@@ -1173,6 +1308,65 @@ export const part2Tests: ReadingPracticeTest[] = [
         correctIndex: 0,
         explanation:
           'The Day Pass costs $25 for the day.',
+      },
+      {
+        prompt: 'What is the hourly rate?',
+        options: ['$6/hr', '$25/hr', '$12/hr', '$120/hr'],
+        correctIndex: 0,
+        explanation: 'The Hourly package is "$6/hr."',
+      },
+      {
+        prompt: 'How much does the Weekly package cost?',
+        options: ['$120/week', '$25/week', '$60/week', '$90/week'],
+        correctIndex: 0,
+        explanation: 'The Weekly package is "$120/week."',
+      },
+      {
+        prompt: 'Which package includes repairs?',
+        options: ['Weekly', 'Day Pass', 'Hourly', 'None'],
+        correctIndex: 0,
+        explanation: 'The Weekly package includes "Helmet + lock + repairs."',
+      },
+      {
+        prompt: 'Which package is best for short rides?',
+        options: ['Hourly', 'Day Pass', 'Weekly', 'None'],
+        correctIndex: 0,
+        explanation: 'The Hourly package is "best for short rides."',
+      },
+      {
+        prompt: 'What does every package include?',
+        options: ['A helmet', 'A map', 'Repairs', 'A lock'],
+        correctIndex: 0,
+        explanation: 'All three packages include a helmet.',
+      },
+      {
+        prompt: 'Which package includes a map?',
+        options: ['Day Pass', 'Hourly', 'Weekly', 'All of them'],
+        correctIndex: 0,
+        explanation: 'Only the Day Pass lists "Helmet + lock + map."',
+      },
+      {
+        prompt: 'Which package is best for long visits?',
+        options: ['Weekly', 'Day Pass', 'Hourly', 'None'],
+        correctIndex: 0,
+        explanation: 'The Weekly package is "best for long visits."',
+      },
+      {
+        prompt: 'Which packages include a lock?',
+        options: [
+          'Day Pass and Weekly.',
+          'Hourly and Day Pass.',
+          'Hourly and Weekly.',
+          'All three.',
+        ],
+        correctIndex: 0,
+        explanation: 'Both the Day Pass and Weekly packages include a lock; the Hourly includes only a helmet.',
+      },
+      {
+        prompt: 'How long is Nadia visiting the city?',
+        options: ['One day', 'One week', 'Two days', 'A few hours'],
+        correctIndex: 0,
+        explanation: 'Nadia is "visiting the city for one day."',
       },
     ],
   },
