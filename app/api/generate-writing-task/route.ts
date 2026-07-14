@@ -1,6 +1,6 @@
 import { generateText, Output } from 'ai'
 import { z } from 'zod'
-import { scoringModel } from '@/lib/ai'
+import { withModelFallback } from '@/lib/ai'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { aiWritingTask } from '@/lib/db/schema'
@@ -45,8 +45,8 @@ export async function POST(req: Request) {
     const { taskType } = requestSchema.parse(json)
     const meta = TASK_TYPES[taskType]
 
-    const { output } = await generateText({
-      model: scoringModel,
+    const { output } = await withModelFallback((model) => generateText({
+      model,
       output: Output.object({ schema: generatedTaskSchema }),
       system: `You are a certified CELPIP exam writer with years of experience creating official CELPIP Writing tasks.
 You create authentic, exam-quality prompts that accurately reflect the real CELPIP Writing test format, difficulty, and tone.
@@ -66,7 +66,7 @@ Rules for the "prompt":
 - The whole prompt should be 3–5 sentences and completely original.
 
 Generate only the JSON — no markdown, no commentary.`,
-    })
+    }))
 
     const title = meta.label
 

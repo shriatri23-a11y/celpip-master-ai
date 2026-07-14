@@ -1,6 +1,6 @@
 import { generateText, Output } from 'ai'
 import { z } from 'zod'
-import { scoringModel } from '@/lib/ai'
+import { withModelFallback } from '@/lib/ai'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { aiSpeakingTask } from '@/lib/db/schema'
@@ -43,8 +43,8 @@ export async function POST(req: Request) {
 
     const taskMeta = TASK_TYPES.find((t) => t.number === taskNumber)!
 
-    const { output } = await generateText({
-      model: scoringModel,
+    const { output } = await withModelFallback((model) => generateText({
+      model,
       output: Output.object({ schema: generatedTaskSchema }),
       system: `You are a certified CELPIP exam writer with years of experience creating official CELPIP Speaking tasks. 
 You create authentic, exam-quality tasks that accurately reflect the real CELPIP test format, difficulty, and tone.
@@ -65,7 +65,7 @@ ${taskNumber === 3 || taskNumber === 4
 }
 
 Generate only the JSON — no markdown, no commentary.`,
-    })
+    }))
 
     // Persist to DB so all students can access it
     const [inserted] = await db

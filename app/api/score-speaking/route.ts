@@ -1,7 +1,7 @@
 import { generateText, Output } from 'ai'
 import { z } from 'zod'
 import { scoreSchema } from '@/lib/scoring-schema'
-import { scoringModel } from '@/lib/ai'
+import { withModelFallback } from '@/lib/ai'
 
 export const maxDuration = 60
 
@@ -27,8 +27,8 @@ export async function POST(req: Request) {
 
     const wordCount = transcript.trim().split(/\s+/).filter(Boolean).length
 
-    const { output } = await generateText({
-      model: scoringModel,
+    const { output } = await withModelFallback((model) => generateText({
+      model,
       output: Output.object({ schema: scoreSchema }),
       system: `You are a certified CELPIP Speaking examiner applying the official CELPIP Speaking Performance Standards. You evaluate spoken responses that have been transcribed to text, and you score on the official CELPIP scale of 1 to 12, where 9-12 is advanced, 7-8 is good, 5-6 is developing, and below 5 is emerging.
 
@@ -56,7 +56,7 @@ ${transcript}
 """
 
 Provide a full CELPIP Speaking evaluation now.`,
-    })
+    }))
 
     return Response.json(output)
   } catch (error) {

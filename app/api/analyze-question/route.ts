@@ -1,6 +1,6 @@
 import { generateText } from 'ai'
 import { z } from 'zod'
-import { chatModel } from '@/lib/ai'
+import { withModelFallback } from '@/lib/ai'
 
 export const maxDuration = 30
 
@@ -19,8 +19,8 @@ export async function POST(req: Request) {
     const json = await req.json()
     const input = bodySchema.parse(json)
 
-    const { text } = await generateText({
-      model: chatModel,
+    const { text } = await withModelFallback((model) => generateText({
+      model,
       system: `You are a friendly CELPIP ${input.section} tutor. In 2-3 short sentences, explain why the correct answer is right. If the candidate answered incorrectly, briefly explain the trap or misreading that likely led to their wrong choice, and give one concrete tip. Be encouraging and specific. Do not use markdown, headings, or bullet points — just plain prose.`,
       prompt: `${input.passage ? `PASSAGE / CONTEXT:\n${input.passage}\n\n` : ''}QUESTION: ${input.questionPrompt}
 OPTIONS: ${input.options.join(' | ')}
@@ -29,7 +29,7 @@ CORRECT ANSWER: ${input.correctAnswer}
 RESULT: ${input.isCorrect ? 'correct' : 'incorrect'}
 
 Explain now.`,
-    })
+    }))
 
     return Response.json({ analysis: text.trim() })
   } catch (error) {

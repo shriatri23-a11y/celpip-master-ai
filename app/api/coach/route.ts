@@ -1,11 +1,10 @@
 import {
   convertToModelMessages,
   createUIMessageStreamResponse,
-  streamText,
   toUIMessageStream,
   type UIMessage,
 } from "ai"
-import { chatModel } from "@/lib/ai"
+import { streamTextWithFallback } from "@/lib/ai"
 
 export const maxDuration = 30
 
@@ -26,13 +25,12 @@ Style:
 export async function POST(req: Request) {
   const { messages }: { messages: UIMessage[] } = await req.json()
 
-  const result = streamText({
-    model: chatModel,
+  const stream = await streamTextWithFallback({
     system: SYSTEM,
     messages: await convertToModelMessages(messages),
   })
 
   return createUIMessageStreamResponse({
-    stream: toUIMessageStream({ stream: result.stream }),
+    stream: toUIMessageStream({ stream }),
   })
 }
