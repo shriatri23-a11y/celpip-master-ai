@@ -107,10 +107,19 @@ export function ScoreReport({ result }: { result: ScoreResult }) {
             An AI-written top-band response created for this exact task — read
             it and learn how to lift your own answer.
           </p>
-          <div className="mt-3 rounded-xl border border-primary/15 bg-card p-4">
-            <p className="whitespace-pre-line text-sm leading-relaxed text-foreground">
-              {result.suggestedResponse}
-            </p>
+          <div className="mt-3 space-y-3 rounded-xl border border-primary/15 bg-card p-4">
+            {result.suggestedResponse
+              .split(/\n\s*\n/)
+              .map((para) => para.trim())
+              .filter(Boolean)
+              .map((para, i) => (
+                <p
+                  key={i}
+                  className="whitespace-pre-line text-sm leading-relaxed text-foreground"
+                >
+                  {para}
+                </p>
+              ))}
           </div>
         </div>
       )}
