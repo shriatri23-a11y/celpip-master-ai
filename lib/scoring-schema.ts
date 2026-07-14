@@ -31,7 +31,7 @@ export const scoreSchema = z.object({
   suggestedResponse: z
     .string()
     .describe(
-      'A complete, high-scoring (CELPIP 10-12) model answer to the same task, written in a natural first-person voice the test taker can learn from. 4-8 sentences.',
+      'A complete, full-length CELPIP Band 11-12 (highest level) model answer written EXCLUSIVELY for this specific task and tailored to this student, in a natural first-person voice they can read and learn from. For writing, produce a full response of the required length (e.g. ~150-200 words) with proper greeting/opening, developed body paragraphs, and a closing where appropriate. For speaking, produce a full spoken-style response that fills the speaking time with a clear opening, developed points with specific examples, and a natural conclusion. Use precise, varied vocabulary and advanced sentence structures characteristic of Band 11-12.',
     ),
   weakPhrases: z
     .array(z.string())

@@ -12,14 +12,44 @@ export function Logo({
       viewBox="0 0 24 24"
       className="size-5"
       fill="none"
-      stroke="currentColor"
-      strokeWidth="2.2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
       aria-hidden="true"
     >
-      <path d="M12 3 4 7v5c0 4.5 3.2 7.7 8 9 4.8-1.3 8-4.5 8-9V7l-8-4Z" />
-      <path d="m9 12 2 2 4-4" />
+      {/* Speech bubble — conversation */}
+      <path
+        d="M20 11.3c0 3.9-3.8 7-8.5 7-1 0-2-.12-2.9-.35L4 19.5l1.2-3.35C4.1 14.8 3 13.2 3 11.3c0-3.9 3.8-7 8.5-7s8.5 3.1 8.5 7Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      {/* Ascending bars — score progress */}
+      <line
+        x1="8.6"
+        y1="14"
+        x2="8.6"
+        y2="11.6"
+        className="stroke-emerald-400"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+      />
+      <line
+        x1="11.5"
+        y1="14"
+        x2="11.5"
+        y2="9.8"
+        className="stroke-emerald-400"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+      />
+      <line
+        x1="14.4"
+        y1="14"
+        x2="14.4"
+        y2="7.8"
+        className="stroke-emerald-400"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+      />
     </svg>
   )
 
@@ -42,7 +72,8 @@ export function Logo({
         {icon}
       </span>
       <span className="font-display text-lg font-bold tracking-tight text-foreground">
-        CELPIP Master<span className="text-primary"> AI</span>
+        CELPIP <span className="text-primary">Master</span>
+        <span className="text-emerald-500"> AI</span>
       </span>
     </span>
   )

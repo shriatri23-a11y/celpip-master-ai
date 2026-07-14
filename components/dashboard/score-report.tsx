@@ -1,4 +1,4 @@
-import { Check, TrendingUp, Sparkles, Lightbulb } from 'lucide-react'
+import { Check, TrendingUp, Sparkles, Lightbulb, Award } from 'lucide-react'
 import type { ScoreResult } from '@/lib/scoring-schema'
 import { levelDescriptor } from '@/lib/celpip'
 
@@ -96,6 +96,24 @@ export function ScoreReport({ result }: { result: ScoreResult }) {
           {result.revisedExample}
         </p>
       </div>
+
+      {result.suggestedResponse && (
+        <div className="rounded-2xl border border-primary/20 bg-primary/5 p-5">
+          <p className="flex items-center gap-2 font-display font-semibold text-foreground">
+            <Award className="size-4 text-primary" />
+            Band 11–12 model answer
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            An AI-written top-band response created for this exact task — read
+            it and learn how to lift your own answer.
+          </p>
+          <div className="mt-3 rounded-xl border border-primary/15 bg-card p-4">
+            <p className="whitespace-pre-line text-sm leading-relaxed text-foreground">
+              {result.suggestedResponse}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
