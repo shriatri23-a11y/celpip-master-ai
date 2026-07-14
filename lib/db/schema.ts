@@ -96,6 +96,22 @@ export const aiSpeakingTask = pgTable('ai_speaking_task', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
 })
 
+// AI-generated writing tasks, shared across all users once published.
+export const aiWritingTask = pgTable('ai_writing_task', {
+  id: serial('id').primaryKey(),
+  createdByUserId: text('created_by_user_id').notNull(),
+  createdByName: text('created_by_name'),
+  taskType: text('task_type').notNull(),  // "Email" | "Survey"
+  title: text('title').notNull(),
+  prompt: text('prompt').notNull(),
+  minWords: integer('min_words').notNull().default(150),
+  maxWords: integer('max_words').notNull().default(200),
+  timeMinutes: integer('time_minutes').notNull().default(27),
+  // Community visibility — true once the task is ready to appear for all users
+  published: boolean('published').notNull().default(true),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+})
+
 // AI-generated reading practice tests, shared across all users once published.
 export const aiReadingTest = pgTable('ai_reading_test', {
   id: serial('id').primaryKey(),

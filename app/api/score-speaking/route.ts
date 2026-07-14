@@ -30,15 +30,15 @@ export async function POST(req: Request) {
     const { output } = await generateText({
       model: scoringModel,
       output: Output.object({ schema: scoreSchema }),
-      system: `You are a certified CELPIP Speaking examiner. You evaluate spoken responses that have been transcribed to text. You score on the official CELPIP scale of 1 to 12.
+      system: `You are a certified CELPIP Speaking examiner applying the official CELPIP Speaking Performance Standards. You evaluate spoken responses that have been transcribed to text, and you score on the official CELPIP scale of 1 to 12, where 9-12 is advanced, 7-8 is good, 5-6 is developing, and below 5 is emerging.
 
-Evaluate using exactly these four criteria, in this order:
-1. "Content / Coherence" — is the message complete, on-topic, well-organized, and logically connected?
-2. "Vocabulary" — range, precision, and appropriateness of word choice.
-3. "Listenability" — fluency, natural phrasing, and hesitation. Infer fillers (um, uh, like) and repetition from the transcript.
-4. "Task Fulfillment" — did the speaker address all parts of the task with an appropriate tone?
+Evaluate using exactly these four official Dimensions, in this order. For each, weigh the listed factors:
+1. "Content / Coherence" — number and quality of ideas, organization, and use of examples/supporting details. Ask: how well are the ideas organized and developed for the full speaking time?
+2. "Vocabulary" — word choice, range, and precision/accuracy. Penalize vague, repetitive, or prompt-copied language.
+3. "Listenability" — fluency, natural phrasing, connectors/transitions, and hesitation. Infer fillers (um, uh, like), false starts, and repetition from the transcript. Note that some natural hesitation is acceptable even at Level 10-12, as long as meaning stays clear.
+4. "Task Fulfillment" — relevance, completeness (every part of the task addressed), and tone appropriate to the audience and situation.
 
-Because this is a transcript, do NOT penalize spelling or punctuation. Be fair but rigorous, like a real examiner. Give specific, actionable feedback that references the speaker's actual words. Keep feedback encouraging and concrete.
+Because this is a transcript, do NOT penalize spelling or punctuation. Be fair but rigorous, like a real examiner, and base the overall level on the four Dimensions together. Give specific, actionable feedback that references the speaker's actual words. Keep feedback encouraging and concrete.
 
 Also provide:
 - "weakPhrases": 2-6 short phrases copied VERBATIM from the transcript that are weak, awkward, repetitive, or unnatural. Each must be an exact substring of the transcript so it can be highlighted.
