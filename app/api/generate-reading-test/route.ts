@@ -9,28 +9,30 @@ import { aiReadingTest } from '@/lib/db/schema'
 
 export const maxDuration = 60
 
+const QUESTIONS_PER_TEST = 15
+
 const PART_META: Record<number, { label: string; questions: number; blurb: string }> = {
   1: {
     label: 'Reading Correspondence',
-    questions: 6,
+    questions: QUESTIONS_PER_TEST,
     blurb:
       'A personal or semi-formal message (email or letter). Questions test comprehension of the message, then a short reply email with blanks that must be completed by choosing the best word/phrase from context.',
   },
   2: {
     label: 'Reading to Apply a Diagram',
-    questions: 8,
+    questions: QUESTIONS_PER_TEST,
     blurb:
       'A visual comparison of options (e.g. plans, venues, tours) plus a short email. Readers apply information from the diagram to the email to answer questions and complete a reply.',
   },
   3: {
     label: 'Reading for Information',
-    questions: 9,
+    questions: QUESTIONS_PER_TEST,
     blurb:
       'An informational passage split into labelled paragraphs (A, B, C, D). Questions ask which paragraph contains specific information, with one or more "not given" style distractors.',
   },
   4: {
     label: 'Reading for Viewpoints',
-    questions: 10,
+    questions: QUESTIONS_PER_TEST,
     blurb:
       'A news-style article presenting a topic followed by a reader comment expressing an opinion. Questions test viewpoints, opinions, and completing a summary of the comment.',
   },
@@ -79,6 +81,7 @@ export async function POST(req: Request) {
 
 Format requirements: ${meta.blurb}
 Produce exactly ${meta.questions} multiple-choice questions, each with 4 options and one correct answer.
+The passage MUST be long and detailed enough to fairly support all ${meta.questions} questions — write a substantial passage (for Parts 1 & 2 include the message plus a reply with several blanks to complete; for Parts 3 & 4 write enough paragraphs and detail). Every question must be distinct and answerable from the passage; do not pad with repetitive or trivial items.
 Difficulty: ${difficulty}.
 ${topic ? `Base the passage on this topic/theme: "${topic}".` : 'Choose a realistic everyday Canadian context.'}
 
@@ -100,7 +103,7 @@ Rules:
     // through the exact same frame-accurate runner as static tests.
     const data = {
       instruction: object.questionInstructions || `Read the passage and answer the questions.`,
-      timeMinutes: meta.questions <= 6 ? 11 : meta.questions >= 10 ? 13 : 10,
+      timeMinutes: part === 4 ? 15 : part === 1 ? 13 : 12,
       passage: [object.passageTitle, ...object.passageParagraphs].filter(Boolean),
       questions,
       difficulty,

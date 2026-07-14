@@ -88,6 +88,97 @@ export const part1Tests: ReadingPracticeTest[] = [
         explanation:
           '"Delighted" matches her positive response to his invitation; the other choices express unwillingness or negative feelings.',
       },
+      {
+        prompt: 'How long has it been since Daniel and Priya last spoke?',
+        options: [
+          'Almost three years.',
+          'About six months.',
+          'Just over a year.',
+          'More than ten years.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Daniel notes they "have not spoken since I left Brightway Media almost three years ago."',
+      },
+      {
+        prompt: 'How many people currently work at Daniel’s studio?',
+        options: ['Two.', 'Three.', 'Five.', 'Just Daniel alone.'],
+        correctIndex: 1,
+        explanation:
+          'He writes it is "just me and two others for now," which is three people in total.',
+      },
+      {
+        prompt: 'What does Daniel say about his clients?',
+        options: [
+          'He has not found any clients yet.',
+          'He already has a handful of loyal clients.',
+          'He works only for large corporations.',
+          'He is quickly losing clients.',
+        ],
+        correctIndex: 1,
+        explanation:
+          'He says the studio "already ha[s] a handful of loyal clients."',
+      },
+      {
+        prompt: 'Which word best describes the overall tone of Daniel’s message?',
+        options: [
+          'Formal and distant.',
+          'Warm and friendly.',
+          'Angry and demanding.',
+          'Anxious and fearful.',
+        ],
+        correctIndex: 1,
+        explanation:
+          'The greeting "Hi Priya," the sign-off "Warmly," and the friendly reminiscing create a warm, informal tone.',
+      },
+      {
+        prompt: 'What does Daniel offer as an alternative if Priya is busy?',
+        options: [
+          'A quick phone call.',
+          'A video meeting next month.',
+          'Meeting at her downtown office.',
+          'Writing a long letter instead.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'He says "even a quick phone call would make my week" if her weekend is busy.',
+      },
+      {
+        prompt: 'In the message, "loyal clients" most nearly means clients who are _____.',
+        options: [
+          'dependable and returning',
+          'wealthy and famous',
+          'new and uncertain',
+          'difficult to please',
+        ],
+        correctIndex: 0,
+        explanation:
+          '"Loyal" describes customers who keep coming back — dependable and returning.',
+      },
+      {
+        prompt:
+          'Complete Priya’s reply: "It is wonderful to hear that you finally _____ the studio we used to dream about."',
+        options: ['opened', 'closed', 'sold', 'avoided'],
+        correctIndex: 0,
+        explanation:
+          '"Opened" matches the good news that Daniel has started the studio.',
+      },
+      {
+        prompt:
+          'Complete the reply: "Saturday afternoon works _____ for me, so let us choose a café."',
+        options: ['perfectly', 'poorly', 'rarely', 'barely'],
+        correctIndex: 0,
+        explanation:
+          '"Perfectly" signals the time suits her, matching her willingness to meet.',
+      },
+      {
+        prompt:
+          'Complete the reply: "I would be glad to share whatever _____ I can from my own branding work."',
+        options: ['advice', 'money', 'furniture', 'blame'],
+        correctIndex: 0,
+        explanation:
+          'Daniel asked for her "honest advice," so "advice" fits the reply.',
+      },
     ],
   },
   {
@@ -171,6 +262,96 @@ export const part1Tests: ReadingPracticeTest[] = [
         correctIndex: 0,
         explanation:
           '"Acceptable" signals she agrees to the new date and wants the order to continue.',
+      },
+      {
+        prompt: 'What product did Ms. Okafor order?',
+        options: [
+          'A walnut bookshelf.',
+          'A glass coffee table.',
+          'An oak wardrobe.',
+          'A writing desk.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'The email refers to "your recent order of the walnut bookshelf (Order #48213)."',
+      },
+      {
+        prompt: 'Which shipping method had Ms. Okafor chosen?',
+        options: ['Standard shipping.', 'Express shipping.', 'In-store pickup.', 'Overnight courier.'],
+        correctIndex: 1,
+        explanation:
+          'The email notes the delay is frustrating "especially since you selected express shipping."',
+      },
+      {
+        prompt: 'When is the bookshelf now expected to arrive?',
+        options: [
+          'The 24th of this month.',
+          'The 12th of next month.',
+          'Within 48 hours.',
+          'On the first of the month.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'It "is now expected to arrive on the 24th of this month."',
+      },
+      {
+        prompt: 'How will the customer receive the tracking number?',
+        options: [
+          'By email when the item leaves the warehouse.',
+          'By text message immediately.',
+          'By calling the supplier.',
+          'It is printed on the receipt.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'She "will receive a tracking number by email as soon as it leaves our warehouse."',
+      },
+      {
+        prompt: 'How large is the discount code the company added?',
+        options: ['Five percent.', 'Ten percent.', 'Fifteen percent.', 'Twenty percent.'],
+        correctIndex: 2,
+        explanation:
+          'They "added a fifteen percent discount code to your account."',
+      },
+      {
+        prompt: 'How would you best describe the company’s tone?',
+        options: [
+          'Apologetic and reassuring.',
+          'Cold and dismissive.',
+          'Excited and boastful.',
+          'Confused and uncertain.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'The company apologises, explains the cause, and offers compensation, creating an apologetic, reassuring tone.',
+      },
+      {
+        prompt: 'The phrase "with no questions asked" suggests the refund will be _____.',
+        options: [
+          'given easily without argument',
+          'delayed for several months',
+          'refused in most cases',
+          'only partial',
+        ],
+        correctIndex: 0,
+        explanation:
+          '"With no questions asked" means the company will process the refund readily, without dispute.',
+      },
+      {
+        prompt:
+          'Complete the reply: "I appreciate the fifteen percent _____ for a future order."',
+        options: ['discount', 'delay', 'delivery', 'deposit'],
+        correctIndex: 0,
+        explanation:
+          '"Discount" refers to the fifteen percent code the company provided.',
+      },
+      {
+        prompt:
+          'Complete the reply: "Please send the _____ number as soon as the item ships."',
+        options: ['tracking', 'account', 'phone', 'serial'],
+        correctIndex: 0,
+        explanation:
+          'The company promised a "tracking number," which is what she asks them to send.',
       },
     ],
   },
@@ -256,6 +437,101 @@ export const part1Tests: ReadingPracticeTest[] = [
         explanation:
           '"Help" fits the offer to assist with setup that Grace requested.',
       },
+      {
+        prompt: 'Where does Grace live?',
+        options: [
+          'In the blue house at number 14.',
+          'Across town from Cedar Lane.',
+          'Above the shops on Elm Street.',
+          'In an apartment downtown.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'She introduces herself as living in "the blue house at number 14."',
+      },
+      {
+        prompt: 'When will the street party start?',
+        options: [
+          'At noon on the last Sunday of the month.',
+          'At 6 p.m. on a Friday.',
+          'On the first Monday of the month.',
+          'Early on Saturday morning.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'The party is "on the last Sunday of the month, starting at noon."',
+      },
+      {
+        prompt: 'What will Grace provide herself?',
+        options: [
+          'Tables, chairs, and lemonade.',
+          'A main dish for everyone.',
+          'Live entertainment.',
+          'Party invitations by mail.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Grace says she "will provide tables, chairs, and plenty of lemonade."',
+      },
+      {
+        prompt: 'Besides help with setup, what else is Grace hoping for?',
+        options: [
+          'Someone who can play an instrument for music.',
+          'Donations of money.',
+          'People to clean the street.',
+          'Volunteers to cook her meals.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'She hopes someone "who plays an instrument" might provide some music.',
+      },
+      {
+        prompt: 'What does Grace say about her garage?',
+        options: [
+          'It is surprisingly large.',
+          'It is being repaired.',
+          'It is too small to use.',
+          'It is full of boxes.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'She describes it as "surprisingly large" and suitable as a rain backup.',
+      },
+      {
+        prompt: 'How would you best describe Grace’s message?',
+        options: [
+          'Welcoming and enthusiastic.',
+          'Formal and businesslike.',
+          'Worried and hesitant.',
+          'Impatient and demanding.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Her friendly introduction and eagerness to meet neighbours create a welcoming, enthusiastic tone.',
+      },
+      {
+        prompt: 'In the message, "lend a hand" most nearly means _____.',
+        options: ['to help', 'to lead', 'to pay', 'to leave'],
+        correctIndex: 0,
+        explanation:
+          '"Lend a hand" is an idiom meaning to help with a task.',
+      },
+      {
+        prompt:
+          'Complete the reply: "I would be delighted to _____ a dessert to share on Sunday."',
+        options: ['bring', 'sell', 'hide', 'return'],
+        correctIndex: 0,
+        explanation:
+          'Each family is asked to bring a dish, so "bring" fits the offer.',
+      },
+      {
+        prompt:
+          'Complete the reply: "Count me in to help _____ the tables beforehand."',
+        options: ['set up', 'put away', 'break', 'buy'],
+        correctIndex: 0,
+        explanation:
+          '"Set up" matches Grace’s request for help preparing before the party.',
+      },
     ],
   },
   {
@@ -339,6 +615,96 @@ export const part1Tests: ReadingPracticeTest[] = [
         correctIndex: 0,
         explanation:
           'The fixed expression is "let me know," used to ask for confirmation.',
+      },
+      {
+        prompt: 'How long has Helen rented the apartment?',
+        options: ['Two years.', 'Six months.', 'Ten years.', 'A few weeks.'],
+        correctIndex: 0,
+        explanation:
+          'She has "rented from you for the past two years."',
+      },
+      {
+        prompt: 'Which apartment does Helen live in?',
+        options: ['3B.', '2A.', '5C.', '1D.'],
+        correctIndex: 0,
+        explanation:
+          'She writes about "the heating system in apartment 3B."',
+      },
+      {
+        prompt: 'When did the heating problem begin?',
+        options: [
+          'Over the last week.',
+          'Two years ago.',
+          'The previous winter.',
+          'Just this morning.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'She says that "over the last week, the radiators have stopped producing warmth."',
+      },
+      {
+        prompt: 'Why does Helen want a quick response?',
+        options: [
+          'The forecast predicts colder temperatures ahead.',
+          'She is about to move out.',
+          'Her rent is due soon.',
+          'She is hosting guests tonight.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'She appreciates a quick reply "as the forecast predicts colder temperatures ahead."',
+      },
+      {
+        prompt: 'Who had suggested bleeding the radiators before?',
+        options: [
+          'The landlord, last winter.',
+          'A neighbour in the building.',
+          'A professional technician.',
+          'The apartment’s previous tenant.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'She tried the steps "as you suggested last winter," referring to the landlord.',
+      },
+      {
+        prompt: 'How would you best describe Helen’s letter?',
+        options: [
+          'Polite and practical.',
+          'Rude and threatening.',
+          'Vague and confused.',
+          'Cheerful and casual.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'She reports the issue clearly, notes what she has tried, and requests help courteously.',
+      },
+      {
+        prompt: 'The phrase "professional attention" most nearly means _____.',
+        options: [
+          'repair by a trained expert',
+          'a polite phone call',
+          'a written warning',
+          'a full replacement apartment',
+        ],
+        correctIndex: 0,
+        explanation:
+          '"Professional attention" refers to service from a qualified technician.',
+      },
+      {
+        prompt:
+          'Complete the landlord’s reply: "I will arrange a technician at the _____ opportunity."',
+        options: ['earliest', 'latest', 'rarest', 'cheapest'],
+        correctIndex: 0,
+        explanation:
+          '"Earliest" shows the landlord will respond quickly, matching Helen’s urgency.',
+      },
+      {
+        prompt:
+          'Complete the reply: "The technician will _____ by on Thursday evening after five."',
+        options: ['come', 'refuse', 'forget', 'leave'],
+        correctIndex: 0,
+        explanation:
+          '"Come by" fits arranging a visit during the time Helen is home.',
       },
     ],
   },
@@ -424,6 +790,96 @@ export const part1Tests: ReadingPracticeTest[] = [
         explanation:
           'The idiom "in touch" means to communicate again, which suits the promise to follow up.',
       },
+      {
+        prompt: 'What position did Samuel interview for?',
+        options: [
+          'Project coordinator.',
+          'Finance manager.',
+          'Building architect.',
+          'Volunteer receptionist.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'He thanks her for discussing "the role of project coordinator."',
+      },
+      {
+        prompt: 'When did the interview take place?',
+        options: ['Yesterday.', 'Last month.', 'This morning.', 'A week ago.'],
+        correctIndex: 0,
+        explanation:
+          'He thanks her "for meeting with me yesterday."',
+      },
+      {
+        prompt: 'What project is the team currently working on?',
+        options: [
+          'The riverfront housing development.',
+          'A downtown shopping mall.',
+          'A national advertising campaign.',
+          'A university research study.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'He mentions "the team’s current work on the riverfront housing development."',
+      },
+      {
+        prompt: 'What effect did the conversation have on Samuel?',
+        options: [
+          'It confirmed his interest in the position.',
+          'It made him withdraw his application.',
+          'It changed the role he wanted.',
+          'It made him request a higher salary.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'He writes that the conversation "confirmed my interest in the position."',
+      },
+      {
+        prompt: 'What is Samuel waiting to hear about?',
+        options: [
+          'The next steps in the process.',
+          'His first day of work.',
+          'The salary offer.',
+          'A second interview date he requested.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'He says he "look[s] forward to hearing about the next steps."',
+      },
+      {
+        prompt: 'How would you best describe Samuel’s email?',
+        options: [
+          'Professional and enthusiastic.',
+          'Casual and careless.',
+          'Anxious and apologetic.',
+          'Blunt and demanding.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'He is courteous, appreciative, and expresses genuine interest in the role.',
+      },
+      {
+        prompt: 'The phrase "additional information" most nearly means _____.',
+        options: ['extra details', 'a final decision', 'a longer interview', 'a formal complaint'],
+        correctIndex: 0,
+        explanation:
+          '"Additional information" refers to any extra details the employer might need.',
+      },
+      {
+        prompt:
+          'Complete Ms. Delacroix’s reply: "Thank you for such a _____ follow-up message."',
+        options: ['thoughtful', 'careless', 'rude', 'confusing'],
+        correctIndex: 0,
+        explanation:
+          '"Thoughtful" matches the positive, professional tone of a reply to a good candidate.',
+      },
+      {
+        prompt:
+          'Complete the reply: "We will contact you about the _____ steps by the end of the week."',
+        options: ['next', 'last', 'wrong', 'past'],
+        correctIndex: 0,
+        explanation:
+          'This echoes Samuel’s interest in the "next steps" of the process.',
+      },
     ],
   },
   {
@@ -507,6 +963,96 @@ export const part1Tests: ReadingPracticeTest[] = [
         correctIndex: 0,
         explanation:
           '"Save" matches Renata’s offer to "save you a seat."',
+      },
+      {
+        prompt: 'Where does the book club meet?',
+        options: [
+          'The café on Elm Street.',
+          'The public library.',
+          'Renata’s living room.',
+          'A bookshop downtown.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'They meet "at the café on Elm Street."',
+      },
+      {
+        prompt: 'Where did the members of the group originally meet?',
+        options: ['At the library.', 'At school.', 'At work.', 'At the café.'],
+        correctIndex: 0,
+        explanation:
+          'Renata says "a few of us from the library" started the club.',
+      },
+      {
+        prompt: 'Is there a cost to join the book club?',
+        options: [
+          'No, there is no fee.',
+          'Yes, a monthly membership fee.',
+          'Yes, but only for the first meeting.',
+          'Only the cost of the book.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'She writes, "There is no fee to join."',
+      },
+      {
+        prompt: 'What is Marcus allowed to do?',
+        options: [
+          'Bring a friend.',
+          'Choose next month’s book.',
+          'Host the next meeting.',
+          'Join for free only once.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'She says "you are welcome to bring a friend."',
+      },
+      {
+        prompt: 'How are the discussions described?',
+        options: [
+          'Relaxed rather than academic.',
+          'Strict and graded.',
+          'Formal and lecture-based.',
+          'Silent and written.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'The discussions are "relaxed rather than academic."',
+      },
+      {
+        prompt: 'How would you best describe Renata’s message?',
+        options: [
+          'Friendly and encouraging.',
+          'Strict and formal.',
+          'Uncertain and worried.',
+          'Cold and brief.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'She warmly invites Marcus and reassures him, creating a friendly, encouraging tone.',
+      },
+      {
+        prompt: 'In the message, "recommendations" most nearly means _____.',
+        options: ['suggestions', 'complaints', 'payments', 'rules'],
+        correctIndex: 0,
+        explanation:
+          '"Recommendations" here means suggestions of good books.',
+      },
+      {
+        prompt:
+          'Complete Marcus’s reply: "I have been meaning to read more, so this is _____ timing."',
+        options: ['perfect', 'terrible', 'costly', 'strange'],
+        correctIndex: 0,
+        explanation:
+          '"Perfect" matches his positive, interested response to the invitation.',
+      },
+      {
+        prompt:
+          'Complete the reply: "I will try to _____ a few chapters before Tuesday."',
+        options: ['read', 'burn', 'sell', 'hide'],
+        correctIndex: 0,
+        explanation:
+          '"Read" fits preparing for the book club discussion.',
       },
     ],
   },
@@ -592,6 +1138,96 @@ export const part1Tests: ReadingPracticeTest[] = [
         explanation:
           '"Confirm" fits a request to check his coverage before the visit.',
       },
+      {
+        prompt: 'Who is Mr. Petrov’s appointment with?',
+        options: ['Dr. Nguyen.', 'Dr. Alvarez.', 'Dr. Tran.', 'Dr. Delacroix.'],
+        correctIndex: 0,
+        explanation:
+          'The reminder is for "a cleaning appointment scheduled with Dr. Nguyen."',
+      },
+      {
+        prompt: 'What day and time is the appointment?',
+        options: [
+          'Wednesday the 12th at 10:30 a.m.',
+          'Monday the 12th at 2:00 p.m.',
+          'Wednesday the 20th at 9:00 a.m.',
+          'Friday the 12th at 10:30 a.m.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'It is "on Wednesday, the 12th, at 10:30 in the morning."',
+      },
+      {
+        prompt: 'How early is Mr. Petrov asked to arrive?',
+        options: ['Ten minutes.', 'Five minutes.', 'Half an hour.', 'One hour.'],
+        correctIndex: 0,
+        explanation:
+          'He is asked to "arrive ten minutes early."',
+      },
+      {
+        prompt: 'Who can help Mr. Petrov find a new time?',
+        options: [
+          'The front desk.',
+          'Dr. Nguyen personally.',
+          'His insurance company.',
+          'The clinic’s website only.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'If he needs to reschedule, "our front desk is happy to find a time."',
+      },
+      {
+        prompt: 'What should he do if he has questions about his coverage?',
+        options: [
+          'Call the clinic before the appointment.',
+          'Bring the question to the appointment.',
+          'Email the insurance company.',
+          'Ignore it until billing.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'He is told to "call us before your appointment" with coverage questions.',
+      },
+      {
+        prompt: 'How would you best describe the clinic’s message?',
+        options: [
+          'Polite and informative.',
+          'Angry and impatient.',
+          'Vague and unhelpful.',
+          'Playful and casual.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'It gives clear appointment details and policies in a courteous, professional way.',
+      },
+      {
+        prompt: 'The phrase "at your convenience" most nearly means _____.',
+        options: [
+          'whenever it suits you',
+          'as quickly as possible',
+          'only during office hours',
+          'at no charge',
+        ],
+        correctIndex: 0,
+        explanation:
+          '"At your convenience" means the customer may act whenever it is easiest for them.',
+      },
+      {
+        prompt:
+          'Complete Mr. Petrov’s reply: "I would like to _____ my visit to Thursday if a slot is free."',
+        options: ['reschedule', 'cancel', 'shorten', 'repeat'],
+        correctIndex: 0,
+        explanation:
+          '"Reschedule" matches asking to move the appointment to another day.',
+      },
+      {
+        prompt:
+          'Complete the reply: "I will try the new online _____ system for my next visit."',
+        options: ['booking', 'payment', 'parking', 'menu'],
+        correctIndex: 0,
+        explanation:
+          'The clinic introduced "online booking," so "booking" fits.',
+      },
     ],
   },
   {
@@ -675,6 +1311,96 @@ export const part1Tests: ReadingPracticeTest[] = [
         correctIndex: 0,
         explanation:
           'The expression "cannot wait" shows excited anticipation.',
+      },
+      {
+        prompt: 'What kind of place is Clara staying in?',
+        options: [
+          'A quiet fishing village.',
+          'A busy seaside resort.',
+          'A large capital city.',
+          'A mountain cabin.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'She describes "the little fishing village" as quieter than anywhere she has visited.',
+      },
+      {
+        prompt: 'What do the mornings smell of?',
+        options: [
+          'Salt and fresh bread.',
+          'Coffee and flowers.',
+          'Rain and pine trees.',
+          'Paint and turpentine.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'She writes that "the mornings smell of salt and fresh bread."',
+      },
+      {
+        prompt: 'What does Clara do along the harbour each day?',
+        options: [
+          'She walks and watches the boats come in.',
+          'She sells her paintings.',
+          'She works on her laptop.',
+          'She goes swimming.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Each day she walks "along the harbour" and watches "the boats come in."',
+      },
+      {
+        prompt: 'How much longer will Clara stay?',
+        options: ['Two more weeks.', 'One more day.', 'A month.', 'The whole summer.'],
+        correctIndex: 0,
+        explanation:
+          'She says, "I will be here for two more weeks."',
+      },
+      {
+        prompt: 'Who is Sofia?',
+        options: [
+          'Clara’s landlady.',
+          'Clara’s sister.',
+          'A fellow painter.',
+          'A boat captain.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Sofia is described as "my landlady."',
+      },
+      {
+        prompt: 'How would you best describe the tone of the postcard?',
+        options: [
+          'Happy and relaxed.',
+          'Homesick and sad.',
+          'Bored and restless.',
+          'Formal and distant.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Clara’s delight in the village and her plans to share it create a happy, relaxed tone.',
+      },
+      {
+        prompt: 'In the postcard, "postponing" most nearly means _____.',
+        options: ['delaying', 'enjoying', 'cancelling', 'shortening'],
+        correctIndex: 0,
+        explanation:
+          '"Postponing" means putting something off to a later time, i.e. delaying.',
+      },
+      {
+        prompt:
+          'Complete Amina’s reply: "It sounds like exactly the _____ you needed after working so hard."',
+        options: ['rest', 'argument', 'expense', 'chore'],
+        correctIndex: 0,
+        explanation:
+          '"Rest" matches the restful, restorative holiday Clara describes.',
+      },
+      {
+        prompt:
+          'Complete the reply: "I will happily save room for _____ of that famous stew!"',
+        options: ['seconds', 'nothing', 'change', 'trouble'],
+        correctIndex: 0,
+        explanation:
+          'Clara said "save room for seconds," so "seconds" completes the playful reply.',
       },
     ],
   },
@@ -760,6 +1486,96 @@ export const part1Tests: ReadingPracticeTest[] = [
         explanation:
           '"Review" fits the intention to prepare by reading the agenda.',
       },
+      {
+        prompt: 'From when to when is the check-in moving?',
+        options: [
+          'From Monday morning to Wednesday at 2 p.m.',
+          'From Wednesday to Friday morning.',
+          'From Tuesday afternoon to Monday.',
+          'From the morning to the evening on Monday.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Yuki moves it "from Monday morning to Wednesday at 2 p.m."',
+      },
+      {
+        prompt: 'How long will the meeting last?',
+        options: ['Thirty minutes.', 'One hour.', 'Fifteen minutes.', 'Two hours.'],
+        correctIndex: 0,
+        explanation:
+          'The meeting "will still last thirty minutes."',
+      },
+      {
+        prompt: 'What will Yuki do for anyone who misses the meeting?',
+        options: [
+          'Summarise the key points for them.',
+          'Reschedule it for everyone.',
+          'Mark them as absent.',
+          'Cancel that week’s meeting.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'She promises, "I will summarise the key points for you afterwards."',
+      },
+      {
+        prompt: 'What should someone do if the new time is a serious problem?',
+        options: [
+          'Reach out to Yuki.',
+          'Skip the meeting silently.',
+          'Ask a colleague to decide.',
+          'Wait until the next month.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'She asks people to "reach out if the new time creates a serious conflict."',
+      },
+      {
+        prompt: 'What prompted Yuki to make this change?',
+        options: [
+          'Feedback from the team.',
+          'An order from senior management.',
+          'A booking conflict for the room.',
+          'A new company policy.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'She made the change "after hearing your feedback."',
+      },
+      {
+        prompt: 'How would you best describe Yuki’s tone?',
+        options: [
+          'Considerate and collaborative.',
+          'Strict and unbending.',
+          'Uninterested and vague.',
+          'Boastful and proud.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Yuki responds to feedback, explains the benefit, and thanks the team for flexibility.',
+      },
+      {
+        prompt: 'The phrase "caught off guard" most nearly means _____.',
+        options: ['surprised and unprepared', 'perfectly ready', 'slightly bored', 'very pleased'],
+        correctIndex: 0,
+        explanation:
+          '"Caught off guard" means taken by surprise without time to prepare.',
+      },
+      {
+        prompt:
+          'Complete a team member’s reply: "Wednesday afternoons are far more _____ for me."',
+        options: ['convenient', 'stressful', 'crowded', 'costly'],
+        correctIndex: 0,
+        explanation:
+          '"Convenient" shows the new time suits the team member well.',
+      },
+      {
+        prompt:
+          'Complete the reply: "If I ever miss a session, I will send a written _____."',
+        options: ['update', 'apology', 'invoice', 'complaint'],
+        correctIndex: 0,
+        explanation:
+          'Yuki asked absent members to "send a short written update," so "update" fits.',
+      },
     ],
   },
   {
@@ -843,6 +1659,100 @@ export const part1Tests: ReadingPracticeTest[] = [
         correctIndex: 0,
         explanation:
           'The phrasal verb "pick up" means to collect an item, matching Omar’s plan to come by.',
+      },
+      {
+        prompt: 'When did Omar visit the restaurant?',
+        options: [
+          'Last Friday evening.',
+          'Last Sunday afternoon.',
+          'This morning.',
+          'Two weeks ago.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'He visited "last Friday evening for a birthday dinner."',
+      },
+      {
+        prompt: 'What was the occasion for his visit?',
+        options: [
+          'A birthday dinner.',
+          'A business meeting.',
+          'A wedding reception.',
+          'A retirement party.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'He came "for a birthday dinner."',
+      },
+      {
+        prompt: 'Where does Omar think he left the wallet?',
+        options: [
+          'Under the table near the window.',
+          'At the front counter.',
+          'In the parking lot.',
+          'In the washroom.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'He says it is "most likely under the table near the window."',
+      },
+      {
+        prompt: 'How many people were in Omar’s party?',
+        options: ['Six.', 'Two.', 'Four.', 'Ten.'],
+        correctIndex: 0,
+        explanation:
+          'He mentions "our party of six was seated" near the window.',
+      },
+      {
+        prompt: 'What does the wallet NOT contain?',
+        options: ['Cash.', 'A transit card.', 'A photograph.', 'Leather.'],
+        correctIndex: 0,
+        explanation:
+          'He notes there is "thankfully no cash" in the wallet.',
+      },
+      {
+        prompt: 'How is the wallet described?',
+        options: [
+          'Brown leather.',
+          'Black plastic.',
+          'Red fabric.',
+          'Blue canvas.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'He describes it as "a brown leather wallet."',
+      },
+      {
+        prompt: 'How would you best describe Omar’s tone?',
+        options: [
+          'Polite and hopeful.',
+          'Angry and accusing.',
+          'Cold and formal.',
+          'Careless and joking.',
+        ],
+        correctIndex: 0,
+        explanation:
+          'He writes courteously and expresses hope that staff have found the wallet.',
+      },
+      {
+        prompt: 'The phrase "sentimental value" most nearly means _____.',
+        options: [
+          'emotional importance',
+          'a high price',
+          'legal ownership',
+          'poor condition',
+        ],
+        correctIndex: 0,
+        explanation:
+          '"Sentimental value" means something matters for emotional or personal reasons, not money.',
+      },
+      {
+        prompt:
+          'Complete the manager’s reply: "I am _____ we were able to keep your wallet safe for you."',
+        options: ['glad', 'sorry', 'unsure', 'annoyed'],
+        correctIndex: 0,
+        explanation:
+          '"Glad" fits the positive news that the wallet was found and kept safe.',
       },
     ],
   },
