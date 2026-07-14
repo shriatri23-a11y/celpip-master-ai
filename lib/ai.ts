@@ -29,7 +29,13 @@ import { gateway, streamText, type LanguageModel } from 'ai'
 
 export type ModelCandidate = { label: string; model: LanguageModel }
 
-const GOOGLE_MODELS = ['gemini-flash-latest', 'gemini-flash-lite-latest']
+// NOTE: order matters — the first model is tried first for every key.
+// `gemini-flash-lite-latest` returns in ~3s for large structured outputs,
+// whereas `gemini-flash-latest` enables "thinking" and can take ~40s, which
+// overruns the serverless function limit on the heavier reading-test schema.
+// Lite is fast and produces valid output, so it goes first; the fuller flash
+// model stays as a per-key fallback.
+const GOOGLE_MODELS = ['gemini-flash-lite-latest', 'gemini-flash-latest']
 
 const DEFAULT_OPENROUTER_MODELS = [
   'deepseek/deepseek-chat-v3-0324:free',
@@ -37,7 +43,9 @@ const DEFAULT_OPENROUTER_MODELS = [
   'z-ai/glm-4.5-air:free',
 ]
 
-const DEFAULT_GATEWAY_MODELS = ['google/gemini-2.5-flash', 'deepseek/deepseek-v3.2']
+// `google/gemini-2.5-flash` is no longer available to new users, so it is not
+// listed here. The gateway is only the last-resort layer anyway.
+const DEFAULT_GATEWAY_MODELS = ['deepseek/deepseek-v3.2']
 
 function envList(value: string | undefined): string[] {
   return (value ?? '')
