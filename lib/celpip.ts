@@ -41,6 +41,110 @@ export const writingTasks: WritingTask[] = [
     maxWords: 200,
     timeMinutes: 26,
   },
+
+  // ── Task 1 — Writing an Email (additional prompts) ─────────────────────────
+  {
+    id: 'email-landlord-repair',
+    type: 'Email',
+    title: 'Task 1 — Writing an Email',
+    prompt:
+      'The heating in your apartment has not been working properly for two weeks, and the weather has turned cold. Write an email to your landlord (about 150–200 words). In your email: describe the problem clearly, explain how it is affecting you, and request that the repair be made by a specific date.',
+    minWords: 150,
+    maxWords: 200,
+    timeMinutes: 27,
+  },
+  {
+    id: 'email-friend-invitation',
+    type: 'Email',
+    title: 'Task 1 — Writing an Email',
+    prompt:
+      'A good friend has invited you to their wedding, which takes place on the same weekend you had already planned an important family trip. Write an email to your friend (about 150–200 words). In your email: thank them for the invitation, explain why you cannot attend, and suggest another way you would like to celebrate with them.',
+    minWords: 150,
+    maxWords: 200,
+    timeMinutes: 27,
+  },
+  {
+    id: 'email-store-refund',
+    type: 'Email',
+    title: 'Task 1 — Writing an Email',
+    prompt:
+      'You bought a laptop online, but it arrived with a damaged screen and will not turn on. Write an email to the store\u2019s customer service department (about 150–200 words). In your email: describe the problem with the product, explain what you have already tried, and state clearly what you would like the company to do.',
+    minWords: 150,
+    maxWords: 200,
+    timeMinutes: 27,
+  },
+  {
+    id: 'email-coworker-cover',
+    type: 'Email',
+    title: 'Task 1 — Writing an Email',
+    prompt:
+      'You need to take three days off work next month for a personal matter, and you would like a coworker to cover your responsibilities while you are away. Write an email to that coworker (about 150–200 words). In your email: explain your situation, describe the tasks you need covered, and offer to return the favour.',
+    minWords: 150,
+    maxWords: 200,
+    timeMinutes: 27,
+  },
+  {
+    id: 'email-community-centre',
+    type: 'Email',
+    title: 'Task 1 — Writing an Email',
+    prompt:
+      'Your local community centre is planning to cancel a weekend program that you and your family enjoy. Write an email to the community centre manager (about 150–200 words). In your email: express your concern about the cancellation, explain why the program is valuable, and suggest one way the centre could keep it running.',
+    minWords: 150,
+    maxWords: 200,
+    timeMinutes: 27,
+  },
+
+  // ── Task 2 — Responding to Survey Questions (additional prompts) ────────────
+  {
+    id: 'survey-remote-work',
+    type: 'Survey',
+    title: 'Task 2 — Responding to Survey Questions',
+    prompt:
+      'Your employer is surveying staff about the future work model. Option A: employees work fully from home. Option B: employees work in the office at least three days a week. Choose the option you prefer and explain your choice in about 150–200 words. Give reasons and examples to support your opinion.',
+    minWords: 150,
+    maxWords: 200,
+    timeMinutes: 26,
+  },
+  {
+    id: 'survey-library-funding',
+    type: 'Survey',
+    title: 'Task 2 — Responding to Survey Questions',
+    prompt:
+      'Your town has extra funding for the public library and is asking residents for input. Option A: use the money to add more digital services and e-books. Option B: use the money to renovate and expand the physical building. Choose the option you prefer and explain your choice in about 150–200 words. Give reasons and examples.',
+    minWords: 150,
+    maxWords: 200,
+    timeMinutes: 26,
+  },
+  {
+    id: 'survey-school-devices',
+    type: 'Survey',
+    title: 'Task 2 — Responding to Survey Questions',
+    prompt:
+      'A local school is deciding on its technology policy. Option A: give every student a tablet to use in class. Option B: keep classrooms mostly device-free and use printed materials. Choose the option you prefer and explain your choice in about 150–200 words. Support your opinion with reasons and examples.',
+    minWords: 150,
+    maxWords: 200,
+    timeMinutes: 26,
+  },
+  {
+    id: 'survey-park-development',
+    type: 'Survey',
+    title: 'Task 2 — Responding to Survey Questions',
+    prompt:
+      'Your neighbourhood has an empty lot and residents are voting on how to use it. Option A: build a children\u2019s playground and green space. Option B: build a small parking area to ease street congestion. Choose the option you prefer and explain your choice in about 150–200 words. Give reasons and examples to support your view.',
+    minWords: 150,
+    maxWords: 200,
+    timeMinutes: 26,
+  },
+  {
+    id: 'survey-workplace-perk',
+    type: 'Survey',
+    title: 'Task 2 — Responding to Survey Questions',
+    prompt:
+      'Your company can afford one new employee benefit and is asking staff to choose. Option A: a yearly wellness and gym allowance. Option B: additional paid vacation days. Choose the option you prefer and explain your choice in about 150–200 words. Give reasons and examples to support your opinion.',
+    minWords: 150,
+    maxWords: 200,
+    timeMinutes: 26,
+  },
 ]
 
 export type SpeakingTask = {
@@ -1247,7 +1351,7 @@ export const speakingTasks: SpeakingTask[] = [
     speakSeconds: 90,
   },
 
-  // ═══════════════════════════���════════════════════�������═════════════════
+  // ═══════════════════════════�����════════════════════�������═════════════════
   //  TASK 8 — DESCRIBING AN UNUSUAL SITUATION  (10 prompts)
   // ══════════════════════════════════════════════════════════════════
   {
